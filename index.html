@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DISCIPLINAR[IA] · Revisor de Providencias</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080d14;
+  --surface:#0e1520;
+  --surface2:#141d2e;
+  --surface3:#1a2540;
+  --border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);
+  --text:#e2e0d8;
+  --text2:#8a9ab5;
+  --text3:#4a5568;
+  --gold:#c8a84b;
+  --gold-dim:rgba(200,168,75,0.10);
+  --gold-b:rgba(200,168,75,0.22);
+  --cyan:#4fc3f7;
+  --cyan-dim:rgba(79,195,247,0.10);
+  --cyan-b:rgba(79,195,247,0.22);
+  --teal:#2dab85;
+  --teal-dim:rgba(45,171,133,0.10);
+  --teal-b:rgba(45,171,133,0.22);
+  --blue:#4a9edd;
+  --blue-dim:rgba(74,158,221,0.10);
+  --amber:#e0922a;
+  --amber-dim:rgba(224,146,42,0.10);
+  --red:#e05252;
+  --red-dim:rgba(224,82,82,0.09);
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;line-height:1.6;overflow-x:hidden}
+
+/* GRID BG */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,195,247,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,195,247,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:rgba(8,13,20,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border2);padding:0 2rem}
+.hinner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#1a2744,#0e1a35);border:0.5px solid var(--cyan-b);display:flex;align-items:center;justify-content:center;font-family:'Crimson Pro',serif;font-size:16px;font-weight:600;color:var(--cyan)}
+.logo-text{font-family:'Crimson Pro',serif;font-size:20px;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+.logo-text span{color:var(--cyan)}
+.logo-tagline{font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
+.hbadge{font-size:10px;padding:3px 12px;border-radius:20px;background:var(--teal-dim);color:var(--teal);border:0.5px solid var(--teal-b);white-space:nowrap}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:4rem 2rem 3rem;max-width:960px;margin:0 auto}
+.hero-eyebrow{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:16px;opacity:0;animation:fadeUp .6s ease .1s forwards}
+.hero-title{font-family:'Crimson Pro',serif;font-size:clamp(32px,5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-.02em;margin-bottom:16px;opacity:0;animation:fadeUp .6s ease .2s forwards}
+.hero-title span{color:var(--cyan)}
+.hero-sub{font-size:15px;color:var(--text2);max-width:520px;margin:0 auto 32px;line-height:1.7;opacity:0;animation:fadeUp .6s ease .3s forwards}
+.hero-badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;opacity:0;animation:fadeUp .6s ease .4s forwards}
+.hb{font-size:11px;padding:5px 14px;border-radius:20px;border:0.5px solid var(--border2);color:var(--text2);background:var(--surface)}
+.hb.active{background:var(--cyan-dim);border-color:var(--cyan-b);color:var(--cyan)}
+
+/* MAIN CARD */
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 1.5rem 5rem}
+
+.upload-card{background:var(--surface);border:0.5px solid var(--border2);border-radius:14px;padding:1.5rem;margin-bottom:12px;animation:fadeUp .5s ease .5s both}
+
+.itabs{display:flex;gap:4px;margin-bottom:16px}
+.itab{padding:7px 16px;border-radius:6px;font-size:12px;cursor:pointer;border:0.5px solid var(--border);color:var(--text3);background:transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
+.itab:hover{color:var(--text2);border-color:var(--border2)}
+.itab.active{background:var(--cyan-dim);border-color:var(--cyan-b);color:var(--cyan)}
+
+/* DROPZONE */
+.uzone{border:1px dashed var(--border2);border-radius:var(--r);padding:2.5rem 2rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface2);position:relative}
+.uzone:hover,.uzone.drag{border-color:var(--cyan);background:var(--cyan-dim)}
+.uicon{width:48px;height:48px;border-radius:12px;background:var(--surface3);border:0.5px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;transition:transform .2s}
+.uzone:hover .uicon{transform:translateY(-2px)}
+.utitle{font-size:15px;font-weight:500;margin-bottom:6px;color:var(--text)}
+.usub{font-size:12px;color:var(--text3)}
+.upills{display:flex;gap:6px;justify-content:center;margin-top:14px}
+.upill{font-size:10px;padding:2px 10px;border-radius:4px;border:0.5px solid var(--border2);color:var(--text3)}
+#file-input{display:none}
+.fsel{display:none;align-items:center;gap:10px;padding:10px 14px;background:var(--teal-dim);border-radius:8px;margin-top:12px;font-size:12px;color:var(--teal);border:0.5px solid var(--teal-b)}
+.fsel.on{display:flex}
+
+/* PASTE */
+#paste-tab{display:none}
+#paste-tab.on{display:block}
+textarea{width:100%;min-height:180px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:14px;resize:vertical;outline:none;transition:border-color .15s;line-height:1.6}
+textarea:focus{border-color:var(--cyan)}
+textarea::placeholder{color:var(--text3)}
+
+/* API CONFIG */
+.apicfg{margin-top:12px;padding:11px 14px;background:var(--surface2);border:0.5px solid var(--border);border-radius:8px}
+.apitog{font-size:11px;color:var(--text3);cursor:pointer;display:flex;align-items:center;gap:6px;user-select:none}
+.apitog:hover{color:var(--text2)}
+.apirow{display:none;margin-top:10px;gap:8px;align-items:center}
+.apirow.on{display:flex}
+.apirow input{flex:1;background:var(--surface3);border:0.5px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;padding:8px 12px;outline:none;transition:border-color .15s}
+.apirow input:focus{border-color:var(--cyan)}
+.apinote{font-size:10px;color:var(--text3);margin-top:6px;display:none}
+
+/* ANALYZE BTN */
+.abtn{width:100%;margin-top:14px;padding:14px;background:linear-gradient(135deg,var(--cyan),#2196f3);color:#080d14;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden}
+.abtn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .2s}
+.abtn:hover::before{background:rgba(255,255,255,0.1)}
+.abtn:hover{transform:translateY(-1px)}
+.abtn:active{transform:translateY(0)}
+.abtn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* LOADING */
+#loading{display:none;text-align:center;padding:4rem 2rem;position:relative;z-index:1}
+#loading.on{display:block}
+.lring{width:48px;height:48px;border:2px solid var(--surface3);border-top-color:var(--cyan);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lsteps{max-width:260px;margin:16px auto 0}
+.lstep{font-size:12px;color:var(--text3);padding:5px 0;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .3s}
+.lstep.act{opacity:1;color:var(--text2)}
+.lstep.done{opacity:1;color:var(--teal)}
+.lstep-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* RESULTS */
+#results{display:none;position:relative;z-index:1}
+#results.on{display:block}
+
+/* SCORE */
+.score-card{background:var(--surface);border:0.5px solid var(--border2);border-radius:14px;padding:1.5rem;margin-bottom:12px;display:grid;grid-template-columns:130px 1fr;gap:1.5rem;align-items:center}
+.gauge-wrap{position:relative;width:120px;height:120px}
+.gauge-wrap svg{width:100%;height:100%}
+.gauge-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge-num{font-size:28px;font-weight:500;line-height:1}
+.gauge-denom{font-size:11px;color:var(--text3);margin-top:2px}
+.score-nivel{font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;margin-bottom:6px}
+.score-resumen{font-size:12px;color:var(--text2);line-height:1.75}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.scard{background:var(--surface);border:0.5px solid var(--border);border-radius:8px;padding:.85rem;text-align:center}
+.snum{font-size:24px;font-weight:500;line-height:1;margin-bottom:3px}
+.slbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em}
+
+/* FILTERS */
+.fbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.flbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-right:2px}
+.fbtn{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid var(--border2);color:var(--text3);background:transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
+.fbtn:hover{color:var(--text2)}
+.fbtn.act{background:var(--surface2);border-color:var(--border2);color:var(--text)}
+.fbtn.sa.act{background:var(--red-dim);border-color:rgba(224,82,82,.3);color:var(--red)}
+.fbtn.sm.act{background:var(--amber-dim);border-color:rgba(224,146,42,.3);color:var(--amber)}
+.fbtn.sb.act{background:var(--teal-dim);border-color:rgba(45,171,133,.3);color:var(--teal)}
+.csel{padding:5px 8px;border-radius:6px;font-size:11px;border:0.5px solid var(--border2);background:var(--surface);color:var(--text2);font-family:inherit;outline:none}
+
+/* TABLE */
+.etbl-wrap{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.etbl{width:100%;border-collapse:collapse;font-size:12px}
+.etbl th{padding:9px 13px;text-align:left;background:var(--surface2);color:var(--text3);font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:500;border-bottom:0.5px solid var(--border)}
+.etbl td{padding:10px 13px;border-bottom:0.5px solid var(--border);color:var(--text2);vertical-align:top}
+.etbl tr:last-child td{border-bottom:none}
+.etbl tr:hover td{background:var(--surface2)}
+.sbadge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:500}
+.sa{background:var(--red-dim);color:var(--red)}
+.sm{background:var(--amber-dim);color:var(--amber)}
+.sb{background:var(--teal-dim);color:var(--teal)}
+.cbadge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;background:var(--surface2);color:var(--text3);border:0.5px solid var(--border2)}
+.orig{font-family:Georgia,serif;font-style:italic;color:var(--red);font-size:11px;line-height:1.5}
+.corr{font-family:Georgia,serif;color:var(--teal);font-size:11px;margin-top:3px;line-height:1.5}
+.expl{font-size:10px;color:var(--text3);margin-top:4px;line-height:1.6}
+.eempty td{text-align:center;padding:2.5rem;color:var(--text3);font-size:12px}
+
+/* TWO COL */
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.icrd{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1rem}
+.ictitle{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.icrd ul{list-style:none;padding:0}
+.icrd li{font-size:12px;color:var(--text2);padding:5px 0;border-bottom:0.5px solid var(--border);display:flex;gap:7px;align-items:flex-start;line-height:1.6}
+.icrd li:last-child{border-bottom:none}
+.icrd li::before{content:'›';color:var(--text3);flex-shrink:0;margin-top:1px}
+
+/* ACTIONS */
+.arow{display:flex;gap:8px;flex-wrap:wrap}
+.actbtn{padding:9px 18px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;border:0.5px solid var(--border2);background:var(--surface);color:var(--text2)}
+.actbtn:hover{background:var(--surface2);color:var(--text)}
+.actbtn.pri{background:var(--cyan-dim);border-color:var(--cyan-b);color:var(--cyan)}
+.actbtn.pri:hover{background:rgba(79,195,247,.18)}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:2rem;border-top:0.5px solid var(--border);margin-top:2rem}
+.footer-logo{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;color:var(--text2);margin-bottom:4px}
+.footer-logo span{color:var(--cyan)}
+.footer-sub{font-size:10px;color:var(--text3);letter-spacing:.06em;text-transform:uppercase}
+
+/* SYSTEM PROMPT BTN */
+.sp-btn{position:fixed;bottom:24px;right:24px;padding:9px 16px;border-radius:8px;background:var(--surface);border:0.5px solid var(--border2);cursor:pointer;font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;transition:all .15s;z-index:50}
+.sp-btn:hover{background:var(--surface2);color:var(--text)}
+.sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;padding:2rem}
+.sp-overlay.on{display:flex}
+.sp-modal{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--r);max-width:700px;width:100%;max-height:80vh;display:flex;flex-direction:column}
+.sp-modal-head{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.25rem;border-bottom:0.5px solid var(--border)}
+.sp-modal-head span{font-size:13px;font-weight:500;color:var(--text)}
+.sp-close{cursor:pointer;font-size:20px;color:var(--text2);background:none;border:none;line-height:1}
+.sp-body{flex:1;overflow-y:auto;padding:1.25rem}
+.sp-body pre{font-size:11px;color:var(--text2);white-space:pre-wrap;line-height:1.7;font-family:'DM Sans',sans-serif}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:640px){
+  header{padding:0 1rem}
+  .hero{padding:2.5rem 1rem 2rem}
+  main{padding:0 1rem 4rem}
+  .score-card{grid-template-columns:1fr;text-align:center}
+  .gauge-wrap{margin:0 auto}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .twocol{grid-template-columns:1fr}
+  .logo-tagline{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hinner">
+    <a class="logo" href="#">
+      <div class="logo-icon">D</div>
+      <div>
+        <div class="logo-text">DISCIPLINAR<span>[IA]</span></div>
+        <div class="logo-tagline">Inteligencia artificial · derecho disciplinario</div>
+      </div>
+    </a>
+    <div class="hbadge">Módulo 1 — Beta</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Revisor Inteligente de Documentos Jurídicos</div>
+  <h1 class="hero-title">Calidad judicial,<br>velocidad <span>artificial</span></h1>
+  <p class="hero-sub">Analiza tus providencias, memoriales y recursos con criterio de Magistrado. 9 categorías de revisión. Resultado en menos de 30 segundos.</p>
+  <div class="hero-badges">
+    <span class="hb active">Ley 1123 / 2007</span>
+    <span class="hb active">Ley 1952 / 2019</span>
+    <span class="hb">Ortografía y concordancia</span>
+    <span class="hb">Coherencia argumentativa</span>
+    <span class="hb">Citas jurídicas</span>
+  </div>
+</div>
+
+<main>
+  <div id="upload-section">
+    <div class="upload-card">
+      <div class="itabs">
+        <button class="itab active" onclick="switchTab('file')">Subir archivo</button>
+        <button class="itab" onclick="switchTab('paste')">Pegar texto</button>
+      </div>
+
+      <div id="file-tab">
+        <div class="uzone" id="uzone"
+          onclick="document.getElementById('file-input').click()"
+          ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="dDrop(event)">
+          <div class="uicon">📄</div>
+          <div class="utitle">Arrastra el documento aquí</div>
+          <div class="usub">o haz clic para seleccionar el archivo</div>
+          <div class="upills">
+            <span class="upill">PDF</span>
+            <span class="upill">DOCX</span>
+            <span class="upill">TXT</span>
+          </div>
+        </div>
+        <input type="file" id="file-input" accept=".pdf,.docx,.txt" onchange="onFile(event)">
+        <div class="fsel" id="fsel">
+          <span>✓</span>
+          <span id="fname"></span>
+          <span id="fsize" style="color:var(--text3);margin-left:auto"></span>
+        </div>
+      </div>
+
+      <div id="paste-tab">
+        <textarea id="ptxt" placeholder="Pega aquí el texto del memorial, providencia, recurso de apelación u otro escrito jurídico colombiano..."></textarea>
+      </div>
+
+      <div class="apicfg">
+        <div class="apitog" onclick="toggleApi()">
+          <span id="api-icon">▶</span>
+          <span>Clave API Claude (requerida para procesar documentos)</span>
+        </div>
+        <div class="apirow" id="apirow">
+          <input type="password" id="apikey" placeholder="sk-ant-api03-...">
+        </div>
+        <div class="apinote" id="apinote">Obtén tu clave en console.anthropic.com · Solo se usa en esta sesión</div>
+      </div>
+
+      <button class="abtn" id="abtn" onclick="analizar()">
+        <span>Analizar documento</span>
+        <span style="font-size:18px">→</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="loading">
+    <div class="lring"></div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Analizando el documento jurídico...</div>
+    <div class="lsteps">
+      <div class="lstep" id="s1"><span class="lstep-dot"></span>Procesando el texto completo</div>
+      <div class="lstep" id="s2"><span class="lstep-dot"></span>Revisando ortografía y concordancia</div>
+      <div class="lstep" id="s3"><span class="lstep-dot"></span>Evaluando coherencia argumentativa</div>
+      <div class="lstep" id="s4"><span class="lstep-dot"></span>Verificando citas y fechas</div>
+      <div class="lstep" id="s5"><span class="lstep-dot"></span>Calculando puntaje de calidad</div>
+    </div>
+  </div>
+
+  <div id="results">
+    <div class="score-card">
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="#141d2e" stroke-width="8"/>
+          <circle id="gc" cx="60" cy="60" r="52" fill="none"
+            stroke="#4fc3f7" stroke-width="8"
+            stroke-dasharray="326.73" stroke-dashoffset="326.73"
+            stroke-linecap="round" transform="rotate(-90 60 60)"
+            style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1),stroke .6s ease"/>
+        </svg>
+        <div class="gauge-text">
+          <div class="gauge-num" id="gscore" style="color:var(--cyan)">–</div>
+          <div class="gauge-denom">/ 100</div>
+        </div>
+      </div>
+      <div>
+        <div class="score-nivel" id="snivel">–</div>
+        <div class="score-resumen" id="sresumen">–</div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="scard"><div class="snum" id="st0">0</div><div class="slbl">Total errores</div></div>
+      <div class="scard"><div class="snum" id="st1" style="color:var(--red)">0</div><div class="slbl">Severidad alta</div></div>
+      <div class="scard"><div class="snum" id="st2" style="color:var(--amber)">0</div><div class="slbl">Severidad media</div></div>
+      <div class="scard"><div class="snum" id="st3" style="color:var(--teal)">0</div><div class="slbl">Severidad baja</div></div>
+    </div>
+
+    <div class="fbar">
+      <span class="flbl">Severidad:</span>
+      <button class="fbtn act" onclick="fsev('all',this)">Todos</button>
+      <button class="fbtn sa" onclick="fsev('alta',this)">Alta</button>
+      <button class="fbtn sm" onclick="fsev('media',this)">Media</button>
+      <button class="fbtn sb" onclick="fsev('baja',this)">Baja</button>
+      <span class="flbl" style="margin-left:8px">Categoría:</span>
+      <select class="csel" id="cfilter" onchange="renderTable()">
+        <option value="all">Todas</option>
+        <option value="ortografia">Ortografía</option>
+        <option value="concordancia_nominal">Concordancia nominal</option>
+        <option value="concordancia_verbal">Concordancia verbal</option>
+        <option value="consistencia_temporal">Consistencia temporal</option>
+        <option value="repeticion">Repetición</option>
+        <option value="coherencia">Coherencia</option>
+        <option value="citas">Citas</option>
+        <option value="fechas">Fechas</option>
+        <option value="registro">Registro formal</option>
+      </select>
+    </div>
+
+    <div class="etbl-wrap">
+      <table class="etbl">
+        <thead>
+          <tr>
+            <th style="width:30px">#</th>
+            <th style="width:150px">Categoría</th>
+            <th style="width:130px">Ubicación</th>
+            <th>Error → Corrección</th>
+            <th style="width:80px">Severidad</th>
+          </tr>
+        </thead>
+        <tbody id="etbody">
+          <tr class="eempty"><td colspan="5">Sin errores detectados</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="twocol">
+      <div class="icrd">
+        <div class="ictitle" style="color:var(--teal)">Fortalezas del documento</div>
+        <ul id="flist"></ul>
+      </div>
+      <div class="icrd">
+        <div class="ictitle" style="color:var(--gold)">Recomendaciones de mejora</div>
+        <ul id="rlist"></ul>
+      </div>
+    </div>
+
+    <div class="arow">
+      <button class="actbtn pri" onclick="copiar()">Copiar reporte completo</button>
+      <button class="actbtn" onclick="spModal(true)">Ver system prompt</button>
+      <button class="actbtn" onclick="reset()">Nuevo análisis</button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">DISCIPLINAR<span>[IA]</span></div>
+  <div class="footer-sub">Inteligencia Artificial Aplicada al Derecho Disciplinario · Colombia · 2026</div>
+</footer>
+
+<button class="sp-btn" onclick="spModal(true)">Ver system prompt maestro</button>
+
+<div class="sp-overlay" id="sp-overlay" onclick="if(event.target===this)spModal(false)">
+  <div class="sp-modal">
+    <div class="sp-modal-head">
+      <span>System Prompt Maestro — DISCIPLINAR[IA] v1.0</span>
+      <button class="sp-close" onclick="spModal(false)">×</button>
+    </div>
+    <div class="sp-body"><pre id="sp-content"></pre></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+const SP=`Eres un revisor especializado en documentos jurídicos colombianos, con experticia en derecho disciplinario bajo las Leyes 1123 de 2007 (Código Disciplinario del Abogado) y 1952 de 2019 (Código General Disciplinario). Analizas con el rigor de un Magistrado de la Comisión Nacional de Disciplina Judicial (CNDJ) todo tipo de escritos forenses: providencias, autos, memoriales, recursos de apelación, alegatos de conclusión y descargos.
+
+CATEGORÍAS OBLIGATORIAS DE ANÁLISIS:
+
+1. ORTOGRAFÍA Y ACENTUACIÓN
+   · Palabras mal escritas, tildes faltantes o incorrectas
+   · Uso incorrecto de mayúsculas (cargos en minúscula sin nombre, normas en mayúscula)
+   · Errores de puntuación que alteren el sentido
+
+2. CONCORDANCIA NOMINAL (género y número)
+   · Desacuerdo entre artículo y sustantivo
+   · Desacuerdo entre sustantivo y adjetivo
+   · Inconsistencia en género o número del mismo referente
+
+3. CONCORDANCIA VERBAL (sujeto-verbo)
+   · El verbo no concuerda en número con el sujeto
+   · Errores de persona gramatical
+   · Construcciones impersonales incorrectas
+
+4. CONSISTENCIA TEMPORAL DE VERBOS
+   · Cambio injustificado de tiempo verbal en el mismo párrafo
+   · Uso de presente donde se requiere pretérito narrativo (o viceversa)
+   · Regla: en providencias, los hechos van en pretérito; las consideraciones jurídicas pueden usar presente
+
+5. PALABRAS O FRASES REPETIDAS
+   · Repetición innecesaria de la misma palabra en frases contiguas
+   · Redundancias ("resultado final", "regresar de nuevo")
+   · Muletillas jurídicas reiteradas sin función técnica
+
+6. COHERENCIA ARGUMENTATIVA
+   · Saltos lógicos: conclusión que no se sigue de las premisas
+   · Contradicciones internas entre secciones del documento
+   · Tesis enunciada pero no fundamentada
+   · Ausencia de nexo causal explícito entre hechos y consecuencia jurídica
+   · Petición de principio: se asume lo que se debe probar
+
+7. CITAS JURISPRUDENCIALES Y NORMATIVAS INCOMPLETAS
+   · Sentencias sin número de radicado, fecha o corporación
+   · Artículos sin indicar la norma de qué ley
+   · Citas genéricas sin soporte específico
+
+8. INCONSISTENCIAS DE FECHAS Y DATOS
+   · Fechas contradictorias dentro del documento
+   · Fechas incoherentes con la cronología procesal
+   · Artículos citados con números distintos en diferentes partes
+
+9. REGISTRO FORMAL JUDICIAL
+   · Lenguaje coloquial en escrito forense colombiano
+   · Primera persona singular donde se requiere impersonal o tercera persona
+   · Gerundios ambiguos o incorrectos
+   · Términos técnicos confundidos (caducidad vs prescripción)
+   · Exceso de adverbios en -mente
+
+INSTRUCCIONES CRÍTICAS DE SALIDA:
+Responde ÚNICAMENTE con un objeto JSON válido. Sin texto antes ni después. Sin bloques de código. Sin comentarios.
+
+{
+  "puntaje": [entero 0-100],
+  "resumen": "[3-5 líneas sobre estado general del documento]",
+  "errores": [
+    {
+      "id": [secuencial desde 1],
+      "categoria": "[ortografia|concordancia_nominal|concordancia_verbal|consistencia_temporal|repeticion|coherencia|citas|fechas|registro]",
+      "tipo": "[nombre legible]",
+      "ubicacion": "[localización precisa]",
+      "texto_original": "[texto con el error, máx 150 caracteres]",
+      "correccion_sugerida": "[versión corregida]",
+      "severidad": "[alta|media|baja]",
+      "explicacion": "[explicación técnica en 1-2 oraciones]"
+    }
+  ],
+  "fortalezas": ["[fortaleza 1]", "[fortaleza 2]", "[fortaleza 3]"],
+  "recomendaciones": ["[recomendación 1]", "[recomendación 2]", "[recomendación 3]"],
+  "estadisticas": {"total_errores": [n], "alta": [n], "media": [n], "baja": [n]}
+}
+
+CRITERIOS DE PUNTAJE:
+90-100: Documento excepcional, listo para presentar
+75-89:  Buena calidad, errores menores
+60-74:  Aceptable, debe corregirse
+40-59:  Problemas significativos
+0-39:   Errores graves que comprometen la validez`;
+
+document.getElementById('sp-content').textContent=SP;
+
+if(typeof pdfjsLib!=='undefined')
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let curText='',curResult=null,curSev='all',loadTmr=null;
+
+function switchTab(t){
+  document.querySelectorAll('.itab').forEach((el,i)=>el.classList.toggle('active',(i===0)===(t==='file')));
+  document.getElementById('file-tab').style.display=t==='file'?'block':'none';
+  document.getElementById('paste-tab').classList.toggle('on',t==='paste');
+}
+
+function toggleApi(){
+  const row=document.getElementById('apirow');
+  const note=document.getElementById('apinote');
+  const on=row.classList.toggle('on');
+  document.getElementById('api-icon').textContent=on?'▼':'▶';
+  note.style.display=on?'block':'none';
+}
+
+function spModal(open){document.getElementById('sp-overlay').classList.toggle('on',open)}
+
+function dOver(e){e.preventDefault();document.getElementById('uzone').classList.add('drag')}
+function dLeave(){document.getElementById('uzone').classList.remove('drag')}
+function dDrop(e){e.preventDefault();document.getElementById('uzone').classList.remove('drag');if(e.dataTransfer.files[0])procFile(e.dataTransfer.files[0])}
+function onFile(e){if(e.target.files[0])procFile(e.target.files[0])}
+
+async function procFile(file){
+  const ext=file.name.split('.').pop().toLowerCase();
+  document.getElementById('fname').textContent=file.name;
+  document.getElementById('fsize').textContent=fmtSize(file.size);
+  document.getElementById('fsel').classList.add('on');
+  try{
+    if(ext==='txt')curText=await file.text();
+    else if(ext==='docx'){const ab=await file.arrayBuffer();const r=await mammoth.extractRawText({arrayBuffer:ab});curText=r.value;}
+    else if(ext==='pdf')curText=await readPDF(file);
+    else{alert('Formato no soportado. Usa PDF, DOCX o TXT.');return;}
+  }catch(err){console.error(err);alert('No se pudo leer el archivo. Intenta pegar el texto directamente.');}
+}
+
+async function readPDF(file){
+  const ab=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:ab}).promise;
+  let txt='';
+  for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i);const ct=await pg.getTextContent();txt+=ct.items.map(x=>x.str).join(' ')+'\n';}
+  return txt.trim();
+}
+
+function fmtSize(b){if(b<1024)return b+' B';if(b<1048576)return (b/1024).toFixed(1)+' KB';return (b/1048576).toFixed(1)+' MB';}
+
+async function analizar(){
+  if(document.getElementById('paste-tab').classList.contains('on'))
+    curText=document.getElementById('ptxt').value.trim();
+  if(!curText||curText.length<50){alert('Por favor sube un documento o pega el texto a revisar (mínimo 50 caracteres).');return;}
+  const key=document.getElementById('apikey').value.trim();
+  if(!key){
+    document.getElementById('apirow').classList.add('on');
+    document.getElementById('api-icon').textContent='▼';
+    document.getElementById('apinote').style.display='block';
+    alert('Por favor ingresa tu clave API de Claude para procesar el documento.');
+    return;
+  }
+  document.getElementById('upload-section').style.display='none';
+  document.getElementById('loading').classList.add('on');
+  document.getElementById('results').classList.remove('on');
+  startLoad();
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:4000,system:SP,messages:[{role:'user',content:`Analiza el siguiente documento jurídico colombiano y devuelve el reporte JSON:\n\n---\n${curText.substring(0,16000)}\n---`}]})
+    });
+    if(!res.ok){const ed=await res.json().catch(()=>({}));throw new Error(ed?.error?.message||`Error HTTP ${res.status}`);}
+    const d=await res.json();
+    const raw=d.content?.[0]?.text||'';
+    let result;
+    try{const m=raw.match(/\{[\s\S]*\}/);result=JSON.parse(m?m[0]:raw);}
+    catch{throw new Error('Error al interpretar la respuesta. Intenta nuevamente.');}
+    curResult=result;
+    stopLoad();
+    renderResults(result);
+  }catch(err){
+    stopLoad();
+    document.getElementById('loading').classList.remove('on');
+    document.getElementById('upload-section').style.display='block';
+    alert('Error al analizar: '+err.message);
+  }
+}
+
+let stepIdx=0;
+function startLoad(){
+  stepIdx=0;
+  for(let i=1;i<=5;i++)document.getElementById('s'+i).className='lstep';
+  loadTmr=setInterval(()=>{
+    if(stepIdx>0)document.getElementById('s'+stepIdx).className='lstep done';
+    stepIdx++;
+    if(stepIdx<=5)document.getElementById('s'+stepIdx).className='lstep act';
+    else clearInterval(loadTmr);
+  },1400);
+}
+function stopLoad(){if(loadTmr)clearInterval(loadTmr);document.getElementById('loading').classList.remove('on');}
+
+function renderResults(d){
+  const score=d.puntaje||0;
+  const errores=d.errores||[];
+  const stats=d.estadisticas||{total_errores:errores.length,alta:0,media:0,baja:0};
+  const circ=326.73;
+  const off=circ-(score/100)*circ;
+  const gc=document.getElementById('gc');
+  gc.style.strokeDashoffset=off;
+  gc.style.stroke=sColor(score);
+  document.getElementById('gscore').textContent=score;
+  document.getElementById('gscore').style.color=sColor(score);
+  const nv=document.getElementById('snivel');
+  nv.textContent=sNivel(score);
+  nv.style.color=sColor(score);
+  document.getElementById('sresumen').textContent=d.resumen||'';
+  document.getElementById('st0').textContent=stats.total_errores||errores.length;
+  document.getElementById('st1').textContent=stats.alta||0;
+  document.getElementById('st2').textContent=stats.media||0;
+  document.getElementById('st3').textContent=stats.baja||0;
+  renderTable();
+  document.getElementById('flist').innerHTML=(d.fortalezas||[]).map(f=>`<li>${f}</li>`).join('')||'<li style="color:var(--text3)">Sin fortalezas adicionales identificadas.</li>';
+  document.getElementById('rlist').innerHTML=(d.recomendaciones||[]).map(r=>`<li>${r}</li>`).join('')||'<li style="color:var(--text3)">Sin recomendaciones adicionales.</li>';
+  document.getElementById('results').classList.add('on');
+  setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth'}),80);
+}
+
+function renderTable(){
+  if(!curResult)return;
+  const errores=curResult.errores||[];
+  const cf=document.getElementById('cfilter').value;
+  const filtered=errores.filter(e=>{const sOk=curSev==='all'||e.severidad===curSev;const cOk=cf==='all'||e.categoria===cf;return sOk&&cOk;});
+  const tbody=document.getElementById('etbody');
+  if(!filtered.length){tbody.innerHTML=`<tr class="eempty"><td colspan="5">${!errores.length?'✓ No se detectaron errores. Documento en excelentes condiciones.':'Ningún error coincide con los filtros seleccionados.'}</td></tr>`;return;}
+  tbody.innerHTML=filtered.map(e=>`<tr><td style="color:var(--text3);font-size:10px">${e.id}</td><td><span class="cbadge">${fmtCat(e.categoria)}</span></td><td style="color:var(--text3);font-size:10px;line-height:1.5">${e.ubicacion||'–'}</td><td><div class="orig">"${(e.texto_original||'').substring(0,120)}"</div><div class="corr">→ "${e.correccion_sugerida||''}"</div>${e.explicacion?`<div class="expl">${e.explicacion}</div>`:''}</td><td><span class="sbadge s${(e.severidad||'b').charAt(0)}">${e.severidad||'–'}</span></td></tr>`).join('');
+}
+
+function fsev(sev,btn){curSev=sev;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');renderTable();}
+
+function sColor(s){return s>=90?'#2dab85':s>=75?'#4fc3f7':s>=60?'#e0922a':'#e05252';}
+function sNivel(s){return s>=90?'Documento excepcional':s>=75?'Buena calidad':s>=60?'Calidad aceptable':s>=40?'Requiere correcciones':'Calidad insuficiente';}
+function fmtCat(c){return {ortografia:'Ortografía',concordancia_nominal:'Concordancia nominal',concordancia_verbal:'Concordancia verbal',consistencia_temporal:'Consist. temporal',repeticion:'Repetición',coherencia:'Coherencia',citas:'Citas',fechas:'Fechas',registro:'Registro formal'}[c]||c;}
+
+function copiar(){
+  if(!curResult)return;
+  const r=curResult;
+  let t=`DISCIPLINAR[IA] — Reporte de Revisión Jurídica\n${'═'.repeat(50)}\n\n`;
+  t+=`PUNTAJE: ${r.puntaje}/100 — ${sNivel(r.puntaje)}\n\n`;
+  t+=`RESUMEN:\n${r.resumen}\n\n`;
+  t+=`ESTADÍSTICAS: ${r.estadisticas?.total_errores||0} errores | Alta: ${r.estadisticas?.alta||0} | Media: ${r.estadisticas?.media||0} | Baja: ${r.estadisticas?.baja||0}\n\n`;
+  t+=`ERRORES DETECTADOS:\n${'─'.repeat(40)}\n`;
+  (r.errores||[]).forEach(e=>{t+=`\n[${e.id}] ${e.tipo} — ${(e.severidad||'').toUpperCase()}\nUbicación: ${e.ubicacion}\nOriginal:  "${e.texto_original}"\nCorrección: "${e.correccion_sugerida}"\nNota: ${e.explicacion}\n`;});
+  t+=`\nFORTALEZAS:\n`;(r.fortalezas||[]).forEach(f=>t+=`• ${f}\n`);
+  t+=`\nRECOMENDACIONES:\n`;(r.recomendaciones||[]).forEach(x=>t+=`• ${x}\n`);
+  navigator.clipboard.writeText(t).then(()=>{const btn=document.querySelector('.actbtn.pri');const orig=btn.textContent;btn.textContent='✓ Copiado';setTimeout(()=>btn.textContent=orig,2000);}).catch(()=>alert('No se pudo copiar automáticamente.'));
+}
+
+function reset(){
+  curText='';curResult=null;curSev='all';
+  document.getElementById('results').classList.remove('on');
+  document.getElementById('fsel').classList.remove('on');
+  document.getElementById('ptxt').value='';
+  document.getElementById('file-input').value='';
+  document.getElementById('cfilter').value='all';
+  document.getElementById('upload-section').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
