@@ -296,11 +296,6 @@ textarea::placeholder{color:var(--text3)}
         <div id="paste-tab">
           <textarea id="ptxt" placeholder="Pega aquí el texto del documento jurídico colombiano..."></textarea>
         </div>
-        <div class="apicfg">
-          <div class="apitog" onclick="toggleApi()"><span id="api-icon">▶</span><span>Clave API Claude</span></div>
-          <div class="apirow" id="apirow"><input type="password" id="apikey" placeholder="sk-ant-api03-..."></div>
-          <div class="apinote" id="apinote">Obtén tu clave en console.anthropic.com</div>
-        </div>
         <button class="abtn" onclick="analizar()"><span>Analizar documento</span><span style="font-size:18px">→</span></button>
       </div>
 
@@ -452,6 +447,38 @@ function selNorma(n){
   document.getElementById('n1952').classList.toggle('selected',n==='1952');
 }
 
+const BASE_URL='https://disciplinaria-app-production.up.railway.app';
+
+async function analizarDocumento(texto,norma){
+  const res=await fetch(`${BASE_URL}/analizar`,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({texto,norma})
+  });
+  if(!res.ok){const ed=await res.json().catch(()=>({}));throw new Error(ed?.detail||'Error HTTP '+res.status);}
+  return await res.json();
+}
+
+function adaptarRespuesta(data){
+  const nivelMap={'FORMA':'forma','ESTILO JUDICIAL':'estilo','COHERENCIA NARRATIVA':'fondo','FONDO ARGUMENTATIVO':'fondo','NORMATIVO':'fondo'};
+  const errores=[];let id=1;
+  (data.detalle_agentes||[]).forEach(ag=>{
+    const sev=ag.puntaje<50?'alta':ag.puntaje<75?'media':'baja';
+    const nivel=nivelMap[ag.agente]||'fondo';
+    (ag.errores||[]).forEach(err=>{
+      errores.push({id:id++,modulo:ag.agente,nivel,ubicacion:ag.agente,
+        texto_original:err,correccion_sugerida:'',severidad:sev,explicacion:''});
+    });
+  });
+  const alta=errores.filter(e=>e.severidad==='alta').length;
+  const media=errores.filter(e=>e.severidad==='media').length;
+  const baja=errores.filter(e=>e.severidad==='baja').length;
+  return {puntaje:Math.round(data.puntaje),resumen:data.resumen,errores,
+    fortalezas:data.fortalezas||[],recomendaciones:data.recomendaciones||[],
+    estadisticas:{total_errores:errores.length,alta,media,baja}};
+}
+
+// PLACEHOLDER — kept for legacy reference only, no longer called
 function buildSP(){
   var n1123='NORMA APLICABLE: LEY 1123 DE 2007 Codigo Disciplinario del Abogado. Aplicable EXCLUSIVAMENTE a abogados. Estructura de responsabilidad: TIPICIDAD + ANTIJURIDICIDAD + CULPABILIDAD. NO existen faltas gravisimas graves ni leves en esta ley, alertar ALTA SEVERIDAD si aparecen. Son DEBERES PROFESIONALES no funcionales. Son FALTAS ANTIETICAS. Termino tecnico correcto: QUEJOSO no denunciante. Disciplinado, investigado o togado para el abogado investigado. Citas validas: articulos 28 a 39 Ley 1123 de 2007. ARTICULO 28 contiene los 21 DEBERES PROFESIONALES. ARTICULO 29 contiene INCOMPATIBILIDADES no deberes: si el documento cita el articulo 29 como fuente de un deber es ERROR DE ALTA SEVERIDAD. ARTICULO 30 faltas contra la dignidad. ARTICULO 31 faltas contra el decoro. ARTICULO 32 faltas contra el respeto a la administracion de justicia. ARTICULO 33 faltas contra la recta y leal realizacion de la justicia. ARTICULO 34 faltas de lealtad con el cliente. ARTICULO 35 faltas a la honradez. ARTICULO 36 faltas a la lealtad con los colegas. ARTICULO 37 faltas a la debida diligencia profesional. ARTICULO 38 faltas contra el deber de prevenir litigios. ARTICULO 39 ejercicio ilegal de la profesion. ARTICULO 40 sanciones: censura multa suspension o exclusion. ARTICULO 43 suspension entre 2 meses y 3 anos. ARTICULO 44 exclusion es cancelacion de tarjeta profesional.';
 
@@ -477,25 +504,10 @@ function buildSP(){
 }
 
 
-// Load saved API key on startup
-(function(){
-  const saved=localStorage.getItem('disciplinaria_key');
-  if(saved){
-    document.getElementById('apikey').value=saved;
-  }
-})();
-
 function switchTab(t){
   document.querySelectorAll('.itab').forEach((el,i)=>el.classList.toggle('active',(i===0)===(t==='file')));
   document.getElementById('file-tab').style.display=t==='file'?'block':'none';
   document.getElementById('paste-tab').classList.toggle('on',t==='paste');
-}
-
-function toggleApi(){
-  const row=document.getElementById('apirow'),note=document.getElementById('apinote');
-  const on=row.classList.toggle('on');
-  document.getElementById('api-icon').textContent=on?'▼':'▶';
-  note.style.display=on?'block':'none';
 }
 
 function dOver(e){e.preventDefault();document.getElementById('uzone').classList.add('drag')}
@@ -530,11 +542,6 @@ async function analizar(){
   if(document.getElementById('paste-tab').classList.contains('on'))curText=document.getElementById('ptxt').value.trim();
   if(!curText||curText.length<50){alert('Por favor sube un documento o pega el texto.');return;}
   if(!selNormaVal){alert('Por favor selecciona la norma aplicable al documento.');return;}
-  let key=document.getElementById('apikey').value.trim();
-  if(!key){key=localStorage.getItem('disciplinaria_key')||'';}
-  if(key){document.getElementById('apikey').value=key;localStorage.setItem('disciplinaria_key',key);}
-  if(!key){document.getElementById('apirow').classList.add('on');document.getElementById('api-icon').textContent='▼';document.getElementById('apinote').style.display='block';alert('Por favor ingresa tu clave API de Claude.');return;}
-  localStorage.setItem('disciplinaria_key',key);
 
   document.querySelector('.norma-step').style.display='none';
   document.querySelector('.upload-block').style.display='none';
@@ -543,34 +550,8 @@ async function analizar(){
   startLoad();
 
   try{
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key,'HTTP-Referer':'https://disciplinaria-app.netlify.app','X-Title':'DISCIPLINAR[IA]'},
-      body:JSON.stringify({model:'anthropic/claude-sonnet-4.5',max_tokens:12000,temperature:0,messages:[{role:'system',content:buildSP()},{role:'user',content:'Analiza el siguiente documento juridico colombiano y devuelve el reporte JSON: ---'+curText.substring(0,16000)+'---'}]})
-    });
-    if(!res.ok){const ed=await res.json().catch(()=>({}));throw new Error(ed?.error?.message||'Error HTTP '+res.status);}
-    const d=await res.json();
-    console.log('OpenRouter response:',JSON.stringify(d).substring(0,500));
-    const rawFull=d.choices?.[0]?.message?.content||d.content?.[0]?.text||'';
-    // Strip markdown fences
-    let raw=rawFull.replace(/^```[a-z]*\n?/,'').replace(/```$/,'').trim();
-    // Extract JSON object
-    const mj=raw.match(/\{[\s\S]*\}/);
-    raw=mj?mj[0]:raw;
-    // Sanitize: replace real newlines inside string values
-    let fixed='',inS=false,esc=false;
-    for(let i=0;i<raw.length;i++){
-      const c=raw[i];
-      if(esc){fixed+=c;esc=false;continue;}
-      if(c==='\\'){fixed+=c;esc=true;continue;}
-      if(c==='"'){inS=!inS;fixed+=c;continue;}
-      if(inS&&c==='\n'){fixed+=' ';continue;}
-      if(inS&&c==='\r'){continue;}
-      fixed+=c;
-    }
-    let result;
-    try{result=JSON.parse(fixed);}
-    catch(pe){throw new Error('JSON invalido: '+pe.message.substring(0,80));}
+    const data=await analizarDocumento(curText,selNormaVal);
+    const result=adaptarRespuesta(data);
     curResult=result;stopLoad();renderResults(result);
   }catch(err){
     stopLoad();
