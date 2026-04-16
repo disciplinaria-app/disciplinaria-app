@@ -152,9 +152,11 @@ textarea::placeholder{color:var(--text3)}
 .sm{background:var(--amber-dim);color:var(--amber)}
 .sb{background:var(--teal-dim);color:var(--teal)}
 .cbadge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;background:var(--surface2);color:var(--text3);border:0.5px solid var(--border2)}
-.orig{font-family:Georgia,serif;font-style:italic;color:var(--red);font-size:11px;line-height:1.5}
-.corr{font-family:Georgia,serif;color:var(--teal);font-size:11px;margin-top:3px;line-height:1.5}
-.expl{font-size:10px;color:var(--text3);margin-top:4px;line-height:1.6}
+.orig{font-family:'DM Sans',sans-serif;font-style:italic;color:var(--red);font-size:11px;line-height:1.5}
+.corr{font-family:'DM Sans',sans-serif;color:var(--teal);font-size:11px;margin-top:3px;line-height:1.5}
+.expl{font-size:10px;color:var(--text3);margin-top:4px;font-family:'DM Sans',sans-serif;line-height:1.6}
+.hallazgo-justificacion{font-family:'DM Sans',sans-serif;font-size:10px;color:var(--text3);margin-top:4px;line-height:1.6;font-style:normal}
+.hallazgo-correccion{font-family:'DM Sans',sans-serif;color:var(--teal);font-size:11px;margin-top:3px;line-height:1.5}
 .eempty td{text-align:center;padding:2.5rem;color:var(--text3);font-size:12px}
 .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .icrd{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:1rem}
@@ -460,22 +462,35 @@ async function analizarDocumento(texto,norma){
 }
 
 function adaptarRespuesta(data){
-  const nivelMap={'FORMA':'forma','ESTILO JUDICIAL':'estilo','COHERENCIA NARRATIVA':'fondo','FONDO ARGUMENTATIVO':'fondo','NORMATIVO':'fondo'};
-  const errores=[];let id=1;
-  (data.detalle_agentes||[]).forEach(ag=>{
-    const sev=ag.puntaje<50?'alta':ag.puntaje<75?'media':'baja';
-    const nivel=nivelMap[ag.agente]||'fondo';
-    (ag.errores||[]).forEach(err=>{
-      errores.push({id:id++,modulo:ag.agente,nivel,ubicacion:ag.agente,
-        texto_original:err,correccion_sugerida:'',severidad:sev,explicacion:''});
-    });
-  });
+  const nivelMap={
+    'FORMA':'forma','ESTILO JUDICIAL':'estilo',
+    'COHERENCIA NARRATIVA':'fondo','FONDO ARGUMENTATIVO':'fondo','NORMATIVO':'fondo'
+  };
+  // Usar hallazgos ya ordenados por nivel_severidad desc desde el backend
+  const errores=(data.hallazgos||[]).map(h=>({
+    id: h.id,
+    modulo: h.modulo,
+    nivel: nivelMap[h.agente]||'fondo',
+    ubicacion: h.ubicacion,
+    texto_original: h.error,
+    correccion_sugerida: h.correccion,
+    explicacion: h.justificacion,
+    severidad: h.severidad,
+    nivel_severidad: h.nivel_severidad
+  }));
+  // Garantizar orden descendente (altas primero) en cliente también
+  errores.sort((a,b)=>b.nivel_severidad-a.nivel_severidad);
   const alta=errores.filter(e=>e.severidad==='alta').length;
   const media=errores.filter(e=>e.severidad==='media').length;
   const baja=errores.filter(e=>e.severidad==='baja').length;
-  return {puntaje:Math.round(data.puntaje),resumen:data.resumen,errores,
-    fortalezas:data.fortalezas||[],recomendaciones:data.recomendaciones||[],
-    estadisticas:{total_errores:errores.length,alta,media,baja}};
+  return {
+    puntaje: Math.round(data.puntaje),
+    resumen: data.resumen,
+    errores,
+    fortalezas: data.fortalezas||[],
+    recomendaciones: data.recomendaciones||[],
+    estadisticas: {total_errores:errores.length,alta,media,baja}
+  };
 }
 
 // PLACEHOLDER — kept for legacy reference only, no longer called
@@ -594,8 +609,19 @@ function renderTable(){
   const errores=curResult.errores||[],cf=document.getElementById('cfilter').value;
   const filtered=errores.filter(e=>(curSev==='all'||e.severidad===curSev)&&(cf==='all'||e.nivel===cf));
   const tbody=document.getElementById('etbody');
-  if(!filtered.length){tbody.innerHTML='<tr class="eempty"><td colspan="5">'+(errores.length===0?'✓ No se detectaron errores. Documento en excelentes condiciones.':'Ningun error coincide con los filtros.')+'</td></tr>';return;}
-  tbody.innerHTML=filtered.map(e=>'<tr><td style="color:var(--text3);font-size:10px">'+e.id+'</td><td><span class="cbadge">'+(e.modulo||'–')+'</span></td><td style="color:var(--text3);font-size:10px;line-height:1.5">'+(e.ubicacion||'–')+'</td><td><div class="orig">"'+(e.texto_original||'').substring(0,120)+'"</div><div class="corr">→ "'+(e.correccion_sugerida||'')+'"</div>'+(e.explicacion?'<div class="expl">'+e.explicacion+'</div>':'')+'</td><td><span class="sbadge s'+((e.severidad||'b').charAt(0))+'">'+(e.severidad||'–')+'</span></td></tr>').join('');
+  if(!filtered.length){tbody.innerHTML='<tr class="eempty"><td colspan="5">'+(errores.length===0?'✓ No se detectaron errores. Documento en excelentes condiciones.':'Ningún error coincide con los filtros activos.')+'</td></tr>';return;}
+  tbody.innerHTML=filtered.map(e=>{
+    const errDiv='<div class="orig">"'+(e.texto_original||'').substring(0,120)+'"</div>';
+    const justDiv=e.explicacion?'<div class="hallazgo-justificacion">'+e.explicacion+'</div>':'';
+    const corrDiv=e.correccion_sugerida?'<div class="hallazgo-correccion">→ '+e.correccion_sugerida+'</div>':'';
+    return '<tr>'
+      +'<td style="color:var(--text3);font-size:10px">'+e.id+'</td>'
+      +'<td><span class="cbadge">'+(e.modulo||'–')+'</span></td>'
+      +'<td style="color:var(--text3);font-size:10px;line-height:1.5">'+(e.ubicacion||'–')+'</td>'
+      +'<td>'+errDiv+justDiv+corrDiv+'</td>'
+      +'<td><span class="sbadge s'+((e.severidad||'b').charAt(0))+'">'+(e.severidad||'–')+'</span></td>'
+      +'</tr>';
+  }).join('');
 }
 
 function fsev(sev,btn){curSev=sev;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');renderTable();}
