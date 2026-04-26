@@ -177,6 +177,51 @@ textarea::placeholder{color:var(--text3)}
 .coming-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:var(--text2);margin-bottom:8px}
 .coming-sub{font-size:13px;color:var(--text3)}
 
+/* ── ANIMACIONES ─────────────────────────────────────────────────────── */
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoBrillo{0%,100%{opacity:1}50%{opacity:.75;text-shadow:0 0 14px rgba(0,212,255,.55)}}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,212,255,.35)}65%{box-shadow:0 0 0 9px rgba(0,212,255,0)}}
+.sb-logo-text{animation:logoBrillo 5s ease-in-out infinite}
+.abtn.procesando{animation:btnPulse 1.5s infinite}
+.etbl tbody tr.hrow{animation:fadeSlideUp .32s ease both}
+
+/* ── FILAS EXPANDIBLES ───────────────────────────────────────────────── */
+.hrow{cursor:pointer}
+.hrow-arrow{display:inline-block;transition:transform .25s ease;font-size:9px;color:var(--text3);margin-left:5px;vertical-align:middle}
+.hrow-arrow.abierto{transform:rotate(180deg)}
+.detail-row{display:none}
+.detail-row.abierto{display:table-row}
+.detail-inner{max-height:0;overflow:hidden;transition:max-height .32s ease,padding .28s ease;padding:0 13px}
+.detail-inner.abierto{max-height:260px;padding:10px 13px 14px}
+.detail-just{font-size:11px;color:var(--text3);line-height:1.65;margin-bottom:8px}
+.detail-corr{font-size:11px;color:var(--teal);background:var(--teal-dim);border-left:2px solid var(--teal);padding:7px 10px;border-radius:0 4px 4px 0;line-height:1.5}
+
+/* ── FILTROS POR AGENTE ──────────────────────────────────────────────── */
+.agfbar{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.agbtn{padding:3px 9px;border-radius:4px;font-size:10px;cursor:pointer;border:0.5px solid var(--border2);color:var(--text3);background:transparent;transition:all .15s;font-family:'DM Sans',sans-serif;font-weight:500}
+.agbtn:hover{color:var(--text2);border-color:var(--border)}
+.agbtn.act{font-weight:600}
+.agbtn-all.act{background:var(--surface2);border-color:var(--border2);color:var(--text)}
+.agbtn-forma.act{background:var(--amber-dim);border-color:rgba(224,146,42,.4);color:var(--amber)}
+.agbtn-estilo.act{background:var(--cyan-dim);border-color:rgba(0,212,255,.3);color:var(--cyan)}
+.agbtn-coherencia.act{background:var(--teal-dim);border-color:rgba(45,171,133,.3);color:var(--teal)}
+.agbtn-fondo.act{background:rgba(200,168,75,.1);border-color:rgba(200,168,75,.4);color:var(--gold)}
+.agbtn-normativo.act{background:var(--red-dim);border-color:rgba(224,82,82,.25);color:var(--red)}
+.fctr{font-size:10px;color:var(--text3);margin-left:auto}
+
+/* ── ÍNDICE DE CALIDAD ───────────────────────────────────────────────── */
+.quality-wrap{margin:10px 0 14px;padding:12px 14px;background:var(--surface);border:0.5px solid var(--border);border-radius:8px}
+.quality-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.quality-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.quality-val{font-size:14px;font-weight:700}
+.quality-bg{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.quality-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1),background .5s}
+.quality-nivel{font-size:11px;margin-top:6px;font-weight:500}
+
+/* ── BARRA PROGRESO CARGA ────────────────────────────────────────────── */
+.lpbar-wrap{width:220px;height:3px;background:var(--surface3);border-radius:2px;margin-top:14px;overflow:hidden}
+.lpbar-fill{height:100%;background:var(--cyan);border-radius:2px;width:0;transition:width .4s ease}
+
 @media(max-width:700px){
   body{flex-direction:column;overflow:auto}
   .sidebar{width:100%;min-height:auto;position:relative;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--cyan)}
@@ -306,12 +351,13 @@ textarea::placeholder{color:var(--text3)}
         <div class="lring"></div>
         <div style="font-size:13px;color:var(--text2);margin-bottom:16px">Analizando el documento...</div>
         <div class="lsteps">
-          <div class="lstep" id="s1"><span class="lstep-dot"></span>Identificando tipo y norma aplicable</div>
-          <div class="lstep" id="s2"><span class="lstep-dot"></span>Revisando forma y estilo judicial</div>
-          <div class="lstep" id="s3"><span class="lstep-dot"></span>Evaluando coherencia argumentativa</div>
-          <div class="lstep" id="s4"><span class="lstep-dot"></span>Verificando citas y referencias</div>
-          <div class="lstep" id="s5"><span class="lstep-dot"></span>Calculando puntaje de calidad</div>
+          <div class="lstep" id="s1"><span class="lstep-dot"></span>Agente 1 — Forma y Ortografía</div>
+          <div class="lstep" id="s2"><span class="lstep-dot"></span>Agente 2 — Estilo Judicial</div>
+          <div class="lstep" id="s3"><span class="lstep-dot"></span>Agente 3 — Coherencia Narrativa</div>
+          <div class="lstep" id="s4"><span class="lstep-dot"></span>Agente 4 — Fondo Argumentativo</div>
+          <div class="lstep" id="s5"><span class="lstep-dot"></span>Agente 5 — Normativo</div>
         </div>
+        <div class="lpbar-wrap"><div class="lpbar-fill" id="lpbar"></div></div>
       </div>
 
       <!-- RESULTS -->
@@ -345,13 +391,24 @@ textarea::placeholder{color:var(--text3)}
           <button class="fbtn sa" onclick="fsev('alta',this)">Alta</button>
           <button class="fbtn sm" onclick="fsev('media',this)">Media</button>
           <button class="fbtn sb" onclick="fsev('baja',this)">Baja</button>
-          <span class="flbl" style="margin-left:8px">Nivel:</span>
-          <select class="csel" id="cfilter" onchange="renderTable()">
-            <option value="all">Todos</option>
-            <option value="forma">Forma</option>
-            <option value="estilo">Estilo judicial</option>
-            <option value="fondo">Fondo argumentativo</option>
-          </select>
+          <span class="fctr" id="fctr"></span>
+        </div>
+        <div class="agfbar">
+          <span class="flbl">Agente:</span>
+          <button class="agbtn agbtn-all act" onclick="fag('all',this)">Todos</button>
+          <button class="agbtn agbtn-forma" onclick="fag('FORMA',this)">FORMA</button>
+          <button class="agbtn agbtn-estilo" onclick="fag('ESTILO JUDICIAL',this)">ESTILO</button>
+          <button class="agbtn agbtn-coherencia" onclick="fag('COHERENCIA NARRATIVA',this)">COHERENCIA</button>
+          <button class="agbtn agbtn-fondo" onclick="fag('FONDO ARGUMENTATIVO',this)">FONDO</button>
+          <button class="agbtn agbtn-normativo" onclick="fag('NORMATIVO',this)">NORMATIVO</button>
+        </div>
+        <div class="quality-wrap" id="quality-wrap" style="display:none">
+          <div class="quality-head">
+            <span class="quality-lbl">Índice de calidad</span>
+            <span class="quality-val" id="quality-val">—</span>
+          </div>
+          <div class="quality-bg"><div class="quality-fill" id="quality-fill" style="width:0"></div></div>
+          <div class="quality-nivel" id="quality-nivel"></div>
         </div>
         <div class="etbl-wrap">
           <table class="etbl">
@@ -426,7 +483,7 @@ textarea::placeholder{color:var(--text3)}
 <script>
 if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-let curText='',curResult=null,curSev='all',loadTmr=null,selNormaVal='';
+let curText='',curResult=null,curSev='all',curAg='all',loadTmr=null,selNormaVal='';
 let curFile=null,curArchivoId=null,curNombreArchivo='';
 
 function showHome(){
@@ -472,6 +529,7 @@ function adaptarRespuesta(data){
   const errores=(data.hallazgos||[]).map(h=>({
     id: h.id,
     modulo: h.modulo,
+    agente: h.agente,
     nivel: nivelMap[h.agente]||'fondo',
     ubicacion: h.ubicacion,
     texto_original: h.error,
@@ -600,10 +658,24 @@ async function analizar(){
 
 let stepIdx=0;
 function startLoad(){
-  stepIdx=0;for(let i=1;i<=5;i++)document.getElementById('s'+i).className='lstep';
-  loadTmr=setInterval(()=>{if(stepIdx>0)document.getElementById('s'+stepIdx).className='lstep done';stepIdx++;if(stepIdx<=5)document.getElementById('s'+stepIdx).className='lstep act';else clearInterval(loadTmr);},1400);
+  stepIdx=0;
+  for(let i=1;i<=5;i++)document.getElementById('s'+i).className='lstep';
+  document.getElementById('lpbar').style.width='0';
+  document.querySelector('.abtn').classList.add('procesando');
+  loadTmr=setInterval(()=>{
+    if(stepIdx>0)document.getElementById('s'+stepIdx).className='lstep done';
+    stepIdx++;
+    if(stepIdx<=5){
+      document.getElementById('s'+stepIdx).className='lstep act';
+      document.getElementById('lpbar').style.width=(stepIdx*20)+'%';
+    }else clearInterval(loadTmr);
+  },1400);
 }
-function stopLoad(){if(loadTmr)clearInterval(loadTmr);document.getElementById('loading').classList.remove('on');}
+function stopLoad(){
+  if(loadTmr)clearInterval(loadTmr);
+  document.getElementById('loading').classList.remove('on');
+  document.querySelector('.abtn').classList.remove('procesando');
+}
 
 function renderResults(d){
   const score=d.puntaje||0,errores=d.errores||[],stats=d.estadisticas||{total_errores:errores.length,alta:0,media:0,baja:0};
@@ -644,25 +716,92 @@ async function descargarDocumento(){
 
 function renderTable(){
   if(!curResult)return;
-  const errores=curResult.errores||[],cf=document.getElementById('cfilter').value;
-  const filtered=errores.filter(e=>(curSev==='all'||e.severidad===curSev)&&(cf==='all'||e.nivel===cf));
+  const errores=curResult.errores||[];
+  const filtered=errores.filter(e=>
+    (curSev==='all'||e.severidad===curSev)&&
+    (curAg==='all'||e.agente===curAg)
+  );
   const tbody=document.getElementById('etbody');
-  if(!filtered.length){tbody.innerHTML='<tr class="eempty"><td colspan="5">'+(errores.length===0?'✓ No se detectaron errores. Documento en excelentes condiciones.':'Ningún error coincide con los filtros activos.')+'</td></tr>';return;}
-  tbody.innerHTML=filtered.map(e=>{
-    const errDiv='<div class="orig">"'+(e.texto_original||'').substring(0,120)+'"</div>';
-    const justDiv=e.explicacion?'<div class="hallazgo-justificacion">'+e.explicacion+'</div>':'';
-    const corrDiv=e.correccion_sugerida?'<div class="hallazgo-correccion">→ '+e.correccion_sugerida+'</div>':'';
-    return '<tr>'
+  if(!filtered.length){
+    tbody.innerHTML='<tr class="eempty"><td colspan="5">'+(errores.length===0
+      ?'✓ No se detectaron errores. Documento en excelentes condiciones.'
+      :'Ningún error coincide con los filtros activos.')+'</td></tr>';
+    actualizarCalidad(filtered,errores.length);
+    actualizarContador(filtered.length,errores.length);
+    return;
+  }
+  tbody.innerHTML=filtered.map((e,i)=>{
+    const sChar=(e.severidad||'b').charAt(0);
+    const detail=(e.explicacion||e.correccion_sugerida)
+      ?'<tr class="detail-row" id="det-'+e.id+'">'
+        +'<td></td><td colspan="4">'
+        +'<div class="detail-inner" id="deti-'+e.id+'">'
+        +(e.explicacion?'<div class="detail-just">'+e.explicacion+'</div>':'')
+        +(e.correccion_sugerida?'<div class="detail-corr">'+e.correccion_sugerida+'</div>':'')
+        +'</div></td></tr>'
+      :'';
+    return '<tr class="hrow" style="animation-delay:'+(i*45)+'ms" onclick="toggleRow('+e.id+')">'
       +'<td style="color:var(--text3);font-size:10px">'+e.id+'</td>'
       +'<td><span class="cbadge">'+(e.modulo||'–')+'</span></td>'
       +'<td style="color:var(--text3);font-size:10px;line-height:1.5">'+(e.ubicacion||'–')+'</td>'
-      +'<td>'+errDiv+justDiv+corrDiv+'</td>'
-      +'<td><span class="sbadge s'+((e.severidad||'b').charAt(0))+'">'+(e.severidad||'–')+'</span></td>'
-      +'</tr>';
+      +'<td>'
+        +'<div class="orig">"'+(e.texto_original||'').substring(0,120)+'"</div>'
+      +'</td>'
+      +'<td><span class="sbadge s'+sChar+'">'+(e.severidad||'–')+'</span>'
+        +'<span class="hrow-arrow" id="arr-'+e.id+'">▼</span></td>'
+      +'</tr>'
+      +detail;
   }).join('');
+  actualizarCalidad(filtered,errores.length);
+  actualizarContador(filtered.length,errores.length);
 }
 
-function fsev(sev,btn){curSev=sev;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('act'));btn.classList.add('act');renderTable();}
+function toggleRow(id){
+  const det=document.getElementById('det-'+id);
+  const inner=document.getElementById('deti-'+id);
+  const arr=document.getElementById('arr-'+id);
+  if(!det)return;
+  const abierto=det.classList.toggle('abierto');
+  if(inner)inner.classList.toggle('abierto',abierto);
+  if(arr)arr.classList.toggle('abierto',abierto);
+}
+
+function actualizarCalidad(filtered,total){
+  const wrap=document.getElementById('quality-wrap');
+  if(!curResult){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  // Score base del análisis; se tinta según distribución visible
+  const score=curResult.puntaje||0;
+  const alta=filtered.filter(e=>e.severidad==='alta').length;
+  const penalFiltro=total>0?Math.round((alta/Math.max(filtered.length,1))*15):0;
+  const scoreVisible=Math.max(0,Math.min(100,score-penalFiltro+(total>filtered.length?5:0)));
+  const col=scoreVisible>=80?'#2dab85':scoreVisible>=60?'#e0922a':'#e05252';
+  document.getElementById('quality-val').textContent=scoreVisible+'/100';
+  document.getElementById('quality-val').style.color=col;
+  document.getElementById('quality-fill').style.width=scoreVisible+'%';
+  document.getElementById('quality-fill').style.background=col;
+  document.getElementById('quality-nivel').textContent=sNivel(scoreVisible);
+  document.getElementById('quality-nivel').style.color=col;
+}
+
+function actualizarContador(vis,total){
+  const el=document.getElementById('fctr');
+  if(el)el.textContent=vis===total?total+' hallazgos':vis+' de '+total;
+}
+
+function fsev(sev,btn){
+  curSev=sev;
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  renderTable();
+}
+
+function fag(ag,btn){
+  curAg=ag;
+  document.querySelectorAll('.agbtn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  renderTable();
+}
 function sColor(s){return s>=90?'#2dab85':s>=75?'#00d4ff':s>=60?'#e0922a':'#e05252';}
 function sNivel(s){return s>=90?'Documento excepcional':s>=75?'Buena calidad':s>=60?'Calidad aceptable':s>=40?'Requiere correcciones':'Calidad insuficiente';}
 
@@ -677,14 +816,19 @@ function copiar(){
 }
 
 function reset(){
-  curText='';curResult=null;curSev='all';selNormaVal='';
+  curText='';curResult=null;curSev='all';curAg='all';selNormaVal='';
   curFile=null;curArchivoId=null;curNombreArchivo='';
   document.getElementById('results').classList.remove('on');
   document.getElementById('btn-descargar').style.display='none';
   document.getElementById('fsel').classList.remove('on');
   document.getElementById('ptxt').value='';
   document.getElementById('file-input').value='';
-  document.getElementById('cfilter').value='all';
+  document.getElementById('quality-wrap').style.display='none';
+  document.getElementById('fctr').textContent='';
+  // Reset severity filter
+  document.querySelectorAll('.fbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
+  // Reset agent filter
+  document.querySelectorAll('.agbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   ['n1123','n1952'].forEach(id=>document.getElementById(id).classList.remove('selected'));
   document.querySelector('.norma-step').style.display='block';
   document.querySelector('.upload-block').style.display='block';
