@@ -222,7 +222,94 @@ textarea::placeholder{color:var(--text3)}
 .lpbar-wrap{width:220px;height:3px;background:var(--surface3);border-radius:2px;margin-top:14px;overflow:hidden}
 .lpbar-fill{height:100%;background:var(--cyan);border-radius:2px;width:0;transition:width .4s ease}
 
+/* ══════════════════════════════════════════════════════
+   PANEL DE RESULTADOS — rediseño completo
+   ══════════════════════════════════════════════════════ */
+
+/* ── Header de resultados ─────────────────────────── */
+.res-header{display:flex;align-items:center;justify-content:space-between;padding:18px 0 16px;border-bottom:0.5px solid var(--border2);margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.res-brand{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.04em}
+.res-brand span{color:var(--cyan)}
+.res-subtitle{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.res-score-num{font-family:'Rajdhani',sans-serif;font-size:42px;font-weight:700;line-height:1}
+.res-score-bar-bg{height:4px;background:var(--surface3);border-radius:2px;overflow:hidden;width:80px;margin-top:5px}
+.res-score-bar-fill{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.res-score-nivel{font-size:10px;color:var(--text3);margin-top:4px;text-align:right}
+.btn-dl{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;border:0.5px solid rgba(0,212,255,.35);background:rgba(0,212,255,.07);color:var(--cyan);transition:all .2s;white-space:nowrap}
+.btn-dl:hover{background:rgba(0,212,255,.14);border-color:var(--cyan)}
+
+/* ── Caja del radar ───────────────────────────────── */
+.radar-box{border:0.5px solid #2D3E50;border-radius:12px;background:var(--surface);margin-bottom:20px;overflow:hidden;animation:fadeSlideUp .5s ease both}
+.radar-box-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:0.5px solid var(--border)}
+.radar-box-brand{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.radar-box-brand span{color:var(--cyan)}
+.radar-box-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.radar-box-snum{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;line-height:1;text-align:right}
+.radar-mini-bg{width:68px;height:3px;background:var(--surface3);border-radius:2px;margin:5px 0 0 auto;overflow:hidden}
+.radar-mini-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.radar-body{display:grid;grid-template-columns:340px 1fr;align-items:center;padding:16px 18px}
+.radar-chart-wrap{display:flex;align-items:center;justify-content:center}
+.radar-legend{display:flex;flex-direction:column;gap:11px;padding:0 4px 0 20px}
+.rleg-item{display:flex;align-items:center;gap:9px}
+.rleg-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rleg-name{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.rleg-score{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;line-height:1;margin-top:1px}
+.rleg-bar-bg{height:2px;background:var(--surface3);border-radius:1px;margin-top:4px;overflow:hidden}
+.rleg-bar-fill{height:100%;border-radius:1px;transition:width .9s ease}
+
+/* ── Filtros ──────────────────────────────────────── */
+.filters-wrap{margin-bottom:14px}
+.filter-row{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
+.filter-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-right:3px;white-space:nowrap}
+.filter-ctr{font-size:10px;color:var(--text3);margin-left:auto}
+.sfbtn{padding:4px 11px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid var(--border2);color:var(--text3);background:transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
+.sfbtn.act{background:var(--surface2);color:var(--text);border-color:var(--border)}
+.sfbtn.sa.act{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#EF4444}
+.sfbtn.sm.act{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#F59E0B}
+.sfbtn.sb.act{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.4);color:#10B981}
+.mfbtn{padding:4px 10px;border-radius:5px;font-size:10px;cursor:pointer;border:0.5px solid var(--border2);color:var(--text3);background:transparent;transition:all .15s;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:.04em}
+.mfbtn:hover{color:var(--text2);border-color:var(--border)}
+.mfbtn.act{font-weight:700}
+.mfbtn-all.act{background:var(--surface2);color:var(--text);border-color:var(--border)}
+.mfbtn-forma.act{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.4);color:#10B981}
+.mfbtn-estilo.act{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#F59E0B}
+.mfbtn-coherencia.act{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.4);color:#8B5CF6}
+.mfbtn-fondo.act{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.4);color:#EF4444}
+.mfbtn-normativo.act{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.4);color:#3B82F6}
+
+/* ── Tabla nueva ──────────────────────────────────── */
+.ntbl-wrap{background:var(--surface);border:0.5px solid var(--border2);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.ntbl{width:100%;border-collapse:collapse;font-size:12px}
+.ntbl th{padding:9px 14px;text-align:left;background:var(--surface2);color:var(--text3);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:500;border-bottom:0.5px solid var(--border)}
+.ntbl-row{cursor:pointer}
+.ntbl-row td{padding:11px 14px;border-bottom:0.5px solid var(--border);vertical-align:middle;transition:background .15s}
+.ntbl-row:hover td{background:rgba(255,255,255,.02)}
+.ntbl-mod{display:flex;align-items:center;gap:7px}
+.ntbl-icon{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ntbl-modname{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em}
+.ntbl-codename{font-size:9px;color:var(--text3);margin-top:1px}
+.ntbl-loc{font-size:10px;color:var(--text3);line-height:1.5;max-width:130px}
+.ntbl-err{font-size:11px;color:var(--text2);line-height:1.55}
+.ntbl-sev{display:inline-flex;align-items:center;font-size:10px;padding:3px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
+.ntbl-sev.sa{background:rgba(239,68,68,.1);color:#EF4444;border:0.5px solid rgba(239,68,68,.3)}
+.ntbl-sev.sm{background:rgba(245,158,11,.1);color:#F59E0B;border:0.5px solid rgba(245,158,11,.3)}
+.ntbl-sev.sb{background:rgba(16,185,129,.1);color:#10B981;border:0.5px solid rgba(16,185,129,.3)}
+.ntbl-arr{display:inline-block;margin-left:5px;font-size:9px;color:var(--text3);transition:transform .25s ease}
+.ntbl-detail{display:none}
+.ntbl-detail.open{display:table-row}
+.ntbl-di{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .25s ease;padding:0 14px}
+.ntbl-di.open{max-height:300px;padding:10px 14px 14px}
+.ntbl-just{font-size:11px;color:var(--text3);font-style:italic;line-height:1.65;margin-bottom:8px}
+.ntbl-corr{font-size:11px;line-height:1.55;padding:8px 12px;border-radius:0 6px 6px 0;border-left:2px solid}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ntbl-row{animation:slideIn .3s ease both}
+
 @media(max-width:700px){
+  .radar-body{grid-template-columns:1fr}
+  .radar-chart-wrap canvas{width:260px!important;height:260px!important}
+  .radar-legend{padding:12px 4px 4px}
+  .res-score-num{font-size:32px}
+}
   body{flex-direction:column;overflow:auto}
   .sidebar{width:100%;min-height:auto;position:relative;flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--cyan)}
   .sb-logo{padding:14px 16px}
@@ -362,60 +449,81 @@ textarea::placeholder{color:var(--text3)}
 
       <!-- RESULTS -->
       <div id="results">
-        <div class="score-card">
-          <div class="gauge-wrap">
-            <svg viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="52" fill="none" stroke="#111" stroke-width="8"/>
-              <circle id="gc" cx="60" cy="60" r="52" fill="none" stroke="#00d4ff" stroke-width="8" stroke-dasharray="326.73" stroke-dashoffset="326.73" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1),stroke .6s"/>
-            </svg>
-            <div class="gauge-text">
-              <div class="gauge-num" id="gscore" style="color:var(--cyan)">–</div>
-              <div class="gauge-denom">/ 100</div>
+
+        <!-- SECCIÓN 1 — Header -->
+        <div class="res-header">
+          <div>
+            <div class="res-brand">DISCIPLINAR<span>[IA]</span></div>
+            <div class="res-subtitle">Resultados del análisis</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+            <div style="text-align:right">
+              <div class="res-score-num" id="rhscore" style="color:var(--cyan)">–</div>
+              <div class="res-score-bar-bg"><div class="res-score-bar-fill" id="rh-bar" style="width:0"></div></div>
+              <div class="res-score-nivel" id="rh-nivel"></div>
+            </div>
+            <button class="btn-dl" id="btn-descargar" style="display:none" onclick="descargarDocumento()">&#11015; Descargar documento revisado</button>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2 — Radar -->
+        <div class="radar-box">
+          <div class="radar-box-hdr">
+            <div>
+              <div class="radar-box-brand">DISCIPLINAR<span>[IA]</span></div>
+              <div class="radar-box-sub">Resultados del análisis por módulo</div>
+            </div>
+            <div>
+              <div class="radar-box-snum" id="rb-score" style="color:var(--cyan)">–</div>
+              <div class="radar-mini-bg"><div class="radar-mini-fill" id="rb-bar" style="width:0"></div></div>
             </div>
           </div>
-          <div>
-            <div class="score-nivel" id="snivel">–</div>
-            <div class="score-resumen" id="sresumen">–</div>
-            <div class="score-meta" id="score-meta"></div>
+          <div class="radar-body">
+            <div class="radar-chart-wrap">
+              <canvas id="radarChart" width="320" height="320"></canvas>
+            </div>
+            <div class="radar-legend" id="radar-legend"></div>
           </div>
         </div>
-        <div class="stats">
-          <div class="scard"><div class="snum" id="st0">0</div><div class="slbl">Total errores</div></div>
-          <div class="scard"><div class="snum" id="st1" style="color:var(--red)">0</div><div class="slbl">Alta</div></div>
-          <div class="scard"><div class="snum" id="st2" style="color:var(--amber)">0</div><div class="slbl">Media</div></div>
-          <div class="scard"><div class="snum" id="st3" style="color:var(--teal)">0</div><div class="slbl">Baja</div></div>
-        </div>
-        <div class="fbar">
-          <span class="flbl">Severidad:</span>
-          <button class="fbtn act" onclick="fsev('all',this)">Todos</button>
-          <button class="fbtn sa" onclick="fsev('alta',this)">Alta</button>
-          <button class="fbtn sm" onclick="fsev('media',this)">Media</button>
-          <button class="fbtn sb" onclick="fsev('baja',this)">Baja</button>
-          <span class="fctr" id="fctr"></span>
-        </div>
-        <div class="agfbar">
-          <span class="flbl">Agente:</span>
-          <button class="agbtn agbtn-all act" onclick="fag('all',this)">Todos</button>
-          <button class="agbtn agbtn-forma" onclick="fag('FORMA',this)">FORMA</button>
-          <button class="agbtn agbtn-estilo" onclick="fag('ESTILO JUDICIAL',this)">ESTILO</button>
-          <button class="agbtn agbtn-coherencia" onclick="fag('COHERENCIA NARRATIVA',this)">COHERENCIA</button>
-          <button class="agbtn agbtn-fondo" onclick="fag('FONDO ARGUMENTATIVO',this)">FONDO</button>
-          <button class="agbtn agbtn-normativo" onclick="fag('NORMATIVO',this)">NORMATIVO</button>
-        </div>
-        <div class="quality-wrap" id="quality-wrap" style="display:none">
-          <div class="quality-head">
-            <span class="quality-lbl">Índice de calidad</span>
-            <span class="quality-val" id="quality-val">—</span>
+
+        <!-- SECCIÓN 3 — Filtros -->
+        <div class="filters-wrap">
+          <div class="filter-row">
+            <span class="filter-lbl">Severidad:</span>
+            <button class="sfbtn act" onclick="fsev('all',this)">Todos <span id="cnt-all" style="opacity:.6"></span></button>
+            <button class="sfbtn sa" onclick="fsev('alta',this)">Alta <span id="cnt-alta" style="opacity:.6"></span></button>
+            <button class="sfbtn sm" onclick="fsev('media',this)">Media <span id="cnt-media" style="opacity:.6"></span></button>
+            <button class="sfbtn sb" onclick="fsev('baja',this)">Baja <span id="cnt-baja" style="opacity:.6"></span></button>
+            <span class="filter-ctr" id="fctr"></span>
           </div>
-          <div class="quality-bg"><div class="quality-fill" id="quality-fill" style="width:0"></div></div>
-          <div class="quality-nivel" id="quality-nivel"></div>
+          <div class="filter-row">
+            <span class="filter-lbl">Módulo:</span>
+            <button class="mfbtn mfbtn-all act" onclick="fag('all',this)">TODOS</button>
+            <button class="mfbtn mfbtn-forma" onclick="fag('FORMA',this)">FORMA</button>
+            <button class="mfbtn mfbtn-estilo" onclick="fag('ESTILO JUDICIAL',this)">ESTILO</button>
+            <button class="mfbtn mfbtn-coherencia" onclick="fag('COHERENCIA NARRATIVA',this)">COHERENCIA</button>
+            <button class="mfbtn mfbtn-fondo" onclick="fag('FONDO ARGUMENTATIVO',this)">ARGUMENTACIÓN</button>
+            <button class="mfbtn mfbtn-normativo" onclick="fag('NORMATIVO',this)">NORMATIVO</button>
+          </div>
         </div>
-        <div class="etbl-wrap">
-          <table class="etbl">
-            <thead><tr><th style="width:30px">#</th><th style="width:110px">Módulo</th><th style="width:120px">Ubicación</th><th>Error → Corrección</th><th style="width:76px">Severidad</th></tr></thead>
-            <tbody id="etbody"><tr class="eempty"><td colspan="5">Sin errores detectados</td></tr></tbody>
+
+        <!-- SECCIÓN 4 — Tabla -->
+        <div class="ntbl-wrap">
+          <table class="ntbl">
+            <thead><tr>
+              <th style="width:28px">#</th>
+              <th style="width:130px">Módulo</th>
+              <th style="width:130px">Ubicación</th>
+              <th>Error detectado</th>
+              <th style="width:84px">Severidad</th>
+            </tr></thead>
+            <tbody id="etbody">
+              <tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--text3);font-size:12px">Sin errores detectados</td></tr>
+            </tbody>
           </table>
         </div>
+
+        <!-- Fortalezas / Recomendaciones -->
         <div class="twocol">
           <div class="icrd">
             <div class="ictitle" style="color:var(--teal)">Fortalezas</div>
@@ -426,11 +534,12 @@ textarea::placeholder{color:var(--text3)}
             <ul id="rlist"></ul>
           </div>
         </div>
+
         <div class="arow">
           <button class="actbtn pri" onclick="copiar()">Copiar reporte completo</button>
-          <button class="actbtn" id="btn-descargar" style="display:none" onclick="descargarDocumento()">&#11015; Descargar documento revisado (.docx)</button>
           <button class="actbtn" onclick="reset()">Nuevo análisis</button>
         </div>
+
       </div>
 
     </div>
@@ -478,6 +587,7 @@ textarea::placeholder{color:var(--text3)}
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script>
@@ -677,24 +787,115 @@ function stopLoad(){
   document.querySelector('.abtn').classList.remove('procesando');
 }
 
+// ── Configuración de módulos ────────────────────────────────────────────
+const MOD_CFG=[
+  {label:'Forma',         agente:'FORMA',                color:'#10B981',css:'forma'},
+  {label:'Estilo',        agente:'ESTILO JUDICIAL',      color:'#F59E0B',css:'estilo'},
+  {label:'Coherencia',    agente:'COHERENCIA NARRATIVA', color:'#8B5CF6',css:'coherencia'},
+  {label:'Argumentación', agente:'FONDO ARGUMENTATIVO',  color:'#EF4444',css:'fondo'},
+  {label:'Normativo',     agente:'NORMATIVO',            color:'#3B82F6',css:'normativo'},
+];
+const MOD_ICONS={
+  forma:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+  estilo:     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>',
+  coherencia: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><circle cx="12" cy="12" r="2"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><line x1="12" y1="10" x2="4" y2="7"/><line x1="12" y1="10" x2="20" y2="7"/><line x1="12" y1="14" x2="4" y2="17"/><line x1="12" y1="14" x2="20" y2="17"/></svg>',
+  fondo:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  normativo:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+};
+const AG_MAP={
+  'FORMA':                {color:'#10B981',css:'forma',   label:'Forma'},
+  'ESTILO JUDICIAL':      {color:'#F59E0B',css:'estilo',  label:'Estilo'},
+  'COHERENCIA NARRATIVA': {color:'#8B5CF6',css:'coherencia',label:'Coherencia'},
+  'FONDO ARGUMENTATIVO':  {color:'#EF4444',css:'fondo',   label:'Argumentación'},
+  'NORMATIVO':            {color:'#3B82F6',css:'normativo',label:'Normativo'},
+};
+
+function calcScore(agenteLabel,hallazgos){
+  const h=hallazgos.filter(x=>x.agente===agenteLabel);
+  if(!h.length)return 100;
+  const p=h.reduce((a,x)=>a+(x.severidad==='alta'?15:x.severidad==='media'?7:2),0);
+  return Math.max(0,100-p);
+}
+
+let radarChart=null;
+function initRadar(hallazgos){
+  const scores=MOD_CFG.map(m=>calcScore(m.agente,hallazgos));
+  const ctx=document.getElementById('radarChart');
+  if(!ctx||typeof Chart==='undefined')return;
+  if(radarChart){radarChart.destroy();radarChart=null;}
+  radarChart=new Chart(ctx,{
+    type:'radar',
+    data:{
+      labels:MOD_CFG.map(m=>m.label),
+      datasets:[
+        {label:'Calidad',data:scores,
+         backgroundColor:'rgba(16,185,129,0.15)',
+         borderColor:'#10B981',borderWidth:2,
+         pointBackgroundColor:MOD_CFG.map(m=>m.color),
+         pointBorderColor:'#ffffff',pointBorderWidth:2,
+         pointRadius:5,pointHoverRadius:7},
+        {label:'Objetivo 85',data:[85,85,85,85,85],
+         backgroundColor:'rgba(59,130,246,0)',
+         borderColor:'rgba(59,130,246,0.35)',borderWidth:1.5,
+         borderDash:[5,4],pointRadius:0,pointHoverRadius:0},
+      ]
+    },
+    options:{
+      responsive:false,
+      animation:{duration:800},
+      scales:{r:{
+        min:0,max:100,
+        ticks:{stepSize:25,color:'rgba(138,155,181,0.45)',backdropColor:'transparent',font:{size:9}},
+        grid:{color:'rgba(255,255,255,0.06)'},
+        angleLines:{color:'rgba(255,255,255,0.07)'},
+        pointLabels:{color:'#8a9bb5',font:{size:11,family:"'Rajdhani',sans-serif",weight:'600'}}
+      }},
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}/100`}}
+      }
+    }
+  });
+  // Leyenda lateral
+  const leg=document.getElementById('radar-legend');
+  leg.innerHTML=MOD_CFG.map((m,i)=>{
+    const sc=scores[i];
+    const col=sc>=80?'#10B981':sc>=60?'#F59E0B':'#EF4444';
+    return `<div class="rleg-item">
+      <div class="rleg-icon" style="background:${m.color}1a;color:${m.color}">${MOD_ICONS[m.css]}</div>
+      <div style="flex:1;min-width:0">
+        <div class="rleg-name" style="color:${m.color}">${m.label}</div>
+        <div class="rleg-score" style="color:${col}">${sc}<span style="font-size:9px;color:var(--text3);font-family:'DM Sans',sans-serif">/100</span></div>
+        <div class="rleg-bar-bg"><div class="rleg-bar-fill" style="width:${sc}%;background:${col}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function renderResults(d){
-  const score=d.puntaje||0,errores=d.errores||[],stats=d.estadisticas||{total_errores:errores.length,alta:0,media:0,baja:0};
-  const circ=326.73,gc=document.getElementById('gc');
-  gc.style.strokeDashoffset=circ-(score/100)*circ;gc.style.stroke=sColor(score);
-  document.getElementById('gscore').textContent=score;document.getElementById('gscore').style.color=sColor(score);
-  const nv=document.getElementById('snivel');nv.textContent=sNivel(score);nv.style.color=sColor(score);
-  document.getElementById('sresumen').textContent=d.resumen||'';
-  const nL={'1123':'Ley 1123/2007','1952':'Ley 1952/2019'};
-  document.getElementById('score-meta').innerHTML='<span class="score-meta-tag">'+(nL[selNormaVal]||'')+'</span>';
-  document.getElementById('st0').textContent=stats.total_errores||errores.length;
-  document.getElementById('st1').textContent=stats.alta||0;
-  document.getElementById('st2').textContent=stats.media||0;
-  document.getElementById('st3').textContent=stats.baja||0;
+  const score=d.puntaje||0;
+  const errores=d.errores||[];
+  const col=sColor(score);
+  // Header score
+  document.getElementById('rhscore').textContent=score;
+  document.getElementById('rhscore').style.color=col;
+  document.getElementById('rh-bar').style.width=score+'%';
+  document.getElementById('rh-bar').style.background=col;
+  document.getElementById('rh-nivel').textContent=sNivel(score);
+  document.getElementById('rh-nivel').style.color=col;
+  // Radar box header score
+  document.getElementById('rb-score').textContent=score;
+  document.getElementById('rb-score').style.color=col;
+  document.getElementById('rb-bar').style.width=score+'%';
+  document.getElementById('rb-bar').style.background=col;
+  // Radar
+  initRadar(errores);
+  // Tabla
   renderTable();
+  // Fortalezas / Recomendaciones
   document.getElementById('flist').innerHTML=(d.fortalezas||[]).map(f=>'<li>'+f+'</li>').join('')||'<li style="color:var(--text3)">Sin fortalezas adicionales identificadas.</li>';
   document.getElementById('rlist').innerHTML=(d.recomendaciones||[]).map(r=>'<li>'+r+'</li>').join('')||'<li style="color:var(--text3)">Sin recomendaciones adicionales.</li>';
-  // Mostrar botón de descarga solo si hay archivo .docx procesado
-  document.getElementById('btn-descargar').style.display=curArchivoId?'inline-flex':'none';
+  document.getElementById('btn-descargar').style.display=curArchivoId?'flex':'none';
   document.getElementById('results').classList.add('on');
   document.getElementById('results').scrollIntoView({behavior:'smooth'});
 }
@@ -717,43 +918,50 @@ async function descargarDocumento(){
 function renderTable(){
   if(!curResult)return;
   const errores=curResult.errores||[];
+  // Contadores por severidad
+  const cAll=errores.length,cAlta=errores.filter(e=>e.severidad==='alta').length,
+        cMedia=errores.filter(e=>e.severidad==='media').length,
+        cBaja=errores.filter(e=>e.severidad==='baja').length;
+  const setC=(id,n)=>{const el=document.getElementById(id);if(el)el.textContent=n?'('+n+')':{};};
+  setC('cnt-all',cAll);setC('cnt-alta',cAlta);setC('cnt-media',cMedia);setC('cnt-baja',cBaja);
+
   const filtered=errores.filter(e=>
     (curSev==='all'||e.severidad===curSev)&&
     (curAg==='all'||e.agente===curAg)
   );
   const tbody=document.getElementById('etbody');
   if(!filtered.length){
-    tbody.innerHTML='<tr class="eempty"><td colspan="5">'+(errores.length===0
-      ?'✓ No se detectaron errores. Documento en excelentes condiciones.'
-      :'Ningún error coincide con los filtros activos.')+'</td></tr>';
-    actualizarCalidad(filtered,errores.length);
-    actualizarContador(filtered.length,errores.length);
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--text3);font-size:12px">'
+      +(errores.length===0?'✓ No se detectaron errores. Documento en excelentes condiciones.'
+        :'Ningún error coincide con los filtros activos.')+'</td></tr>';
+    actualizarContador(0,cAll);
     return;
   }
   tbody.innerHTML=filtered.map((e,i)=>{
-    const sChar=(e.severidad||'b').charAt(0);
+    const ag=AG_MAP[e.agente]||{color:'#8a9bb5',css:'all',label:e.agente||'–'};
+    const sc=(e.severidad||'b').charAt(0);
+    const sevLbl={a:'Alta',m:'Media',b:'Baja'}[sc]||e.severidad;
     const detail=(e.explicacion||e.correccion_sugerida)
-      ?'<tr class="detail-row" id="det-'+e.id+'">'
-        +'<td></td><td colspan="4">'
-        +'<div class="detail-inner" id="deti-'+e.id+'">'
-        +(e.explicacion?'<div class="detail-just">'+e.explicacion+'</div>':'')
-        +(e.correccion_sugerida?'<div class="detail-corr">'+e.correccion_sugerida+'</div>':'')
-        +'</div></td></tr>'
+      ?`<tr class="ntbl-detail" id="det-${e.id}"><td></td><td colspan="4">
+          <div class="ntbl-di" id="deti-${e.id}">
+            ${e.explicacion?`<div class="ntbl-just">${e.explicacion}</div>`:''}
+            ${e.correccion_sugerida?`<div class="ntbl-corr" style="color:${ag.color};background:${ag.color}12;border-color:${ag.color}">${e.correccion_sugerida}</div>`:''}
+          </div></td></tr>`
       :'';
-    return '<tr class="hrow" style="animation-delay:'+(i*45)+'ms" onclick="toggleRow('+e.id+')">'
-      +'<td style="color:var(--text3);font-size:10px">'+e.id+'</td>'
-      +'<td><span class="cbadge">'+(e.modulo||'–')+'</span></td>'
-      +'<td style="color:var(--text3);font-size:10px;line-height:1.5">'+(e.ubicacion||'–')+'</td>'
-      +'<td>'
-        +'<div class="orig">"'+(e.texto_original||'').substring(0,120)+'"</div>'
-      +'</td>'
-      +'<td><span class="sbadge s'+sChar+'">'+(e.severidad||'–')+'</span>'
-        +'<span class="hrow-arrow" id="arr-'+e.id+'">▼</span></td>'
-      +'</tr>'
-      +detail;
+    return `<tr class="ntbl-row" style="animation-delay:${i*40}ms" onclick="toggleRow(${e.id})">
+      <td style="color:var(--text3);font-size:10px">${e.id}</td>
+      <td><div class="ntbl-mod">
+        <div class="ntbl-icon" style="background:${ag.color}1a;color:${ag.color}">${MOD_ICONS[ag.css]||''}</div>
+        <div><div class="ntbl-modname" style="color:${ag.color}">${ag.label}</div>
+             <div class="ntbl-codename">${e.modulo||''}</div></div>
+      </div></td>
+      <td class="ntbl-loc">${e.ubicacion||'–'}</td>
+      <td class="ntbl-err">${(e.texto_original||'').substring(0,120)}</td>
+      <td><span class="ntbl-sev s${sc}">${sevLbl}</span>
+          <span class="ntbl-arr" id="arr-${e.id}">▼</span></td>
+    </tr>${detail}`;
   }).join('');
-  actualizarCalidad(filtered,errores.length);
-  actualizarContador(filtered.length,errores.length);
+  actualizarContador(filtered.length,cAll);
 }
 
 function toggleRow(id){
@@ -761,27 +969,9 @@ function toggleRow(id){
   const inner=document.getElementById('deti-'+id);
   const arr=document.getElementById('arr-'+id);
   if(!det)return;
-  const abierto=det.classList.toggle('abierto');
-  if(inner)inner.classList.toggle('abierto',abierto);
-  if(arr)arr.classList.toggle('abierto',abierto);
-}
-
-function actualizarCalidad(filtered,total){
-  const wrap=document.getElementById('quality-wrap');
-  if(!curResult){wrap.style.display='none';return;}
-  wrap.style.display='block';
-  // Score base del análisis; se tinta según distribución visible
-  const score=curResult.puntaje||0;
-  const alta=filtered.filter(e=>e.severidad==='alta').length;
-  const penalFiltro=total>0?Math.round((alta/Math.max(filtered.length,1))*15):0;
-  const scoreVisible=Math.max(0,Math.min(100,score-penalFiltro+(total>filtered.length?5:0)));
-  const col=scoreVisible>=80?'#2dab85':scoreVisible>=60?'#e0922a':'#e05252';
-  document.getElementById('quality-val').textContent=scoreVisible+'/100';
-  document.getElementById('quality-val').style.color=col;
-  document.getElementById('quality-fill').style.width=scoreVisible+'%';
-  document.getElementById('quality-fill').style.background=col;
-  document.getElementById('quality-nivel').textContent=sNivel(scoreVisible);
-  document.getElementById('quality-nivel').style.color=col;
+  const open=det.classList.toggle('open');
+  if(inner)inner.classList.toggle('open',open);
+  if(arr)arr.style.transform=open?'rotate(180deg)':'rotate(0)';
 }
 
 function actualizarContador(vis,total){
@@ -791,14 +981,14 @@ function actualizarContador(vis,total){
 
 function fsev(sev,btn){
   curSev=sev;
-  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('act'));
+  document.querySelectorAll('.sfbtn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
   renderTable();
 }
 
 function fag(ag,btn){
   curAg=ag;
-  document.querySelectorAll('.agbtn').forEach(b=>b.classList.remove('act'));
+  document.querySelectorAll('.mfbtn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
   renderTable();
 }
@@ -823,12 +1013,10 @@ function reset(){
   document.getElementById('fsel').classList.remove('on');
   document.getElementById('ptxt').value='';
   document.getElementById('file-input').value='';
-  document.getElementById('quality-wrap').style.display='none';
   document.getElementById('fctr').textContent='';
-  // Reset severity filter
-  document.querySelectorAll('.fbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
-  // Reset agent filter
-  document.querySelectorAll('.agbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
+  if(radarChart){radarChart.destroy();radarChart=null;}
+  document.querySelectorAll('.sfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
+  document.querySelectorAll('.mfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   ['n1123','n1952'].forEach(id=>document.getElementById(id).classList.remove('selected'));
   document.querySelector('.norma-step').style.display='block';
   document.querySelector('.upload-block').style.display='block';
