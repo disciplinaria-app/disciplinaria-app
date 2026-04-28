@@ -594,7 +594,7 @@ textarea::placeholder{color:var(--text3)}
 if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 let curText='',curResult=null,curSev='all',curAg='all',loadTmr=null,selNormaVal='';
-let curFile=null,curArchivoId=null,curNombreArchivo='';
+let archivoActual=null,curArchivoId=null,curNombreArchivo='';
 
 function showHome(){
   document.getElementById('panel-home').style.display='flex';
@@ -697,16 +697,22 @@ function switchTab(t){
 
 function dOver(e){e.preventDefault();document.getElementById('uzone').classList.add('drag')}
 function dLeave(){document.getElementById('uzone').classList.remove('drag')}
-function dDrop(e){e.preventDefault();document.getElementById('uzone').classList.remove('drag');if(e.dataTransfer.files[0])procFile(e.dataTransfer.files[0])}
-function onFile(e){if(e.target.files[0])procFile(e.target.files[0])}
+function dDrop(e){
+  e.preventDefault();document.getElementById('uzone').classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f){archivoActual=f;procFile(f);}
+}
+function onFile(e){
+  const f=e.target.files[0];
+  if(f){archivoActual=f;procFile(f);}
+}
 
 async function procFile(file){
   const ext=file.name.split('.').pop().toLowerCase();
   document.getElementById('fname').textContent=file.name;
   document.getElementById('fsize').textContent=fmtSize(file.size);
   document.getElementById('fsel').classList.add('on');
-  // Store original .docx for /analizar-archivo endpoint
-  curFile=(ext==='docx')?file:null;
+  // archivoActual ya fue asignado por el event handler antes de llamar aquí
   curNombreArchivo=file.name.replace(/\.docx$/i,'');
   try{
     if(ext==='txt')curText=await file.text();
@@ -737,7 +743,12 @@ async function analizarArchivo(file,norma){
 
 async function analizar(){
   if(document.getElementById('paste-tab').classList.contains('on'))curText=document.getElementById('ptxt').value.trim();
-  if(!curText||curText.length<50){alert('Por favor sube un documento o pega el texto.');return;}
+
+  // Si hay un .docx cargado puede proceder aunque curText sea corto:
+  // el backend extrae el texto del binario. Para texto pegado/PDF/TXT
+  // sí se requiere contenido suficiente.
+  const esDocx=archivoActual&&archivoActual.name.toLowerCase().endsWith('.docx');
+  if(!esDocx&&(!curText||curText.length<50)){alert('Por favor sube un documento o pega el texto.');return;}
   if(!selNormaVal){alert('Por favor selecciona la norma aplicable al documento.');return;}
 
   document.querySelector('.norma-step').style.display='none';
@@ -747,16 +758,17 @@ async function analizar(){
   startLoad();
 
   try{
-    // Si hay un .docx disponible usar /analizar-archivo para generar el documento revisado
     let data;
-    if(curFile){
-      data=await analizarArchivo(curFile,selNormaVal);
+    if(esDocx){
+      data=await analizarArchivo(archivoActual,selNormaVal);
     } else {
       data=await analizarDocumento(curText,selNormaVal);
     }
     curArchivoId=data.archivo_id||null;
     const result=adaptarRespuesta(data);
-    curResult=result;stopLoad();renderResults(result);
+    curResult=result;
+    archivoActual=null;  // limpiar solo tras éxito confirmado
+    stopLoad();renderResults(result);
   }catch(err){
     stopLoad();
     document.getElementById('loading').classList.remove('on');
@@ -1007,7 +1019,7 @@ function copiar(){
 
 function reset(){
   curText='';curResult=null;curSev='all';curAg='all';selNormaVal='';
-  curFile=null;curArchivoId=null;curNombreArchivo='';
+  archivoActual=null;curArchivoId=null;curNombreArchivo='';
   document.getElementById('results').classList.remove('on');
   document.getElementById('btn-descargar').style.display='none';
   document.getElementById('fsel').classList.remove('on');
