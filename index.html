@@ -632,7 +632,7 @@ function selNorma(n){
   document.getElementById('n1952').classList.toggle('selected',n==='1952');
 }
 
-const BASE_URL='/api';
+const BASE_URL='https://disciplinaria-app-production.up.railway.app';
 
 async function analizarDocumento(texto,norma){
   const res=await fetch(`${BASE_URL}/analizar`,{
