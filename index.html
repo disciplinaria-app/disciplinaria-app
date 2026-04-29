@@ -673,7 +673,8 @@ function adaptarRespuesta(data){
     errores,
     fortalezas: data.fortalezas||[],
     recomendaciones: data.recomendaciones||[],
-    estadisticas: {total_errores:errores.length,alta,media,baja}
+    estadisticas: {total_errores:errores.length,alta,media,baja},
+    detalle_agentes: data.detalle_agentes||[]
   };
 }
 
@@ -815,11 +816,11 @@ function stopLoad(){
 
 // ── Configuración de módulos ────────────────────────────────────────────
 const MOD_CFG=[
-  {label:'Forma',         agente:'FORMA',                color:'#10B981',css:'forma'},
-  {label:'Estilo',        agente:'ESTILO JUDICIAL',      color:'#F59E0B',css:'estilo'},
-  {label:'Coherencia',    agente:'COHERENCIA NARRATIVA', color:'#8B5CF6',css:'coherencia'},
-  {label:'Argumentación', agente:'FONDO ARGUMENTATIVO',  color:'#EF4444',css:'fondo'},
-  {label:'Normativo',     agente:'NORMATIVO',            color:'#3B82F6',css:'normativo'},
+  {label:'Forma',         agente:'FORMA',               color:'#10B981',css:'forma'},
+  {label:'Estilo',        agente:'ESTILO',              color:'#F59E0B',css:'estilo'},
+  {label:'Coherencia',    agente:'COHERENCIA NARRATIVA',color:'#8B5CF6',css:'coherencia'},
+  {label:'Argumentación', agente:'ARGUMENTACIÓN',       color:'#EF4444',css:'fondo'},
+  {label:'Normativo',     agente:'NORMATIVO',           color:'#3B82F6',css:'normativo'},
 ];
 const MOD_ICONS={
   forma:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
@@ -829,11 +830,11 @@ const MOD_ICONS={
   normativo:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
 };
 const AG_MAP={
-  'FORMA':                {color:'#10B981',css:'forma',   label:'Forma'},
-  'ESTILO JUDICIAL':      {color:'#F59E0B',css:'estilo',  label:'Estilo'},
-  'COHERENCIA NARRATIVA': {color:'#8B5CF6',css:'coherencia',label:'Coherencia'},
-  'FONDO ARGUMENTATIVO':  {color:'#EF4444',css:'fondo',   label:'Argumentación'},
-  'NORMATIVO':            {color:'#3B82F6',css:'normativo',label:'Normativo'},
+  'FORMA':               {color:'#10B981',css:'forma',      label:'Forma'},
+  'ESTILO':              {color:'#F59E0B',css:'estilo',     label:'Estilo'},
+  'COHERENCIA NARRATIVA':{color:'#8B5CF6',css:'coherencia', label:'Coherencia'},
+  'ARGUMENTACIÓN':       {color:'#EF4444',css:'fondo',      label:'Argumentación'},
+  'NORMATIVO':           {color:'#3B82F6',css:'normativo',  label:'Normativo'},
 };
 
 function calcScore(agenteLabel,hallazgos){
@@ -845,11 +846,12 @@ function calcScore(agenteLabel,hallazgos){
 
 function scColor(s){return s>=80?'#2dab85':s>=60?'#00d4ff':s>=40?'#e0922a':'#e05252';}
 
-function initScorecard(hallazgos){
+function initScorecard(hallazgos,detalleAgentes){
   const container=document.getElementById('sc-donuts');
   if(!container)return;
   container.innerHTML=MOD_CFG.map(m=>{
-    const sc=calcScore(m.agente,hallazgos);
+    const ag=detalleAgentes&&detalleAgentes.find(a=>a.agente===m.agente);
+    const sc=ag!=null?Math.round(ag.puntaje):calcScore(m.agente,hallazgos);
     const col=scColor(sc);
     const pct=sc;
     const rem=100-pct;
@@ -883,7 +885,7 @@ function renderResults(d){
   document.getElementById('sc-g-num').style.color=col;
   document.getElementById('sc-g-nivel').textContent=sNivel(score);
   document.getElementById('sc-g-nivel').style.color=col;
-  initScorecard(errores);
+  initScorecard(errores,d.detalle_agentes);
   // Tabla
   renderTable();
   // Fortalezas / Recomendaciones
