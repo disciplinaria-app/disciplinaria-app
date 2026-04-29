@@ -1233,39 +1233,43 @@ function _rilRenderCards(){
   const stats=document.getElementById('ril-sb-stats');
   const list=document.getElementById('ril-sb-list');
   if(!rilOrden.length){list.innerHTML='<p style="color:#555;font-size:12px;padding:16px">Esperando análisis…</p>';return;}
-  const total=rilOrden.length,anclados=rilOrden.filter(e=>e._anclado).length;
+  const total=rilOrden.length,pendientes=rilOrden.filter(e=>!rilAceptados.has(e.id)&&!rilIgnorados.has(e.id));
   stats.innerHTML=`
-    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--cyan)">${total}</div><div class="ril-stat-l">Hallazgos</div></div>
+    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--cyan)">${pendientes.length}</div><div class="ril-stat-l">Pendientes</div></div>
     <div class="ril-stat"><div class="ril-stat-n" style="color:#2dab85">${rilAceptados.size}</div><div class="ril-stat-l">Aceptados</div></div>
     <div class="ril-stat"><div class="ril-stat-n" style="color:var(--text2)">${rilIgnorados.size}</div><div class="ril-stat-l">Ignorados</div></div>
-    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--text3)">${anclados}</div><div class="ril-stat-l">Ubicados</div></div>`;
-  list.innerHTML=rilOrden.map(e=>{
-    const cls_card=`ril-card${e.id===rilActivo?' activo':''}${rilAceptados.has(e.id)?' aceptado':''}${rilIgnorados.has(e.id)?' ignorado':''}`;
+    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--text3)">${total}</div><div class="ril-stat-l">Total</div></div>`;
+  // Solo renderizar pendientes — los aceptados/ignorados ya no ocupan espacio
+  if(!pendientes.length){
+    list.innerHTML=`<div style="text-align:center;padding:32px 16px;color:var(--text2);font-size:13px">
+      ✓ Revisión completa<br><span style="font-size:11px;color:var(--text3);margin-top:6px;display:block">${rilAceptados.size} aceptados · ${rilIgnorados.size} ignorados</span>
+    </div>`;
+    _rilPatchStats();return;
+  }
+  list.innerHTML=pendientes.map(e=>{
     const badge=_RIL_BADGE[e.agente]||'fondo';
     const sevCol=_RIL_SEV_COLOR[e.severidad]||'#8a9bb5';
     const bodyOpen=e.id===rilActivo?' open':'';
-    return`<div class="${cls_card}" id="ril-card-${e.id}" onclick="_rilActivar(${e.id})">
+    const noAnclado=!e._anclado?'<span style="font-size:9px;color:var(--text3);margin-left:4px" title="No localizado en el documento">⚠</span>':'';
+    return`<div class="ril-card${e.id===rilActivo?' activo':''}" id="ril-card-${e.id}" onclick="_rilActivar(${e.id})">
       <div class="ril-card-hdr">
         <span class="ril-badge ril-badge-${badge}">${e.agente||'–'}</span>
         <span class="ril-sev" style="background:${sevCol}"></span>
-        <span class="ril-card-ub">${e.ubicacion||'Sin ubicación'}</span>
+        <span class="ril-card-ub">${e.ubicacion||'Sin ubicación'}</span>${noAnclado}
       </div>
       <div class="ril-card-body${bodyOpen}" id="ril-body-${e.id}">
         <div class="ril-card-err">${e.texto_original||e.error||''}</div>
         ${e.explicacion?`<div class="ril-card-just">${e.explicacion}</div>`:''}
         ${(e.correccion_sugerida||e.correccion)?`<div class="ril-card-corr">✓ ${e.correccion_sugerida||e.correccion}</div>`:''}
+        ${!e._anclado?`<div style="font-size:10px;color:var(--text3);margin-bottom:8px">⚠ Fragmento no localizado en la vista del documento</div>`:''}
         <div class="ril-card-acts">
-          <button class="ril-act-accept" onclick="event.stopPropagation();_rilAceptar(${e.id})">${rilAceptados.has(e.id)?'✓ Aceptado':'Aceptar corrección'}</button>
-          <button class="ril-act-ignore" onclick="event.stopPropagation();_rilIgnorar(${e.id})">${rilIgnorados.has(e.id)?'Ignorado':'Ignorar'}</button>
+          <button class="ril-act-accept" onclick="event.stopPropagation();_rilAceptar(${e.id})">Aceptar corrección</button>
+          <button class="ril-act-ignore" onclick="event.stopPropagation();_rilIgnorar(${e.id})">Ignorar</button>
         </div>
       </div>
     </div>`;
   }).join('');
-  // Progreso y botón descarga
-  const progEl=document.getElementById('ril-prog');
-  const dlBtn=document.getElementById('ril-btn-dl');
-  if(progEl)progEl.textContent=rilAceptados.size+' aceptado'+(rilAceptados.size!==1?'s':'');
-  if(dlBtn)dlBtn.disabled=rilAceptados.size===0;
+  _rilPatchStats();
 }
 
 function _rilActivar(id){
@@ -1287,18 +1291,16 @@ function _rilActivar(id){
 
 function _rilAceptar(id){
   if(rilAceptados.has(id)){rilAceptados.delete(id);}
-  else{rilAceptados.add(id);rilIgnorados.delete(id);}
+  else{rilAceptados.add(id);rilIgnorados.delete(id);rilActivo=null;}
   _rilSyncHL(id);
-  _rilPatchCard(id);
-  _rilPatchStats();
+  _rilRenderCards();
 }
 
 function _rilIgnorar(id){
   if(rilIgnorados.has(id)){rilIgnorados.delete(id);}
-  else{rilIgnorados.add(id);rilAceptados.delete(id);}
+  else{rilIgnorados.add(id);rilAceptados.delete(id);rilActivo=null;}
   _rilSyncHL(id);
-  _rilPatchCard(id);
-  _rilPatchStats();
+  _rilRenderCards();
 }
 
 // Actualiza clases y botones de una sola card sin re-renderizar el sidebar completo
