@@ -238,8 +238,43 @@ textarea::placeholder{color:var(--text3)}
 .btn-dl{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:8px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;border:0.5px solid rgba(0,212,255,.35);background:rgba(0,212,255,.07);color:var(--cyan);transition:all .2s;white-space:nowrap}
 .btn-dl:hover{background:rgba(0,212,255,.14);border-color:var(--cyan)}
 
-/* ── Línea de calificación ────────────────────────── */
-.sc-score-line{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;text-align:center;letter-spacing:.3px;padding:10px 0 14px;transition:color .4s;}
+/* ── Caja del radar ───────────────────────────────── */
+.radar-box{border:0.5px solid #2D3E50;border-radius:12px;background:var(--surface);margin-bottom:20px;overflow:hidden;animation:fadeSlideUp .5s ease both}
+.radar-box-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:0.5px solid var(--border)}
+.radar-box-brand{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:#fff}
+.radar-box-brand span{color:var(--cyan)}
+.radar-box-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.radar-box-snum{font-family:'Rajdhani',sans-serif;font-size:28px;font-weight:700;line-height:1;text-align:right}
+.radar-mini-bg{width:68px;height:3px;background:var(--surface3);border-radius:2px;margin:5px 0 0 auto;overflow:hidden}
+.radar-mini-fill{height:100%;border-radius:2px;transition:width 1s ease}
+.radar-body{display:grid;grid-template-columns:340px 1fr;align-items:center;padding:16px 18px}
+.radar-chart-wrap{display:flex;align-items:center;justify-content:center}
+.radar-legend{display:flex;flex-direction:column;gap:11px;padding:0 4px 0 20px}
+.rleg-item{display:flex;align-items:center;gap:9px}
+.rleg-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rleg-name{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.rleg-score{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;line-height:1;margin-top:1px}
+.rleg-bar-bg{height:2px;background:var(--surface3);border-radius:1px;margin-top:4px;overflow:hidden}
+.rleg-bar-fill{height:100%;border-radius:1px;transition:width .9s ease}
+
+/* ── Scorecard ────────────────────────────────────── */
+.sc-box{background:linear-gradient(135deg,#0d0d0d 0%,#111 100%);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px 24px 22px;margin-bottom:18px;}
+.sc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;font-family:'DM Sans',sans-serif;margin-bottom:18px;}
+.sc-main{display:flex;align-items:center;gap:0;}
+.sc-donuts{flex:1;display:flex;justify-content:space-around;align-items:center;gap:8px;}
+.sc-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.sc-donut{width:118px;height:118px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s,box-shadow .25s;cursor:default;}
+.sc-donut:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(255,255,255,0.06);}
+.sc-donut-hole{position:absolute;width:78%;height:78%;background:#0d0d0d;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;}
+.sc-donut-num{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;line-height:1;}
+.sc-donut-sub{font-size:9px;color:var(--text3);font-family:'DM Sans',sans-serif;line-height:1;}
+.sc-donut-name{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;}
+.sc-global{width:160px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.07);padding-left:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.sc-g-wrap{display:flex;align-items:flex-end;gap:4px;line-height:1;}
+.sc-g-num{font-family:'Rajdhani',sans-serif;font-size:76px;font-weight:700;line-height:.9;transition:color .4s;}
+.sc-g-denom{font-size:16px;color:var(--text3);font-family:'DM Sans',sans-serif;margin-bottom:6px;}
+.sc-g-nivel{font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;letter-spacing:.2px;transition:color .4s;text-align:center;}
+@media(max-width:768px){.sc-donuts{flex-wrap:wrap;}.sc-donut{width:90px;height:90px;}.sc-donut-num{font-size:18px;}.sc-global{width:100%;border-left:none;border-top:1px solid rgba(255,255,255,0.07);padding:14px 0 0;}}
 
 /* ── Filtros ──────────────────────────────────────── */
 .filters-wrap{margin-bottom:14px}
@@ -289,6 +324,9 @@ textarea::placeholder{color:var(--text3)}
 .ntbl-row{animation:slideIn .3s ease both}
 
 @media(max-width:700px){
+  .radar-body{grid-template-columns:1fr}
+  .radar-chart-wrap canvas{width:260px!important;height:260px!important}
+  .radar-legend{padding:12px 4px 4px}
   .res-score-num{font-size:32px}
 }
   body{flex-direction:column;overflow:auto}
@@ -448,8 +486,19 @@ textarea::placeholder{color:var(--text3)}
           </div>
         </div>
 
-        <!-- SECCIÓN 2 — Calificación -->
-        <div class="sc-score-line" id="sc-score-line">–</div>
+        <!-- SECCIÓN 2 — Scorecard -->
+        <div class="sc-box">
+          <div class="sc-label">Resultados del análisis por módulo</div>
+          <div class="sc-main">
+            <div class="sc-donuts" id="sc-donuts"></div>
+            <div class="sc-global">
+              <div class="sc-g-wrap">
+                <span class="sc-g-num" id="sc-g-num">–</span><span class="sc-g-denom">/100</span>
+              </div>
+              <div class="sc-g-nivel" id="sc-g-nivel">Analizando…</div>
+            </div>
+          </div>
+        </div>
 
         <!-- SECCIÓN 3 — Filtros -->
         <div class="filters-wrap">
@@ -552,6 +601,7 @@ textarea::placeholder{color:var(--text3)}
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script>
@@ -787,6 +837,37 @@ const AG_MAP={
   'NORMATIVO':           {color:'#3B82F6',css:'normativo',  label:'Normativo'},
 };
 
+function calcScore(agenteLabel,hallazgos){
+  const h=hallazgos.filter(x=>x.agente===agenteLabel);
+  if(!h.length)return 100;
+  const p=h.reduce((a,x)=>a+(x.severidad==='alta'?15:x.severidad==='media'?7:2),0);
+  return Math.max(0,100-p);
+}
+
+function scColor(s){return s>=80?'#2dab85':s>=60?'#00d4ff':s>=40?'#e0922a':'#e05252';}
+
+function initScorecard(hallazgos,detalleAgentes){
+  const container=document.getElementById('sc-donuts');
+  if(!container)return;
+  container.innerHTML=MOD_CFG.map(m=>{
+    const ag=detalleAgentes&&detalleAgentes.find(a=>a.agente===m.agente);
+    const sc=ag!=null?Math.round(ag.puntaje):calcScore(m.agente,hallazgos);
+    const col=scColor(sc);
+    const pct=sc;
+    const rem=100-pct;
+    // Ángulo en deg para conic-gradient
+    const deg=Math.round(pct*3.6);
+    return `<div class="sc-donut-wrap">
+      <div class="sc-donut" style="background:conic-gradient(${col} 0deg ${deg}deg,rgba(255,255,255,0.06) ${deg}deg 360deg)">
+        <div class="sc-donut-hole">
+          <div class="sc-donut-num" style="color:${col}">${sc}</div>
+          <div class="sc-donut-sub">/100</div>
+        </div>
+      </div>
+      <div class="sc-donut-name" style="color:${m.color}">${m.label.toUpperCase()}</div>
+    </div>`;
+  }).join('');
+}
 
 function renderResults(d){
   const score=d.puntaje||0;
@@ -799,9 +880,12 @@ function renderResults(d){
   document.getElementById('rh-bar').style.background=col;
   document.getElementById('rh-nivel').textContent=sNivel(score);
   document.getElementById('rh-nivel').style.color=col;
-  // Línea de calificación
-  const scLine=document.getElementById('sc-score-line');
-  if(scLine){scLine.textContent=`Calificación: ${score}/100 — ${sNivel(score)}`;scLine.style.color=col;}
+  // Scorecard
+  document.getElementById('sc-g-num').textContent=score;
+  document.getElementById('sc-g-num').style.color=col;
+  document.getElementById('sc-g-nivel').textContent=sNivel(score);
+  document.getElementById('sc-g-nivel').style.color=col;
+  initScorecard(errores,d.detalle_agentes);
   // Tabla
   renderTable();
   // Fortalezas / Recomendaciones
@@ -906,7 +990,7 @@ function fag(ag,btn){
   renderTable();
 }
 function sColor(s){return s>=90?'#2dab85':s>=75?'#00d4ff':s>=60?'#e0922a':'#e05252';}
-function sNivel(s){return s>=90?'Excepcional':s>=75?'Buena calidad':s>=60?'Aceptable':s>=40?'Requiere correcciones':'Errores graves';}
+function sNivel(s){return s>=90?'Documento excepcional':s>=75?'Buena calidad':s>=60?'Calidad aceptable':s>=40?'Requiere correcciones':'Calidad insuficiente';}
 
 function copiar(){
   if(!curResult)return;
@@ -927,7 +1011,9 @@ function reset(){
   document.getElementById('ptxt').value='';
   document.getElementById('file-input').value='';
   document.getElementById('fctr').textContent='';
-  const scLine=document.getElementById('sc-score-line');if(scLine){scLine.textContent='–';scLine.style.color=''}
+  const sc=document.getElementById('sc-donuts');if(sc)sc.innerHTML='';
+  const scn=document.getElementById('sc-g-num');if(scn)scn.textContent='–';
+  const scl=document.getElementById('sc-g-nivel');if(scl){scl.textContent='Analizando…';scl.style.color=''}
   document.querySelectorAll('.sfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   document.querySelectorAll('.mfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   ['n1123','n1952'].forEach(id=>document.getElementById(id).classList.remove('selected'));
