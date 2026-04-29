@@ -257,6 +257,25 @@ textarea::placeholder{color:var(--text3)}
 .rleg-bar-bg{height:2px;background:var(--surface3);border-radius:1px;margin-top:4px;overflow:hidden}
 .rleg-bar-fill{height:100%;border-radius:1px;transition:width .9s ease}
 
+/* ── Scorecard ────────────────────────────────────── */
+.sc-box{background:linear-gradient(135deg,#0d0d0d 0%,#111 100%);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px 24px 22px;margin-bottom:18px;}
+.sc-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;font-family:'DM Sans',sans-serif;margin-bottom:18px;}
+.sc-main{display:flex;align-items:center;gap:0;}
+.sc-donuts{flex:1;display:flex;justify-content:space-around;align-items:center;gap:8px;}
+.sc-donut-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.sc-donut{width:118px;height:118px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative;transition:transform .25s,box-shadow .25s;cursor:default;}
+.sc-donut:hover{transform:scale(1.05);box-shadow:0 0 24px rgba(255,255,255,0.06);}
+.sc-donut-hole{position:absolute;width:78%;height:78%;background:#0d0d0d;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;}
+.sc-donut-num{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;line-height:1;}
+.sc-donut-sub{font-size:9px;color:var(--text3);font-family:'DM Sans',sans-serif;line-height:1;}
+.sc-donut-name{font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;}
+.sc-global{width:160px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.07);padding-left:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.sc-g-wrap{display:flex;align-items:flex-end;gap:4px;line-height:1;}
+.sc-g-num{font-family:'Rajdhani',sans-serif;font-size:76px;font-weight:700;line-height:.9;transition:color .4s;}
+.sc-g-denom{font-size:16px;color:var(--text3);font-family:'DM Sans',sans-serif;margin-bottom:6px;}
+.sc-g-nivel{font-size:11px;color:var(--text2);font-family:'DM Sans',sans-serif;letter-spacing:.2px;transition:color .4s;text-align:center;}
+@media(max-width:768px){.sc-donuts{flex-wrap:wrap;}.sc-donut{width:90px;height:90px;}.sc-donut-num{font-size:18px;}.sc-global{width:100%;border-left:none;border-top:1px solid rgba(255,255,255,0.07);padding:14px 0 0;}}
+
 /* ── Filtros ──────────────────────────────────────── */
 .filters-wrap{margin-bottom:14px}
 .filter-row{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
@@ -467,23 +486,17 @@ textarea::placeholder{color:var(--text3)}
           </div>
         </div>
 
-        <!-- SECCIÓN 2 — Radar -->
-        <div class="radar-box">
-          <div class="radar-box-hdr">
-            <div>
-              <div class="radar-box-brand">DISCIPLINAR<span>[IA]</span></div>
-              <div class="radar-box-sub">Resultados del análisis por módulo</div>
+        <!-- SECCIÓN 2 — Scorecard -->
+        <div class="sc-box">
+          <div class="sc-label">Resultados del análisis por módulo</div>
+          <div class="sc-main">
+            <div class="sc-donuts" id="sc-donuts"></div>
+            <div class="sc-global">
+              <div class="sc-g-wrap">
+                <span class="sc-g-num" id="sc-g-num">–</span><span class="sc-g-denom">/100</span>
+              </div>
+              <div class="sc-g-nivel" id="sc-g-nivel">Analizando…</div>
             </div>
-            <div>
-              <div class="radar-box-snum" id="rb-score" style="color:var(--cyan)">–</div>
-              <div class="radar-mini-bg"><div class="radar-mini-fill" id="rb-bar" style="width:0"></div></div>
-            </div>
-          </div>
-          <div class="radar-body">
-            <div class="radar-chart-wrap">
-              <canvas id="radarChart" width="320" height="320"></canvas>
-            </div>
-            <div class="radar-legend" id="radar-legend"></div>
           </div>
         </div>
 
@@ -830,57 +843,26 @@ function calcScore(agenteLabel,hallazgos){
   return Math.max(0,100-p);
 }
 
-let radarChart=null;
-function initRadar(hallazgos){
-  const scores=MOD_CFG.map(m=>calcScore(m.agente,hallazgos));
-  const ctx=document.getElementById('radarChart');
-  if(!ctx||typeof Chart==='undefined')return;
-  if(radarChart){radarChart.destroy();radarChart=null;}
-  radarChart=new Chart(ctx,{
-    type:'radar',
-    data:{
-      labels:MOD_CFG.map(m=>m.label),
-      datasets:[
-        {label:'Calidad',data:scores,
-         backgroundColor:'rgba(16,185,129,0.15)',
-         borderColor:'#10B981',borderWidth:2,
-         pointBackgroundColor:MOD_CFG.map(m=>m.color),
-         pointBorderColor:'#ffffff',pointBorderWidth:2,
-         pointRadius:5,pointHoverRadius:7},
-        {label:'Objetivo 85',data:[85,85,85,85,85],
-         backgroundColor:'rgba(59,130,246,0)',
-         borderColor:'rgba(59,130,246,0.35)',borderWidth:1.5,
-         borderDash:[5,4],pointRadius:0,pointHoverRadius:0},
-      ]
-    },
-    options:{
-      responsive:false,
-      animation:{duration:800},
-      scales:{r:{
-        min:0,max:100,
-        ticks:{stepSize:25,color:'rgba(138,155,181,0.45)',backdropColor:'transparent',font:{size:9}},
-        grid:{color:'rgba(255,255,255,0.06)'},
-        angleLines:{color:'rgba(255,255,255,0.07)'},
-        pointLabels:{color:'#8a9bb5',font:{size:11,family:"'Rajdhani',sans-serif",weight:'600'}}
-      }},
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}/100`}}
-      }
-    }
-  });
-  // Leyenda lateral
-  const leg=document.getElementById('radar-legend');
-  leg.innerHTML=MOD_CFG.map((m,i)=>{
-    const sc=scores[i];
-    const col=sc>=80?'#10B981':sc>=60?'#F59E0B':'#EF4444';
-    return `<div class="rleg-item">
-      <div class="rleg-icon" style="background:${m.color}1a;color:${m.color}">${MOD_ICONS[m.css]}</div>
-      <div style="flex:1;min-width:0">
-        <div class="rleg-name" style="color:${m.color}">${m.label}</div>
-        <div class="rleg-score" style="color:${col}">${sc}<span style="font-size:9px;color:var(--text3);font-family:'DM Sans',sans-serif">/100</span></div>
-        <div class="rleg-bar-bg"><div class="rleg-bar-fill" style="width:${sc}%;background:${col}"></div></div>
+function scColor(s){return s>=80?'#2dab85':s>=60?'#00d4ff':s>=40?'#e0922a':'#e05252';}
+
+function initScorecard(hallazgos){
+  const container=document.getElementById('sc-donuts');
+  if(!container)return;
+  container.innerHTML=MOD_CFG.map(m=>{
+    const sc=calcScore(m.agente,hallazgos);
+    const col=scColor(sc);
+    const pct=sc;
+    const rem=100-pct;
+    // Ángulo en deg para conic-gradient
+    const deg=Math.round(pct*3.6);
+    return `<div class="sc-donut-wrap">
+      <div class="sc-donut" style="background:conic-gradient(${col} 0deg ${deg}deg,rgba(255,255,255,0.06) ${deg}deg 360deg)">
+        <div class="sc-donut-hole">
+          <div class="sc-donut-num" style="color:${col}">${sc}</div>
+          <div class="sc-donut-sub">/100</div>
+        </div>
       </div>
+      <div class="sc-donut-name" style="color:${m.color}">${m.label.toUpperCase()}</div>
     </div>`;
   }).join('');
 }
@@ -896,13 +878,12 @@ function renderResults(d){
   document.getElementById('rh-bar').style.background=col;
   document.getElementById('rh-nivel').textContent=sNivel(score);
   document.getElementById('rh-nivel').style.color=col;
-  // Radar box header score
-  document.getElementById('rb-score').textContent=score;
-  document.getElementById('rb-score').style.color=col;
-  document.getElementById('rb-bar').style.width=score+'%';
-  document.getElementById('rb-bar').style.background=col;
-  // Radar
-  initRadar(errores);
+  // Scorecard
+  document.getElementById('sc-g-num').textContent=score;
+  document.getElementById('sc-g-num').style.color=col;
+  document.getElementById('sc-g-nivel').textContent=sNivel(score);
+  document.getElementById('sc-g-nivel').style.color=col;
+  initScorecard(errores);
   // Tabla
   renderTable();
   // Fortalezas / Recomendaciones
@@ -1028,7 +1009,9 @@ function reset(){
   document.getElementById('ptxt').value='';
   document.getElementById('file-input').value='';
   document.getElementById('fctr').textContent='';
-  if(radarChart){radarChart.destroy();radarChart=null;}
+  const sc=document.getElementById('sc-donuts');if(sc)sc.innerHTML='';
+  const scn=document.getElementById('sc-g-num');if(scn)scn.textContent='–';
+  const scl=document.getElementById('sc-g-nivel');if(scl){scl.textContent='Analizando…';scl.style.color=''}
   document.querySelectorAll('.sfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   document.querySelectorAll('.mfbtn').forEach((b,i)=>b.classList.toggle('act',i===0));
   ['n1123','n1952'].forEach(id=>document.getElementById(id).classList.remove('selected'));
