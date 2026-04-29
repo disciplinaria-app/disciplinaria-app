@@ -463,6 +463,7 @@ textarea::placeholder{color:var(--text3)}
               <div class="res-score-nivel" id="rh-nivel"></div>
             </div>
             <button class="btn-dl" id="btn-descargar" style="display:none" onclick="descargarDocumento()">&#11015; Descargar documento revisado</button>
+            <button class="btn-inline-open" id="btn-inline" style="display:none" onclick="abrirRevisorEnLinea()">&#9998; Revisar en línea</button>
           </div>
         </div>
 
@@ -908,6 +909,7 @@ function renderResults(d){
   document.getElementById('flist').innerHTML=(d.fortalezas||[]).map(f=>'<li>'+f+'</li>').join('')||'<li style="color:var(--text3)">Sin fortalezas adicionales identificadas.</li>';
   document.getElementById('rlist').innerHTML=(d.recomendaciones||[]).map(r=>'<li>'+r+'</li>').join('')||'<li style="color:var(--text3)">Sin recomendaciones adicionales.</li>';
   document.getElementById('btn-descargar').style.display=curArchivoId?'flex':'none';
+  document.getElementById('btn-inline').style.display=curArchivoId?'flex':'none';
   document.getElementById('results').classList.add('on');
   document.getElementById('results').scrollIntoView({behavior:'smooth'});
 }
@@ -1033,6 +1035,287 @@ function reset(){
   document.querySelector('.norma-step').style.display='block';
   document.querySelector('.upload-block').style.display='block';
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── REVISOR INLINE ─────────────────────────────────────────── */
+</script>
+
+<!-- ══ REVISOR INLINE ══════════════════════════════════════════════════════════ -->
+<div id="revisor-inline" style="display:none">
+  <div class="ril-header">
+    <div class="ril-brand">DISCIPLINAR<span>[IA]</span> <span class="ril-tag">Revisión en línea</span></div>
+    <div class="ril-hright">
+      <span class="ril-prog" id="ril-prog">0 aceptados</span>
+      <button class="ril-btn-dl" id="ril-btn-dl" onclick="descargarCorregido()" disabled>&#11015; Descargar corregido</button>
+      <button class="ril-btn-close" onclick="cerrarRevisorEnLinea()">&#10005; Cerrar</button>
+    </div>
+  </div>
+  <div class="ril-body">
+    <div class="ril-doc-panel" id="ril-doc-panel">
+      <div class="ril-doc-page" id="ril-doc-content">
+        <p style="color:#555;font-style:italic">Cargando documento…</p>
+      </div>
+    </div>
+    <aside class="ril-sidebar" id="ril-sidebar">
+      <div class="ril-sb-stats" id="ril-sb-stats"></div>
+      <div class="ril-sb-list" id="ril-sb-list"></div>
+    </aside>
+  </div>
+</div>
+
+<style>
+/* ── Botón abrir revisor inline ── */
+.btn-inline-open{background:transparent;border:1.5px solid var(--cyan);color:var(--cyan);border-radius:6px;padding:9px 18px;font-size:12px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;letter-spacing:.3px;transition:background .2s,color .2s;}
+.btn-inline-open:hover{background:var(--cyan-dim);}
+
+/* ── Overlay fullscreen ── */
+#revisor-inline{position:fixed;inset:0;z-index:9999;background:#0b0b0b;display:flex;flex-direction:column;font-family:'DM Sans',sans-serif;}
+
+/* ── Header ── */
+.ril-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.07);background:#0d0d0d;flex-shrink:0;}
+.ril-brand{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:#e8e6e0;letter-spacing:-.3px;}
+.ril-brand span:first-child{color:var(--cyan);}
+.ril-tag{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:400;color:var(--text2);margin-left:10px;letter-spacing:.5px;text-transform:uppercase;}
+.ril-hright{display:flex;align-items:center;gap:12px;}
+.ril-prog{font-size:12px;color:var(--text2);}
+.ril-btn-dl{background:var(--teal);color:#fff;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:opacity .2s;}
+.ril-btn-dl:disabled{opacity:.35;cursor:not-allowed;}
+.ril-btn-dl:not(:disabled):hover{opacity:.85;}
+.ril-btn-close{background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--text2);border-radius:6px;padding:8px 14px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:color .2s,border-color .2s;}
+.ril-btn-close:hover{color:var(--text);border-color:rgba(255,255,255,.25);}
+
+/* ── Body split ── */
+.ril-body{display:flex;flex:1;overflow:hidden;}
+
+/* ── Documento ── */
+.ril-doc-panel{flex:1;overflow-y:auto;background:#f5f4f0;padding:40px;}
+.ril-doc-page{max-width:720px;margin:0 auto;background:#fff;padding:60px 72px;box-shadow:0 2px 24px rgba(0,0,0,.12);font-family:'Georgia',serif;font-size:13px;line-height:1.75;color:#1a1a1a;min-height:600px;}
+.ril-doc-page p{margin-bottom:.8em;}
+
+/* ── Highlights ── */
+.ril-hl{border-radius:2px;cursor:pointer;transition:opacity .15s;}
+.ril-hl-alta  {background:rgba(224,82,82,.28);border-bottom:2px solid #e05252;}
+.ril-hl-media {background:rgba(224,146,42,.22);border-bottom:2px solid #e0922a;}
+.ril-hl-baja  {background:rgba(0,212,255,.15);border-bottom:2px solid #00d4ff;}
+.ril-hl.aceptado {background:rgba(45,171,133,.25)!important;border-bottom-color:#2dab85!important;}
+.ril-hl.ignorado {opacity:.35;text-decoration:line-through;}
+.ril-hl.activo   {outline:2px solid #fff;outline-offset:1px;}
+
+/* ── Sidebar ── */
+.ril-sidebar{width:360px;flex-shrink:0;display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.07);background:#0e0e0e;overflow:hidden;}
+.ril-sb-stats{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;gap:14px;flex-shrink:0;}
+.ril-stat{text-align:center;flex:1;}
+.ril-stat-n{font-size:18px;font-weight:600;font-family:'Rajdhani',sans-serif;}
+.ril-stat-l{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;}
+.ril-sb-list{flex:1;overflow-y:auto;padding:8px;}
+
+/* ── Cards hallazgo ── */
+.ril-card{border:1px solid rgba(255,255,255,.07);border-radius:8px;margin-bottom:6px;overflow:hidden;cursor:pointer;transition:border-color .15s;}
+.ril-card:hover{border-color:rgba(255,255,255,.15);}
+.ril-card.activo{border-color:rgba(255,255,255,.25);}
+.ril-card.aceptado{border-color:rgba(45,171,133,.4);}
+.ril-card.ignorado{opacity:.5;}
+.ril-card-hdr{display:flex;align-items:center;gap:8px;padding:10px 12px;}
+.ril-badge{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px;font-family:'Rajdhani',sans-serif;}
+.ril-badge-forma    {background:#4a8fd41a;color:#4a8fd4;}
+.ril-badge-estilo   {background:#9b59b61a;color:#9b59b6;}
+.ril-badge-coherencia{background:#e0922a1a;color:#e0922a;}
+.ril-badge-fondo    {background:#e052521a;color:#e05252;}
+.ril-badge-normativo{background:#2dab851a;color:#2dab85;}
+.ril-sev{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.ril-card-ub{flex:1;font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ril-card-body{padding:0 12px;max-height:0;overflow:hidden;transition:max-height .2s,padding .2s;}
+.ril-card-body.open{max-height:300px;padding:0 12px 12px;}
+.ril-card-err{font-size:12px;color:var(--text);margin-bottom:6px;}
+.ril-card-just{font-size:11px;color:var(--text2);margin-bottom:8px;line-height:1.5;}
+.ril-card-corr{font-size:11px;background:rgba(45,171,133,.08);border:1px solid rgba(45,171,133,.2);border-radius:5px;padding:7px 10px;color:#2dab85;margin-bottom:10px;font-family:'Georgia',serif;}
+.ril-card-acts{display:flex;gap:6px;}
+.ril-act-accept{flex:1;background:rgba(45,171,133,.12);border:1px solid rgba(45,171,133,.3);color:#2dab85;border-radius:5px;padding:6px 0;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .15s;}
+.ril-act-accept:hover,.ril-card.aceptado .ril-act-accept{background:rgba(45,171,133,.25);}
+.ril-act-ignore{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);color:var(--text2);border-radius:5px;padding:6px 0;font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .15s;}
+.ril-act-ignore:hover,.ril-card.ignorado .ril-act-ignore{background:rgba(255,255,255,.08);}
+</style>
+
+<script>
+/* ══ REVISOR INLINE ══════════════════════════════════════════════════════════ */
+let rilAceptados=new Set(),rilIgnorados=new Set(),rilActivo=null,rilOrden=[];
+
+function abrirRevisorEnLinea(){
+  if(!curResult||!curArchivoId)return;
+  rilAceptados=new Set();rilIgnorados=new Set();rilActivo=null;
+  document.getElementById('revisor-inline').style.display='flex';
+  _rilRenderDoc();
+  _rilRenderCards();
+}
+
+function cerrarRevisorEnLinea(){
+  document.getElementById('revisor-inline').style.display='none';
+}
+
+async function _rilRenderDoc(){
+  const contenido=document.getElementById('ril-doc-content');
+  contenido.innerHTML='<p style="color:#888;font-style:italic">Cargando vista del documento…</p>';
+  try{
+    if(archivoActual&&archivoActual.name.toLowerCase().endsWith('.docx')){
+      const ab=await archivoActual.arrayBuffer();
+      const r=await mammoth.convertToHtml({arrayBuffer:ab});
+      contenido.innerHTML=r.value||'<p style="color:#888">Sin contenido.</p>';
+    } else if(curText){
+      contenido.innerHTML=curText.split('\n').filter(l=>l.trim()).map(l=>`<p>${l.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</p>`).join('');
+    } else {
+      contenido.innerHTML='<p style="color:#888;font-style:italic">Vista previa no disponible.</p>';
+    }
+  }catch(e){
+    contenido.innerHTML='<p style="color:#888;font-style:italic">No se pudo renderizar el documento.</p>';
+  }
+  _rilAplicarHighlights();
+}
+
+function _rilAplicarHighlights(){
+  const contenido=document.getElementById('ril-doc-content');
+  const txt=(contenido.innerText||'').toLowerCase();
+  // Calcular posición de cada error y ordenar por posición de lectura
+  rilOrden=(curResult.errores||[]).map(e=>{
+    const ub=(e.ubicacion||'').toLowerCase().trim();
+    const pos=ub?txt.indexOf(ub):-1;
+    return{...e,_pos:pos,_anclado:pos>=0};
+  }).sort((a,b)=>{
+    if(!a._anclado&&!b._anclado)return 0;
+    if(!a._anclado)return 1;
+    if(!b._anclado)return -1;
+    return a._pos-b._pos;
+  });
+  // Aplicar highlights en orden inverso para no desplazar offsets
+  [...rilOrden].filter(x=>x._anclado).sort((a,b)=>b._pos-a._pos)
+    .forEach(e=>_rilResaltar(contenido,e.ubicacion,e.id,e.severidad));
+  _rilRenderCards();
+}
+
+function _rilResaltar(container,texto,id,sev){
+  if(!texto)return;
+  const needle=texto.toLowerCase().trim();
+  const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT,null);
+  let nodo;
+  while((nodo=walker.nextNode())){
+    const v=nodo.nodeValue||'';
+    const idx=v.toLowerCase().indexOf(needle);
+    if(idx===-1)continue;
+    const span=document.createElement('span');
+    span.className=`ril-hl ril-hl-${sev}`;
+    span.dataset.rilId=id;
+    span.textContent=v.slice(idx,idx+texto.length);
+    span.addEventListener('click',e=>{e.stopPropagation();_rilActivar(id);});
+    const p=nodo.parentNode;
+    if(idx>0)p.insertBefore(document.createTextNode(v.slice(0,idx)),nodo);
+    p.insertBefore(span,nodo);
+    if(idx+texto.length<v.length)p.insertBefore(document.createTextNode(v.slice(idx+texto.length)),nodo);
+    p.removeChild(nodo);
+    return;
+  }
+}
+
+const _RIL_BADGE={
+  'FORMA':'forma','ESTILO JUDICIAL':'estilo','COHERENCIA NARRATIVA':'coherencia',
+  'FONDO ARGUMENTATIVO':'fondo','ARGUMENTACIÓN':'fondo','NORMATIVO':'normativo'
+};
+const _RIL_SEV_COLOR={'alta':'#e05252','media':'#e0922a','baja':'#00d4ff'};
+
+function _rilRenderCards(){
+  const stats=document.getElementById('ril-sb-stats');
+  const list=document.getElementById('ril-sb-list');
+  if(!rilOrden.length){list.innerHTML='<p style="color:#555;font-size:12px;padding:16px">Esperando análisis…</p>';return;}
+  const total=rilOrden.length,anclados=rilOrden.filter(e=>e._anclado).length;
+  stats.innerHTML=`
+    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--cyan)">${total}</div><div class="ril-stat-l">Hallazgos</div></div>
+    <div class="ril-stat"><div class="ril-stat-n" style="color:#2dab85">${rilAceptados.size}</div><div class="ril-stat-l">Aceptados</div></div>
+    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--text2)">${rilIgnorados.size}</div><div class="ril-stat-l">Ignorados</div></div>
+    <div class="ril-stat"><div class="ril-stat-n" style="color:var(--text3)">${anclados}</div><div class="ril-stat-l">Ubicados</div></div>`;
+  list.innerHTML=rilOrden.map(e=>{
+    const cls_card=`ril-card${e.id===rilActivo?' activo':''}${rilAceptados.has(e.id)?' aceptado':''}${rilIgnorados.has(e.id)?' ignorado':''}`;
+    const badge=_RIL_BADGE[e.agente]||'fondo';
+    const sevCol=_RIL_SEV_COLOR[e.severidad]||'#8a9bb5';
+    const bodyOpen=e.id===rilActivo?' open':'';
+    return`<div class="${cls_card}" id="ril-card-${e.id}" onclick="_rilActivar(${e.id})">
+      <div class="ril-card-hdr">
+        <span class="ril-badge ril-badge-${badge}">${e.agente||'–'}</span>
+        <span class="ril-sev" style="background:${sevCol}"></span>
+        <span class="ril-card-ub">${e.ubicacion||'Sin ubicación'}</span>
+      </div>
+      <div class="ril-card-body${bodyOpen}" id="ril-body-${e.id}">
+        <div class="ril-card-err">${e.texto_original||e.error||''}</div>
+        ${e.explicacion?`<div class="ril-card-just">${e.explicacion}</div>`:''}
+        ${(e.correccion_sugerida||e.correccion)?`<div class="ril-card-corr">✓ ${e.correccion_sugerida||e.correccion}</div>`:''}
+        <div class="ril-card-acts">
+          <button class="ril-act-accept" onclick="event.stopPropagation();_rilAceptar(${e.id})">${rilAceptados.has(e.id)?'✓ Aceptado':'Aceptar corrección'}</button>
+          <button class="ril-act-ignore" onclick="event.stopPropagation();_rilIgnorar(${e.id})">${rilIgnorados.has(e.id)?'Ignorado':'Ignorar'}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  // Progreso y botón descarga
+  const progEl=document.getElementById('ril-prog');
+  const dlBtn=document.getElementById('ril-btn-dl');
+  if(progEl)progEl.textContent=rilAceptados.size+' aceptado'+(rilAceptados.size!==1?'s':'');
+  if(dlBtn)dlBtn.disabled=rilAceptados.size===0;
+}
+
+function _rilActivar(id){
+  rilActivo=rilActivo===id?null:id;
+  // Scroll al highlight en el documento
+  if(rilActivo){
+    const hl=document.querySelector(`.ril-hl[data-ril-id="${id}"]`);
+    if(hl){
+      document.querySelectorAll('.ril-hl.activo').forEach(el=>el.classList.remove('activo'));
+      hl.classList.add('activo');
+      hl.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    // Scroll al card en sidebar
+    const card=document.getElementById('ril-card-'+id);
+    if(card)card.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  _rilRenderCards();
+}
+
+function _rilAceptar(id){
+  if(rilAceptados.has(id)){rilAceptados.delete(id);}
+  else{rilAceptados.add(id);rilIgnorados.delete(id);}
+  _rilSyncHL(id);
+  _rilRenderCards();
+}
+
+function _rilIgnorar(id){
+  if(rilIgnorados.has(id)){rilIgnorados.delete(id);}
+  else{rilIgnorados.add(id);rilAceptados.delete(id);}
+  _rilSyncHL(id);
+  _rilRenderCards();
+}
+
+function _rilSyncHL(id){
+  document.querySelectorAll(`.ril-hl[data-ril-id="${id}"]`).forEach(el=>{
+    el.classList.toggle('aceptado',rilAceptados.has(id));
+    el.classList.toggle('ignorado',rilIgnorados.has(id));
+  });
+}
+
+async function descargarCorregido(){
+  if(!curArchivoId||rilAceptados.size===0)return;
+  const btn=document.getElementById('ril-btn-dl');
+  const orig=btn.textContent;btn.textContent='Generando…';btn.disabled=true;
+  try{
+    const res=await fetch(`${BASE_URL}/aplicar/${curArchivoId}`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({hallazgo_ids:[...rilAceptados]})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.detail||'Error '+res.status);}
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download=(curNombreArchivo||'documento')+'_DISCIPLINARIA_corregido.docx';
+    document.body.appendChild(a);a.click();
+    setTimeout(()=>{URL.revokeObjectURL(url);document.body.removeChild(a);},1000);
+  }catch(err){alert('Error al descargar: '+err.message);}
+  finally{btn.textContent=orig;btn.disabled=rilAceptados.size===0;}
 }
 </script>
 </body>
