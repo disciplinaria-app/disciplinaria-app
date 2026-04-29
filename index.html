@@ -1088,9 +1088,18 @@ function reset(){
 .ril-body{display:flex;flex:1;overflow:hidden;}
 
 /* ── Documento ── */
-.ril-doc-panel{flex:1;overflow-y:auto;background:#f5f4f0;padding:40px;}
-.ril-doc-page{max-width:720px;margin:0 auto;background:#fff;padding:60px 72px;box-shadow:0 2px 24px rgba(0,0,0,.12);font-family:'Georgia',serif;font-size:13px;line-height:1.75;color:#1a1a1a;min-height:600px;}
-.ril-doc-page p{margin-bottom:.8em;}
+.ril-doc-panel{flex:1;overflow-y:auto;background:#e8e6e0;padding:40px;}
+.ril-doc-page{max-width:720px;margin:0 auto;background:#fff;padding:60px 72px;box-shadow:0 2px 24px rgba(0,0,0,.15);font-family:'Times New Roman',Times,serif;font-size:12pt;line-height:1.8;color:#111;min-height:600px;word-spacing:.02em;}
+.ril-doc-page p{margin:0 0 .6em;text-align:justify;}
+.ril-doc-page h1{font-size:14pt;font-weight:700;text-align:center;text-transform:uppercase;margin:1.4em 0 .8em;letter-spacing:.5px;}
+.ril-doc-page h2{font-size:13pt;font-weight:700;text-align:center;text-transform:uppercase;margin:1.2em 0 .6em;}
+.ril-doc-page h3{font-size:12pt;font-weight:700;margin:1em 0 .5em;}
+.ril-doc-page strong,b{font-weight:700;}
+.ril-doc-page em,i{font-style:italic;}
+.ril-doc-page table{width:100%;border-collapse:collapse;margin:1em 0;font-size:11pt;}
+.ril-doc-page td,.ril-doc-page th{border:1px solid #bbb;padding:5px 8px;vertical-align:top;}
+.ril-doc-page ol,.ril-doc-page ul{margin:.4em 0 .6em 1.6em;}
+.ril-doc-page li{margin-bottom:.3em;}
 
 /* ── Highlights ── */
 .ril-hl{border-radius:2px;cursor:pointer;transition:opacity .15s;}
@@ -1280,14 +1289,39 @@ function _rilAceptar(id){
   if(rilAceptados.has(id)){rilAceptados.delete(id);}
   else{rilAceptados.add(id);rilIgnorados.delete(id);}
   _rilSyncHL(id);
-  _rilRenderCards();
+  _rilPatchCard(id);
+  _rilPatchStats();
 }
 
 function _rilIgnorar(id){
   if(rilIgnorados.has(id)){rilIgnorados.delete(id);}
   else{rilIgnorados.add(id);rilAceptados.delete(id);}
   _rilSyncHL(id);
-  _rilRenderCards();
+  _rilPatchCard(id);
+  _rilPatchStats();
+}
+
+// Actualiza clases y botones de una sola card sin re-renderizar el sidebar completo
+function _rilPatchCard(id){
+  const card=document.getElementById('ril-card-'+id);
+  if(!card)return;
+  card.classList.toggle('aceptado',rilAceptados.has(id));
+  card.classList.toggle('ignorado',rilIgnorados.has(id));
+  const btnAc=card.querySelector('.ril-act-accept');
+  const btnIg=card.querySelector('.ril-act-ignore');
+  if(btnAc)btnAc.textContent=rilAceptados.has(id)?'✓ Aceptado':'Aceptar corrección';
+  if(btnIg)btnIg.textContent=rilIgnorados.has(id)?'Ignorado':'Ignorar';
+}
+
+// Actualiza sólo los contadores del header del sidebar y el botón de descarga
+function _rilPatchStats(){
+  const nAc=document.getElementById('ril-sb-stats')?.querySelectorAll('.ril-stat-n');
+  if(nAc&&nAc[1])nAc[1].textContent=rilAceptados.size;
+  if(nAc&&nAc[2])nAc[2].textContent=rilIgnorados.size;
+  const progEl=document.getElementById('ril-prog');
+  const dlBtn=document.getElementById('ril-btn-dl');
+  if(progEl)progEl.textContent=rilAceptados.size+' aceptado'+(rilAceptados.size!==1?'s':'');
+  if(dlBtn)dlBtn.disabled=rilAceptados.size===0;
 }
 
 function _rilSyncHL(id){
