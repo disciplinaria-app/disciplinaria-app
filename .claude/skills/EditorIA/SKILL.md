@@ -40,7 +40,7 @@ En este orden de prioridad (lo jurídico prima sobre lo estético):
 4. **Tiempo y conjugación:** unifica en el tiempo elegido y cuida la concordancia de tiempos en las subordinadas.
 5. **Repeticiones:** varía o elide pronombres, sujetos y verbos repetidos. No sinonimices términos técnicos de sentido fijo (falta, sanción, cargo, disciplinable/investigado según el régimen).
 6. **Gerundios:** solo el de simultaneidad o modo; evita el de posterioridad ("dictó la resolución, siendo notificada…") y sustituye por relativo, subordinada o coordinación.
-7. **"Se" impersonal:** sustitúyelo por sujeto activo expreso (la Sala, el despacho, la Secretaría), nominalizaciones ("la notificación del auto") o expresiones técnicas. Consérvalo si el agente es irrelevante o desconocido.
+7. **"Se" impersonal y pasivas en cadena:** sustitúyelos por sujeto activo expreso (la Sala, el despacho, la Secretaría), nominalizaciones ("la notificación del auto") o expresiones técnicas. Una cadena como "fue atendida… fue valorada… fue expedida" se rompe con verbos activos cuyo agente consta en el texto ("recibió atención médica de…"). Conserva la pasiva o el "se" solo si el agente es irrelevante o desconocido.
 8. **Verbos en "-ó":** modera las cadenas de pretéritos (fijó, estableció, remitió, dispuso, ordenó). Alterna con nombres de acción (la fijación, la determinación, la remisión), participios ("fijada la fecha, …") o verbos de apoyo ("tuvo por", "dio cuenta de", "hizo constar").
 9. **Palabras faltantes:** añade nexos, artículos, preposiciones o referentes que den continuidad y precisión. Añadir nexos es estilo; añadir hechos está prohibido.
 10. **Fluidez lineal:** orden sujeto–verbo–complemento, sin incisos largos entre sujeto y verbo, de modo que el lector no deba releer.
@@ -61,7 +61,7 @@ Cuando el texto relata hechos tomados del expediente:
 - **Conserva el vínculo causal y cronológico** (p. ej., que la orden médica derive de una valoración).
 - **No suprimas sujetos ni calificativos** salvo que sean evidentemente irrelevantes.
 - **Atribuye lo alegado a quien lo alega** ("adujo", "a su juicio") y distínguelo de lo probado.
-- **Describe con exactitud lo que se reproduce:** "cuyo contenido se reproduce" si es íntegro; "los apartes pertinentes" si es parcial.
+- **Describe con exactitud lo que se reproduce:** "cuyo contenido se reproduce" si es íntegro; "los apartes pertinentes" si es parcial. No caracterices de antemano el contenido de un documento que aparece a continuación ("donde quedó consignada la valoración", "en la que se ordenó…") salvo que el propio texto lo acredite de forma autónoma; la reproducción lo mostrará. Esa caracterización puede ser inexacta (un documento puede contener más que lo anunciado, p. ej., la prescripción derivada de la valoración).
 
 ## 5. Verificación (innegociable)
 
