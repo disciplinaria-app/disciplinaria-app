@@ -52,6 +52,16 @@ Analiza con cuidado qué le falta al párrafo para ser jurídica y argumentativa
 3. **Sustento jurídico comprobado:** propón fundamento normativo o jurisprudencial **únicamente si lo verificaste** (ver "Regla de verificación"). Explica cómo ese soporte refuerza la idea.
 4. **Precisión conceptual:** detecta términos usados con imprecisión (p. ej., confundir investigado con disciplinable, cargo con falta, sanción con medida, prescripción con caducidad) y propón el término exacto.
 
+## Párrafos probatorios y de hechos (regla adicional)
+
+Cuando el párrafo relate hechos tomados del expediente (atenciones médicas, actuaciones, pruebas, folios):
+
+- **No agregues hechos ni cambies relaciones entre ellos.** Sustituir "bajo la cobertura de" por "red prestadora de", "como resultado de" por "en el marco de", o "por el diagnóstico de" por "con diagnóstico de" cambia o puede cambiar lo probado. Si el cambio mejora el estilo pero altera el matiz, déjalo en `[[ ]]` y anótalo como "contrastar con el expediente".
+- **Conserva el vínculo causal o cronológico original** (p. ej., que una orden médica derive de una valoración) salvo que el usuario indique lo contrario.
+- **No suprimas calificativos o sujetos** (p. ej., "personal médico") sin avisarlo en las notas.
+- **Anuncia con exactitud lo que se reproduce:** "cuyo contenido se reproduce" si la transcripción es íntegra; "los apartes pertinentes" solo si es parcial.
+- **Terminología técnica:** corrige términos impropios (p. ej., "patología diagnóstica" por "diagnóstico") y explica el motivo en una observación previa.
+
 ## Regla de verificación (innegociable)
 
 - **Nunca inventes** números de sentencia, magistrado ponente, fecha, artículo, tesis ni transcripciones.
@@ -67,6 +77,9 @@ Analiza con cuidado qué le falta al párrafo para ser jurídica y argumentativa
 
 Entrega siempre en este orden:
 
+### 0. Observación previa (solo si hay algo que aclarar)
+Dos o tres líneas sobre errores de terminología, imprecisiones o riesgos de sentido que condicionan las versiones. Si no hay, omítela.
+
 ### 1. Versión corregida (Fase 1)
 El párrafo listo para pegar, en el tiempo verbal y persona acordados, con el texto entre comillas idéntico al original.
 
@@ -74,7 +87,7 @@ El párrafo listo para pegar, en el tiempo verbal y persona acordados, con el te
 El párrafo con las adiciones de coherencia y profundidad jurídica que el análisis justifique. Marca con `[[ ]]` las frases añadidas que aporten contenido nuevo para que el usuario decida si las conserva. Si no hay nada que añadir con sustento, dilo y no rellenes.
 
 ### 3. Opción B: reorganización (solo si se justifica)
-Si reorganizar la idea mejora el orden lógico (p. ej., norma → hecho → conclusión, o tesis al inicio), presenta una **segunda opción** con el párrafo reordenado y, en una línea, por qué la estructura es mejor. Si la estructura original es adecuada, escribe "No se sugiere reorganización" y no la fuerces.
+La Opción B **solo reordena y reformula; no cambia contenido ni hechos**. Cualquier dato nuevo va en `[[ ]]` y se anota. Si reorganizar la idea mejora el orden lógico (p. ej., norma → hecho → conclusión, o tesis al inicio), presenta una **segunda opción** con el párrafo reordenado y, en una línea, por qué la estructura es mejor. Si la estructura original es adecuada, escribe "No se sugiere reorganización" y no la fuerces.
 
 ### 4. Notas del editor
 Lista breve y numerada, en este orden:
@@ -95,4 +108,5 @@ No expliques cada coma. Sé conciso: el protagonista es el texto.
 - [ ] Gerundios reducidos a los legítimos.
 - [ ] Ninguna cita jurídica sin etiqueta de verificación; ninguna [POR VERIFICAR] dentro del texto final.
 - [ ] El sentido jurídico original se conserva salvo lo marcado con `[[ ]]`.
+- [ ] En párrafos de hechos, ninguna versión (ni la Opción B) agregó o alteró hechos sin marcarlo.
 - [ ] Ofreciste Opción B o dijiste por qué no procede.
