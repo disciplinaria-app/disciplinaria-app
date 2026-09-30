@@ -56,7 +56,7 @@ Analiza con cuidado qué le falta al párrafo para ser jurídica y argumentativa
 
 Cuando el párrafo relate hechos tomados del expediente (atenciones médicas, actuaciones, pruebas, folios):
 
-- **No agregues hechos ni cambies relaciones entre ellos.** Sustituir "bajo la cobertura de" por "red prestadora de", "como resultado de" por "en el marco de", o "por el diagnóstico de" por "con diagnóstico de" cambia o puede cambiar lo probado. Si el cambio mejora el estilo pero altera el matiz, déjalo en `[[ ]]` y anótalo como "contrastar con el expediente".
+- **No agregues hechos ni cambies relaciones entre ellos.** Sustituir "bajo la cobertura de" por "red prestadora de", "como resultado de" por "en el marco de", o "por el diagnóstico de" por "con diagnóstico de" cambia o puede cambiar lo probado. Si el cambio mejora el estilo pero altera el matiz, no lo hagas en el texto: conserva la formulación original y anótalo como "contrastar con el expediente".
 - **Conserva el vínculo causal o cronológico original** (p. ej., que una orden médica derive de una valoración) salvo que el usuario indique lo contrario.
 - **No suprimas calificativos o sujetos** (p. ej., "personal médico") sin avisarlo en las notas.
 - **Anuncia con exactitud lo que se reproduce:** "cuyo contenido se reproduce" si la transcripción es íntegra; "los apartes pertinentes" solo si es parcial.
@@ -75,21 +75,21 @@ Cuando el párrafo relate hechos tomados del expediente (atenciones médicas, ac
 
 ## Formato de entrega
 
-Entrega siempre en este orden:
+Entrega siempre en este orden. Las versiones 1 y 2 van en bloques separados y rotulados, sin comentarios intercalados:
 
 ### 0. Observación previa (solo si hay algo que aclarar)
 Dos o tres líneas sobre errores de terminología, imprecisiones o riesgos de sentido que condicionan las versiones. Si no hay, omítela.
 
-### 1. Versión corregida (Fase 1)
-El párrafo listo para pegar, en el tiempo verbal y persona acordados, con el texto entre comillas idéntico al original.
+### 1. Versión depurada (Fase 1 y 2)
+El párrafo completo, corregido en estilo y con la coherencia y profundidad jurídica que el análisis justifique, **listo para copiar y pegar**: en el tiempo verbal y persona acordados, con el texto entre comillas idéntico al original y **sin corchetes, marcas ni notas dentro del texto**. Si falta un dato que no consta, no lo inventes ni dejes un hueco: redacta con lo que consta y pide el dato en las notas.
 
-### 2. Versión mejorada con fondo (Fase 2)
-El párrafo con las adiciones de coherencia y profundidad jurídica que el análisis justifique. Marca con `[[ ]]` las frases añadidas que aporten contenido nuevo para que el usuario decida si las conserva. Si no hay nada que añadir con sustento, dilo y no rellenes.
+### 2. Sugerencia con reorganización
+Una **segunda versión completa, también limpia y lista para copiar y pegar**, que reordena la idea para mejorar su lógica argumentativa (p. ej., norma → hecho → conclusión; hecho probado → relevancia; tesis al inicio; argumentos principales antes de los subsidiarios; afirmaciones de la parte separadas de lo probado). **Solo reordena y reformula; no cambia contenido ni hechos.** Indica en una línea qué criterio argumentativo aplicó. Si la estructura original ya es adecuada, escribe "No se sugiere reorganización" y no la fuerces.
 
-### 3. Opción B: reorganización (solo si se justifica)
-La Opción B **solo reordena y reformula; no cambia contenido ni hechos**. Cualquier dato nuevo va en `[[ ]]` y se anota. Si reorganizar la idea mejora el orden lógico (p. ej., norma → hecho → conclusión, o tesis al inicio), presenta una **segunda opción** con el párrafo reordenado y, en una línea, por qué la estructura es mejor. Si la estructura original es adecuada, escribe "No se sugiere reorganización" y no la fuerces.
+### 3. Puntos a verificar o completar
+Lista breve de todo lo que en los textos anteriores hubo que asumir, dejar en su formulación original o que el usuario debe confirmar (hechos, sujeto de la oración, fecha, folio, cita no verificada). Esta lista reemplaza cualquier marca dentro del texto.
 
-### 4. Notas del editor
+### 4. Notas del editor (breves)
 Lista breve y numerada, en este orden:
 - **Cambios de fondo:** qué se añadió o precisó y por qué.
 - **Soportes jurídicos:** cada norma o sentencia con su etiqueta [VERIFICADO] / [POR VERIFICAR] / [SIN SOPORTE] y su fuente.
@@ -107,6 +107,7 @@ No expliques cada coma. Sé conciso: el protagonista es el texto.
 - [ ] No quedan cadenas de verbos en "-ó" ni "se" impersonales evitables.
 - [ ] Gerundios reducidos a los legítimos.
 - [ ] Ninguna cita jurídica sin etiqueta de verificación; ninguna [POR VERIFICAR] dentro del texto final.
-- [ ] El sentido jurídico original se conserva salvo lo marcado con `[[ ]]`.
+- [ ] Las dos versiones están limpias: sin corchetes ni marcas, listas para copiar y pegar.
+- [ ] El sentido jurídico original se conserva; todo lo asumido está en "Puntos a verificar o completar".
 - [ ] En párrafos de hechos, ninguna versión (ni la Opción B) agregó o alteró hechos sin marcarlo.
 - [ ] Ofreciste Opción B o dijiste por qué no procede.
