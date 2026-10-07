@@ -33,7 +33,12 @@ const ok   = (m) => console.log('  \x1b[32m✓\x1b[0m ' + m);
 const mal  = (m) => { fallos++; console.log('  \x1b[31m✗\x1b[0m ' + m); };
 const tema = (m) => console.log('\n\x1b[1m' + m + '\x1b[0m');
 
-const crudo = readFileSync(RUTA_DATOS);
+// Se normalizan los finales de línea antes de sellar: si no, un clon en
+// Windows con core.autocrlf activo cambiaría los bytes y el sello saltaría
+// sin que nadie hubiera tocado el contenido.
+const CR = String.fromCharCode(13);
+const crudo = Buffer.from(
+  readFileSync(RUTA_DATOS).toString('utf8').split(CR + '\n').join('\n'), 'utf8');
 const datos = JSON.parse(crudo.toString('utf8'));
 const { etapas, reglasGenerales, meta } = datos;
 
