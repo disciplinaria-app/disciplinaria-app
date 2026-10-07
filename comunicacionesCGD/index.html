@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Comunicaciones CGD</title>
+<meta name="description" content="Simulación pedagógica del flujo de comunicaciones, notificaciones, términos y recursos del proceso disciplinario (Ley 1952 de 2019), de la queja a la ejecutoria.">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Comunicaciones CGD — flujo del proceso disciplinario (Ley 1952 de 2019)">
+<meta property="og:description" content="Simulación pedagógica, no oficial: doce etapas, siete carriles, términos y formas de notificación en un diagrama isométrico navegable.">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F80ED">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232F80ED'/%3E%3Cpath d='M7 10h7l2 2.5h9V23H7z' fill='%23F2C94C'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Spectral:ital,wght@0,300;0,400;0,600;1,400&display=swap">
+<link rel="stylesheet" href="ui/estilos.css">
+</head>
+<body>
+
+<!-- ───────────────────────── carga ───────────────────────── -->
+<div id="cargando" class="cargando" role="status" aria-live="polite">
+  <div class="cargando__caja">
+    <p class="cargando__radicado"><span class="mono" id="radicado-tick">2026-OCDI-000000</span></p>
+    <h1 class="cargando__titulo">Flujo de comunicaciones<br>y notificaciones</h1>
+    <p class="cargando__sub">Proceso disciplinario · Ley 1952 de 2019</p>
+    <div class="barra-progreso"><i id="barra-progreso-i"></i></div>
+    <p class="cargando__estado mono" id="cargando-estado">Abriendo expediente…</p>
+  </div>
+</div>
+
+<!-- ───────────────────────── barra superior ───────────────────────── -->
+<header class="barra">
+  <button class="barra__menu" id="btn-indice" aria-expanded="true" aria-controls="indice" title="Mostrar u ocultar el índice">
+    <svg viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+    <span class="vo">Índice de etapas</span>
+  </button>
+  <div class="barra__marca">
+    <strong>Comunicaciones CGD</strong>
+    <span class="barra__sub">Ley 1952 de 2019</span>
+  </div>
+  <p class="aviso-simulacion" id="aviso-simulacion">
+    <svg viewBox="0 0 16 16" aria-hidden="true" width="13" height="13"><path d="M8 1.5 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6v3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11.4" r=".9" fill="currentColor"/></svg>
+    <span><b>Simulación pedagógica del flujo procesal.</b> No es un sitio oficial de la Unidad Administrativa Especial de Aeronáutica Civil.</span>
+  </p>
+</header>
+
+<!-- ───────────────────────── índice ───────────────────────── -->
+<aside class="indice" id="indice" aria-label="Índice de etapas">
+  <div class="indice__cuerpo" id="indice-cuerpo"><!-- navegacion.js --></div>
+
+  <div class="indice__pie">
+    <div class="conmutador" role="radiogroup" aria-label="Vía de juzgamiento">
+      <span class="conmutador__et">Vía</span>
+      <div class="conmutador__grupo">
+        <button role="radio" aria-checked="true"  data-via="ambas">Ambas</button>
+        <button role="radio" aria-checked="false" data-via="ordinario">Ordinario</button>
+        <button role="radio" aria-checked="false" data-via="verbal">Verbal</button>
+      </div>
+    </div>
+    <label class="interruptor">
+      <input type="checkbox" id="chk-reglas">
+      <span class="interruptor__pista" aria-hidden="true"><i></i></span>
+      <span>Reglas generales</span>
+    </label>
+    <label class="interruptor">
+      <input type="checkbox" id="chk-terminos">
+      <span class="interruptor__pista" aria-hidden="true"><i></i></span>
+      <span>Calculadora de términos</span>
+    </label>
+  </div>
+</aside>
+
+<!-- ───────────────────────── escenario ───────────────────────── -->
+<main class="lienzo" id="lienzo">
+  <div id="capa-3d" class="capa-3d"></div>
+  <div id="capa-rotulos" class="capa-rotulos" aria-hidden="true"></div>
+
+  <div class="sin-webgl" id="sin-webgl" hidden>
+    <div id="fallback-2d"></div>
+  </div>
+
+  <!-- controles flotantes -->
+  <div class="mandos" role="toolbar" aria-label="Controles del recorrido">
+    <button class="mando mando--principal" id="btn-recorrido" aria-pressed="false">
+      <svg class="icono-play" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5 10 6l-7 4.5z" fill="currentColor"/></svg>
+      <svg class="icono-pausa" viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M3 1.5h2.2v9H3zM6.8 1.5H9v9H6.8z" fill="currentColor"/></svg>
+      <span class="mando__txt">Recorrido guiado</span>
+    </button>
+    <button class="mando" id="btn-anterior" title="Etapa anterior (←)" aria-label="Etapa anterior">
+      <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="mando" id="btn-siguiente" title="Etapa siguiente (→)" aria-label="Etapa siguiente">
+      <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M4.5 2 8.5 6l-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="mando mando--alejar" id="btn-alejar" title="Ver flujo completo (Esc)">
+      <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M1.5 4.5v-3h3M10.5 4.5v-3h-3M1.5 7.5v3h3M10.5 7.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="mando__txt">Ver flujo completo</span>
+    </button>
+  </div>
+
+  <!-- el expediente: elemento firma -->
+  <div class="expediente-hud" id="expediente-hud" hidden>
+    <span class="expediente-hud__et mono">EXPEDIENTE</span>
+    <span class="expediente-hud__estado mono" id="expediente-estado">—</span>
+  </div>
+
+  <!-- capa transversal de reglas generales -->
+  <div class="reglas" id="reglas" hidden aria-label="Reglas generales"></div>
+</main>
+
+<!-- ───────────────────────── panel ───────────────────────── -->
+<aside class="panel" id="panel" hidden aria-labelledby="panel-titulo">
+  <div class="panel__asa" aria-hidden="true"></div>
+  <button class="panel__cerrar" id="btn-cerrar-panel" aria-label="Cerrar panel (Esc)">
+    <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+
+  <header class="panel__cab">
+    <p class="panel__cejilla">
+      <span class="chapa mono" id="panel-id">E00</span>
+      <span class="panel__fase" id="panel-fase">Inicio</span>
+    </p>
+    <h2 class="panel__titulo" id="panel-titulo">—</h2>
+    <p class="panel__carril" id="panel-carril"></p>
+    <ul class="articulos mono" id="panel-articulos" aria-label="Artículos"></ul>
+  </header>
+
+  <div class="pestanas" role="tablist" aria-label="Secciones de la etapa">
+    <button role="tab" id="tab-norma"    aria-controls="tp-norma"    aria-selected="true"  data-tab="norma">Norma</button>
+    <button role="tab" id="tab-concepto" aria-controls="tp-concepto" aria-selected="false" data-tab="concepto">Concepto</button>
+    <button role="tab" id="tab-terminos" aria-controls="tp-terminos" aria-selected="false" data-tab="terminos">Términos y notificación</button>
+    <i class="pestanas__indicador" aria-hidden="true"></i>
+  </div>
+
+  <div class="panel__cuerpo" id="panel-cuerpo" aria-live="polite">
+    <section role="tabpanel" id="tp-norma"    aria-labelledby="tab-norma"></section>
+    <section role="tabpanel" id="tp-concepto" aria-labelledby="tab-concepto" hidden></section>
+    <section role="tabpanel" id="tp-terminos" aria-labelledby="tab-terminos" hidden></section>
+  </div>
+</aside>
+
+<!-- ───────────────────────── calculadora de términos ───────────────────────── -->
+<div class="calculadora" id="calculadora" hidden role="dialog" aria-labelledby="calc-titulo" aria-modal="false">
+  <header>
+    <h2 id="calc-titulo">Calculadora de términos</h2>
+    <button id="btn-cerrar-calc" aria-label="Cerrar calculadora">
+      <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+  <label for="calc-fecha">Fecha de inicio del cómputo</label>
+  <input type="date" id="calc-fecha">
+  <div id="calc-resultado" class="calc-resultado" aria-live="polite"></div>
+  <p class="nota-advertencia">
+    <strong>Cálculo ilustrativo; no sustituye el conteo oficial de términos del despacho.</strong>
+    Cuenta sólo días hábiles y excluye sábados, domingos y festivos de Colombia (Ley 51 de 1983 y días de origen pascual).
+  </p>
+</div>
+
+<!-- ───────────────────────── pie ───────────────────────── -->
+<footer class="pie" id="pie"></footer>
+
+<div class="vo" id="anuncio" role="status" aria-live="polite"></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.186.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.1/examples/jsm/",
+    "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/index.js"
+  }
+}
+</script>
+<script type="module" src="app.js"></script>
+<noscript>
+  <div class="noscript">
+    <h2>Esta presentación necesita JavaScript</h2>
+    <p>El contenido jurídico completo está en
+      <a href="data/etapas-cgd.json">data/etapas-cgd.json</a>,
+      con la fuente citada en el propio archivo.</p>
+  </div>
+</noscript>
+</body>
+</html>
