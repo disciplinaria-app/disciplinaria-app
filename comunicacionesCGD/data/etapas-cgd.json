@@ -1,0 +1,220 @@
+{
+  "_aviso": "Contenido jurídico verificado. NO EDITAR sin cotejar contra la fuente. Las observaciones van en REVISION_JURIDICA.md, nunca en este archivo.",
+  "meta": {
+    "fuenteGeneral": "Ley 1952 de 2019, texto vigente con modificaciones de la Ley 2094 de 2021, compilación de la Secretaría del Senado (secretariasenado.gov.co/senado/basedoc/ley_1952_2019.html y páginas `_pr002`, `_pr003`, `_pr005`), consultada el 7-oct-2026.",
+    "notaInterpretativaGlobal": "La ley disciplinaria expresa la mayoría de los términos en 'días'. Salvo que la norma diga otra cosa, se computan como días hábiles conforme al art. 62 de la Ley 4 de 1913. Los términos en meses se cuentan según el calendario.",
+    "fechaConsulta": "2026-10-07",
+    "enlaces": [
+      { "titulo": "Ley 1952 de 2019 — texto compilado", "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019.html" },
+      { "titulo": "Ley 1952 de 2019 — continuación (pr002)", "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019_pr002.html" },
+      { "titulo": "Ley 1952 de 2019 — continuación (pr003)", "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019_pr003.html" },
+      { "titulo": "Ley 1952 de 2019 — continuación (pr005)", "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019_pr005.html" }
+    ]
+  },
+  "etapas": [
+    {
+      "id": "E00",
+      "fase": "Inicio",
+      "carril": "Quejoso → OCDI",
+      "titulo": "Noticia disciplinaria y decisión inicial",
+      "articulos": ["86", "87", "209"],
+      "norma": "La acción disciplinaria se inicia de oficio, por información de servidor público u otro medio creíble, o por queja de cualquier persona; no procede por anónimos, salvo que cumplan los requisitos del art. 38 de la Ley 190 de 1995 y del art. 27 de la Ley 24 de 1992 (art. 86). Si la queja es manifiestamente temeraria, se refiere a hechos disciplinariamente irrelevantes o de imposible ocurrencia, es absolutamente inconcreta o difusa, o la acción no puede iniciarse, el funcionario se inhibe de plano; contra esa decisión no procede recurso (art. 209).",
+      "concepto": "Filtro de entrada: evita abrir actuaciones sin objeto disciplinario real.",
+      "plazos": "No fija término específico.",
+      "notificacion": "No se establece forma especial para la inhibitoria en estos artículos.",
+      "recursos": "Ninguno contra la decisión inhibitoria (art. 209).",
+      "animacion": "Recepcionista OCDI recibe sobre en ventanilla, lo radica con sello y lo pone en bandeja.",
+      "siguientes": "compuerta \"¿Procede actuación?\" → No: Inhibitoria (fin) | Sí: compuerta \"¿Autor identificado?\" → No: E01 | Sí: E02."
+    },
+    {
+      "id": "E01",
+      "fase": "Indagación",
+      "carril": "OCDI — Instrucción",
+      "titulo": "Indagación previa",
+      "articulos": ["208", "224"],
+      "norma": "Procede en caso de duda sobre la identificación o individualización del posible autor. Dura seis (6) meses y culmina con archivo definitivo o auto de apertura de investigación; en investigaciones por violación a los Derechos Humanos o al DIH puede extenderse otros seis (6) meses. Cuando se allegue medio probatorio que permita identificar al presunto autor, debe emitirse inmediatamente la apertura de investigación. Si no se logra identificar al autor o se determina que no procede la investigación, se ordena el archivo, que no hace tránsito a cosa juzgada material (art. 208, parágrafo). Cuando no fue posible identificar al presunto autor, el archivo hace tránsito a cosa juzgada formal (art. 224).",
+      "concepto": "Etapa eventual: solo existe si hay duda sobre quién es el autor. No es una etapa para establecer responsabilidad.",
+      "plazos": "6 meses; +6 meses solo DDHH/DIH.",
+      "notificacion": "El archivo se comunica al quejoso; la comunicación se entiende cumplida cinco (5) días después del día siguiente a la entrega en la última dirección registrada (art. 129).",
+      "recursos": "Apelación contra la decisión de archivo (art. 134), en efecto suspensivo; el quejoso puede recurrir la decisión de archivo (art. 110, par. 1).",
+      "animacion": "Investigador/a con lupa frente a un tablero de fotos/organigrama; reloj de arena de 6 meses.",
+      "siguientes": "compuerta \"¿Se identificó al autor?\" → Sí: E02 | No: Archivo (comunicar al quejoso)."
+    },
+    {
+      "id": "E02",
+      "fase": "Investigación",
+      "carril": "OCDI → Secretaría → Disciplinable",
+      "titulo": "Apertura de investigación y su notificación personal",
+      "articulos": ["111", "121", "122", "127", "211", "215", "216"],
+      "norma": "Identificado el posible autor, se inicia la investigación (art. 211). La calidad de disciplinado se adquiere con el auto de apertura o la orden de vinculación (art. 111). El auto de apertura debe contener, entre otros, la identidad del posible autor, la relación de hechos, las pruebas ordenadas, la orden de incorporar antecedentes, certificación laboral, constancia de sueldo y última dirección, y la información sobre los beneficios de la confesión o aceptación de cargos (art. 215). Se notifican personalmente la apertura de investigación, la vinculación, el pliego de cargos y su variación y los fallos de instancia (art. 121). Si la OCDI inicia la investigación, da aviso inmediato a la Viceprocuraduría General de la Nación y al funcionario competente de esa entidad o de la personería, para que decida sobre el poder preferente (art. 216).",
+      "concepto": "La notificación personal es el momento en que nace la defensa: desde allí el disciplinado puede controvertir pruebas (art. 157).",
+      "plazos": "Citación inmediata. Si no comparece dentro de cinco (5) días contados desde el día siguiente a la entrega de la comunicación en la última dirección registrada, se fija edicto en la secretaría por tres (3) días (art. 127).",
+      "notificacion": "Personal (art. 121). Subsidiaria: edicto (art. 127). Si el investigado ha estado asistido por defensor, la notificación se surte con él (art. 127). Electrónica solo si el investigado o su defensor la aceptaron previamente y por escrito; se entiende surtida en la fecha en que el correo es enviado, y la constancia se anexa (art. 122).",
+      "recursos": "El auto de apertura no está en la lista de decisiones recurribles (arts. 133 y 134).",
+      "notaInterpretativa": "El art. 122 contiene apartes declarados condicionalmente exequibles (según la nota de vigencia de la compilación del Senado); consultar la fuente antes de aplicarlo.",
+      "animacion": "Instructor firma el auto → Secretaría imprime citación → sobre vuela por la ruta al disciplinable; en paralelo, un segundo sobre con \"@\" vuela a la plataforma PGN (aviso art. 216). Temporizador \"5 días\"; si vence, la secretaria clava el edicto en la cartelera con temporizador \"3 días\".",
+      "siguientes": "E03."
+    },
+    {
+      "id": "E03",
+      "fase": "Investigación",
+      "carril": "OCDI — Instrucción / Disciplinable",
+      "titulo": "Investigación disciplinaria (instrucción probatoria)",
+      "articulos": ["112", "117", "123", "125", "131", "133", "157", "162", "212", "213", "217"],
+      "norma": "La investigación busca verificar la ocurrencia de la conducta, determinar si es falta o si hay causal de exclusión de responsabilidad; puede oírse en versión libre a solicitud del vinculado (art. 212). Dura seis (6) meses desde la apertura; prorrogable hasta otro tanto si se investigan varias faltas o a dos o más servidores o particulares; en DDHH/DIH no puede exceder dieciocho (18) meses; si faltan pruebas que puedan modificar la situación jurídica, se prorroga hasta tres (3) meses más, vencidos los cuales, sin prueba para formular cargos, se archiva (art. 213). En indagación e investigación, las decisiones que requieren motivación se toman en diez (10) días y las de impulso en tres (3), salvo disposición en contrario (art. 117). La confesión o aceptación de cargos en esta etapa procede desde la apertura hasta antes de la ejecutoria del auto de cierre (art. 162).",
+      "concepto": "Es la etapa de recaudo probatorio, con investigación integral: lo favorable y lo desfavorable (art. 13).",
+      "plazos": "6 meses | +6 meses (pluralidad de faltas o investigados) | 18 meses máximo DDHH/DIH | +3 meses por pruebas pendientes.",
+      "notificacion": "Decisiones interlocutorias (art. 123): al día siguiente se libra comunicación indicando fecha y decisión; la comunicación se entiende recibida cinco (5) días después del día siguiente a su entrega en la última dirección registrada; si transcurridos tres (3) días hábiles desde el recibo el disciplinado no comparece, la secretaría notifica por estado. Estado electrónico (art. 125): se inserta al día siguiente de la providencia, con radicado, nombres, fecha de la decisión y de la notificación; lleva inserta la providencia y se envía mensaje de datos al disciplinable o su apoderado informando del estado. Decisiones de sustanciación sin forma especial: se comunican por el medio más eficaz, con constancia secretarial (art. 129).",
+      "recursos": "Reposición contra la decisión que niega pruebas en investigación, la que decide nulidades, niega copias, niega acumulación, entre otras (art. 133). Reposición y apelación se interponen desde la expedición hasta el vencimiento de los cinco (5) días siguientes a la notificación (art. 131); se sustentan en ese mismo plazo o se declaran desiertas (art. 132).",
+      "animacion": "Escritorio con declarante; el instructor toma versión; una pantalla publica \"ESTADO ELECTRÓNICO\" con una hoja que aparece y se envía un mensaje de datos (sobre \"@\"). Contador \"6 meses\" con marcas de prórroga.",
+      "siguientes": "E04. Rama lateral opcional \"Suspensión provisional\" (art. 217: faltas gravísimas o graves; 3 meses prorrogables otro tanto; consulta ante el superior: 3 días en secretaría para alegaciones y decisión en 10 días)."
+    },
+    {
+      "id": "E04",
+      "fase": "Investigación",
+      "carril": "OCDI → Secretaría → Sujetos procesales",
+      "titulo": "Cierre de investigación y alegatos precalificatorios",
+      "articulos": ["123 (inciso final)", "162", "220"],
+      "norma": "Recaudadas las pruebas o vencido el término, el funcionario, mediante decisión de sustanciación, declara cerrada la investigación y ordena correr traslado por diez (10) días para que los sujetos procesales presenten alegatos previos a la evaluación (art. 220). El auto de cierre y traslado para alegatos precalificatorios se notifica en la forma del art. 123 (inciso final del art. 123).",
+      "concepto": "Punto de no retorno de la instrucción: su ejecutoria cierra la oportunidad de confesión con rebaja de hasta la mitad (art. 162).",
+      "plazos": "Traslado de 10 días.",
+      "notificacion": "Comunicación + notificación por estado (art. 123).",
+      "recursos": "El art. 220 no prevé recurso; no figura en los arts. 133 y 134.",
+      "animacion": "Instructor cierra el expediente con una banda; reloj \"10 días\"; el defensor entrega un escrito en ventanilla.",
+      "siguientes": "E05."
+    },
+    {
+      "id": "E05",
+      "fase": "Investigación",
+      "carril": "OCDI — Instrucción",
+      "titulo": "Evaluación de la investigación",
+      "articulos": ["117", "129", "134", "221", "224"],
+      "norma": "Surtido el traslado, el funcionario, mediante decisión motivada, evalúa el mérito de las pruebas y formula pliego de cargos o termina la actuación y ordena el archivo (art. 221). El archivo definitivo procede en los casos del art. 90 y del art. 213 y hace tránsito a cosa juzgada (art. 224).",
+      "concepto": "Juicio de mérito del instructor: ¿hay prueba suficiente para acusar?",
+      "plazos": "Ver nota interpretativa.",
+      "notaInterpretativa": "El art. 221 no fija un término propio. Por tratarse de una decisión motivada en la etapa de investigación, podría aplicarse el término general de diez (10) días del art. 117. El manual original atribuía este término al art. 221, lo cual no corresponde al texto legal.",
+      "notificacion": "El archivo se comunica al quejoso (art. 129).",
+      "recursos": "Apelación contra la decisión de archivo, en efecto suspensivo (art. 134); el quejoso puede recurrirla (art. 110, par. 1). Contra la formulación de cargos no procede recurso (art. 222).",
+      "animacion": "Balanza sobre el escritorio que se inclina; compuerta con dos salidas.",
+      "siguientes": "compuerta \"¿Mérito para acusar?\" → No: Archivo (comunicar al quejoso; posible apelación) | Sí: E06."
+    },
+    {
+      "id": "E06",
+      "fase": "Transición a juzgamiento",
+      "carril": "OCDI → Secretaría → Disciplinable → Juzgamiento",
+      "titulo": "Pliego de cargos y su notificación",
+      "articulos": ["115", "124", "222", "223", "225"],
+      "norma": "Se formulan cargos cuando esté objetivamente demostrada la falta y exista prueba que comprometa la responsabilidad; no procede recurso (art. 222). El pliego contiene identificación del autor, cargo desempeñado, descripción de la conducta con circunstancias de tiempo, modo y lugar, normas violadas y concepto de violación, análisis de ilicitud sustancial, culpabilidad, pruebas, criterios de gravedad o levedad y análisis de los argumentos de los sujetos procesales (art. 223). Se notifica personalmente al procesado o a su defensor; se libra comunicación inmediatamente y se surte con el primero que se presente. Si vencidos cinco (5) días desde el día siguiente a la entrega de la comunicación en la última dirección registrada y al correo electrónico no se presenta el procesado o su defensor, se designa defensor público o estudiante de consultorio jurídico, con quien se surte la notificación personal. Cumplidas las notificaciones, dentro del término improrrogable de tres (3) días, el expediente se remite al funcionario de juzgamiento (art. 225). Si debe notificarse en sede distinta, puede comisionarse; si no se logra la notificación personal, el comisionado fija edicto por cinco (5) días (art. 124). La reserva de la actuación se mantiene hasta la formulación del pliego o el archivo definitivo (art. 115).",
+      "concepto": "Es la acusación: fija el marco fáctico y jurídico que el fallo no puede desbordar (congruencia, art. 20). Con su notificación, el instructor pierde el expediente: garantía de separación de funciones (art. 12).",
+      "plazos": "5 días para comparecer | 3 días improrrogables para remitir al juzgador | 5 días de edicto si hay comisionado.",
+      "notificacion": "Personal; en defecto, personal con defensor público o estudiante de consultorio jurídico (no edicto).",
+      "recursos": "Ninguno (art. 222).",
+      "animacion": "Instructor firma el pliego; sobre físico + sobre \"@\" salen al mismo tiempo; temporizador \"5 días\"; si vence, aparece un personaje con toga/maletín \"Defensor público\" que recibe la notificación; luego un carrito lleva el expediente al edificio de juzgamiento con temporizador \"3 días — improrrogable\".",
+      "siguientes": "E07."
+    },
+    {
+      "id": "E07",
+      "fase": "Juzgamiento",
+      "carril": "Juzgamiento (Oficina Asesora Jurídica)",
+      "titulo": "Fijación del juzgamiento a seguir",
+      "articulos": ["225A"],
+      "norma": "Recibido el expediente, el funcionario de juzgamiento decide por auto de sustanciación motivado si sigue el juicio ordinario o el verbal; no procede recurso. El juicio verbal procede cuando el disciplinable es sorprendido en el momento de la comisión de la falta o con elementos, efectos o instrumentos provenientes de ella, y además para las faltas leves y las gravísimas señaladas en el art. 225A (arts. 54 nums. 4 y 5; 55 nums. 1, 2, 4, 5, 6, 7, 8 y 10; 56 nums. 1, 2, 3 y 5; 57 nums. 1, 2, 3, 5 y 11; 58; 60; 61; y 62 num. 6). En esos eventos se sigue el verbal, salvo que la complejidad, el número de disciplinables o de cargos, o la carencia de recursos de la dependencia lo dificulten; en ese caso, la decisión se motiva (parágrafo).",
+      "concepto": "El juzgador, no el instructor, elige la vía procesal. El verbal es la regla en los supuestos legales; el ordinario, la excepción motivada.",
+      "plazos": "No fija término.",
+      "notificacion": "Ver nota interpretativa.",
+      "notaInterpretativa": "El art. 225A no establece forma de notificación. Por ser auto de sustanciación sin forma especial, se comunicaría por el medio más eficaz (art. 129). El manual original indicaba \"notificación por estado\", que la norma no prevé.",
+      "recursos": "Ninguno.",
+      "animacion": "Juzgador en escritorio con dos carpetas de colores (\"ORDINARIO\" / \"VERBAL\"); toma una y la ruta correspondiente se ilumina.",
+      "siguientes": "compuerta \"¿Vía?\" → Ordinario: E08A | Verbal: E08B."
+    },
+    {
+      "id": "E08A",
+      "fase": "Juzgamiento",
+      "carril": "Juzgamiento / Disciplinable",
+      "titulo": "Juicio ordinario (escrito)",
+      "articulos": ["225B", "225C", "225D", "225E", "225F", "225G", "127", "131"],
+      "norma": "En el auto que adopta el procedimiento ordinario, el expediente queda a disposición de los sujetos procesales en secretaría por quince (15) días para descargos y aportar o solicitar pruebas; no procede recurso; la renuencia a presentar descargos no interrumpe el trámite (225B). Vencido ese término, se resuelven las nulidades y se decretan pruebas; se practican en un término no mayor de noventa (90) días (225C). Variación de cargos (225D): por error en la calificación, el juzgador devuelve al instructor, que tiene quince (15) días para recalificar; por prueba sobreviniente, el juzgador varía los cargos; la variación se notifica como el pliego, con diez (10) días para descargos y pruebas y un período probatorio máximo de dos (2) meses. Practicadas las pruebas, traslado común de diez (10) días para alegatos de conclusión (225E). El fallo se profiere dentro de los treinta (30) días hábiles siguientes al vencimiento del traslado (225F). Se notifica personalmente; si no es posible, por edicto; la apelación se interpone y sustenta por escrito dentro de los diez (10) días siguientes a la notificación, ante la secretaría (225G).",
+      "concepto": "Procedimiento escrito, propio de asuntos complejos o con pluralidad de cargos o investigados.",
+      "plazos": "15 días descargos | ≤90 días pruebas | 10 días alegatos | 30 días hábiles fallo | 10 días apelación.",
+      "notificacion": "Fallo: personal; subsidiariamente edicto (5 días de citación + 3 días de edicto, art. 127).",
+      "recursos": "Apelación del fallo dentro de 10 días (225G), en efecto suspensivo (art. 134). Apelación contra la decisión que niega pruebas en etapa de juicio (art. 134).",
+      "notaInterpretativa": "El término de apelación del fallo del juicio ordinario (10 días, art. 225G) es especial frente al término general de 5 días del art. 131.",
+      "animacion": "Línea de montaje de cuatro mini-estaciones: secretaría con expediente expuesto (15), laboratorio de pruebas (90), mesa de alegatos (10), juez redactando sentencia (30); al final, sobre de notificación y temporizador \"10 días\".",
+      "siguientes": "compuerta \"¿Se apela?\" → Sí: E09 | No: E10."
+    },
+    {
+      "id": "E08B",
+      "fase": "Juzgamiento",
+      "carril": "Juzgamiento / Disciplinable",
+      "titulo": "Juicio verbal (audiencia)",
+      "articulos": ["225H", "126", "162", "226", "227", "228", "229", "230", "231", "232", "233"],
+      "norma": "El auto que adopta el juicio verbal fija fecha y hora de la audiencia de descargos y pruebas, que se realiza no antes de diez (10) ni después de veinte (20) días desde el auto; no procede recurso (225H). La audiencia se graba; se levanta acta sucinta por sesión; al final de cada sesión se fija la continuación, decisión que queda notificada en estrados (art. 226). Instalación (art. 227): presentación de hechos y cargos; si el disciplinable asiste con defensor, se le pregunta si acepta la responsabilidad (trámite del art. 162); si asiste sin defensor y quiere acogerse al beneficio, se suspende cinco (5) días para designar defensor de oficio (defensor público o estudiante de consultorio jurídico) o uno de confianza. Si no hay aceptación, rinde versión libre y descargos y solicita pruebas; luego interviene el defensor y, si concurren, el Ministerio Público y las víctimas. Las pruebas se practican hasta por veinte (20) días, prorrogables una vez por el mismo lapso mediante decisión motivada. Si no asisten ni el disciplinable ni el defensor, sin justificación, se designa defensor de oficio (art. 228). Variación de cargos (art. 229): por error de calificación vuelve al instructor (15 días); por prueba sobreviniente, el juzgador varía en audiencia, notifica en estrados y la reanuda entre cinco (5) y diez (10) días después; período probatorio máximo de un (1) mes. Sin más pruebas, se suspende diez (10) días para preparar alegatos; reanudada, alegan el Ministerio Público, la víctima, el disciplinable y el defensor; luego se cita dentro de los quince (15) días siguientes para dar a conocer la decisión (art. 230). La decisión se notifica en estrados y queda ejecutoriada al terminar, si no se recurre (art. 232). La apelación se interpone en la misma diligencia; se sustenta verbalmente de inmediato o por escrito dentro de los cinco (5) días siguientes ante la secretaría (art. 233).",
+      "concepto": "Procedimiento oral y concentrado: todo lo decidido en audiencia se notifica en estrados, aun a los ausentes (art. 126).",
+      "plazos": "Audiencia entre 10 y 20 días | suspensión 5 días (defensor) | pruebas 20 + 20 días | variación: reanudación 5–10 días, pruebas ≤1 mes | alegatos: suspensión 10 días | lectura del fallo dentro de 15 días | sustentación escrita de la apelación: 5 días.",
+      "notificacion": "En estrados: las decisiones de audiencia se entienden notificadas a todos los sujetos procesales inmediatamente se pronuncian, se encuentren o no presentes (art. 126).",
+      "recursos": "Apelación del fallo (art. 233), en efecto suspensivo (art. 134). Apelación contra la negación de pruebas, interpuesta y sustentada en la misma sesión (art. 227).",
+      "animacion": "Sala de audiencias isométrica: juez al centro, cámara de grabación con luz roja, defensor y disciplinable a un lado, Ministerio Público al otro; burbujas de diálogo; al leer el fallo aparece una onda \"NOTIFICADO EN ESTRADOS\".",
+      "siguientes": "compuerta \"¿Se apela en la audiencia?\" → Sí: E09 | No: E10."
+    },
+    {
+      "id": "E09",
+      "fase": "Segunda instancia",
+      "carril": "Segunda instancia",
+      "titulo": "Segunda instancia",
+      "articulos": ["12", "93", "121", "134", "135", "138", "234", "235"],
+      "norma": "La apelación del fallo de primera instancia se concede en efecto suspensivo (art. 134). El funcionario de segunda instancia decide por escrito dentro de los cuarenta y cinco (45) días siguientes al recibo del proceso y solo revisa los aspectos impugnados y los inescindiblemente vinculados (art. 234). Excepcionalmente puede decretar pruebas de oficio, debiendo decretar las que puedan modificar sustancial y favorablemente la situación del disciplinado; practicadas, traslado de cinco (5) días y fallo en cuarenta (40) días (art. 235). No puede agravarse la sanción cuando el investigado es apelante único (art. 135). Si la entidad no puede garantizar la segunda instancia por razones de estructura, corresponde a la PGN (art. 93).",
+      "concepto": "Garantía de doble instancia y de revisión del fallo sancionatorio por autoridad diferente (art. 12).",
+      "plazos": "45 días | con pruebas de oficio: traslado de 5 días y fallo en 40 días.",
+      "notificacion": "Personal, por tratarse de un fallo de instancia (art. 121); subsidiariamente edicto (art. 127). Queda en firme el día en que se notifica (art. 138, inciso 2).",
+      "recursos": "No proceden recursos ordinarios contra la decisión que resuelve la apelación (art. 138, inciso 2).",
+      "animacion": "Estrado elevado con tres siluetas; el expediente sube por una rampa; sello final.",
+      "siguientes": "E10."
+    },
+    {
+      "id": "E10",
+      "fase": "Ejecución",
+      "carril": "Juzgamiento / Quejoso / Nominador / PGN",
+      "titulo": "Ejecutoria, comunicación al quejoso, ejecución y registro",
+      "articulos": ["38 (num. 43)", "93", "110 (par. 1)", "129", "138", "232", "236", "238"],
+      "norma": "Las decisiones contra las que proceden recursos quedan en firme cinco (5) días después de la última notificación; las dictadas en audiencia, al finalizar la audiencia o la sesión en que se tomaron, si no se impugnan. Las que resuelven apelación y queja, la consulta y aquellas contra las que no procede recurso quedan en firme el día en que se notifican (art. 138). Al quejoso se le comunica el archivo y el fallo absolutorio (art. 129), y puede recurrirlos (art. 110, par. 1). Ejecutoriado el fallo sancionatorio, se comunica al funcionario que debe ejecutarlo, quien tiene tres (3) días desde el recibo (art. 236, par.); el jefe o director del organismo tiene competencia para ejecutar la sanción (art. 93). Las sanciones se registran en la PGN para el certificado de antecedentes (art. 238); es deber enviar esa información dentro de los cinco (5) días siguientes a la ejecutoria (art. 38, num. 43).",
+      "concepto": "La ejecutoria convierte la decisión en definitiva; la ejecución y el registro le dan efectos frente a la entidad y frente a terceros.",
+      "plazos": "Firmeza: 5 días tras la última notificación (decisiones recurribles) | mismo día de la notificación (decisiones de segunda instancia y no recurribles) | ejecución: 3 días | reporte a la PGN: 5 días.",
+      "notificacion": "Comunicación al quejoso (art. 129); comunicación al nominador (art. 236, par.).",
+      "recursos": "Ninguno ordinario.",
+      "animacion": "Gran sello \"EJECUTORIADO\" cae sobre el expediente; sobre al nominador; datos que viajan al \"servidor\" de la PGN.",
+      "siguientes": "Fin."
+    }
+  ],
+  "reglasGenerales": [
+    {
+      "id": "RG-120",
+      "titulo": "Formas de notificación",
+      "articulos": ["120"],
+      "texto": "personal, por estado electrónico, en estrados, por edicto o por conducta concluyente."
+    },
+    {
+      "id": "RG-128",
+      "titulo": "Conducta concluyente",
+      "articulos": ["128"],
+      "texto": "si no hubo notificación o fue irregular, se entiende cumplida si el disciplinado o su defensor no reclaman y actúan en diligencias posteriores, interponen recursos o se refieren a la decisión o a su contenido."
+    },
+    {
+      "id": "RG-130",
+      "titulo": "Recursos",
+      "articulos": ["130", "131", "132", "133", "134", "135", "136", "137"],
+      "texto": "reposición, apelación y queja; ninguno contra decisiones de simple trámite; queja contra el rechazo de la apelación, dentro del término de ejecutoria; envío de copias al superior dentro de dos (2) días."
+    },
+    {
+      "id": "RG-206",
+      "titulo": "Nulidades",
+      "articulos": ["206", "207"],
+      "texto": "se solicitan hasta antes del traslado para alegatos de conclusión; se resuelven en cinco (5) días o en la audiencia; procede reposición."
+    },
+    {
+      "id": "RG-141",
+      "titulo": "Revocatoria directa",
+      "articulos": ["141"],
+      "texto": "los fallos sancionatorios de las oficinas de control interno disciplinario pueden ser revocados por la PGN."
+    }
+  ]
+}

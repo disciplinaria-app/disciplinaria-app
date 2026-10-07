@@ -1,0 +1,8 @@
+{
+  "_aviso": "Sello de etapas-cgd.json. Sólo debe regenerarse cuando el autor apruebe un cambio del contenido jurídico.",
+  "archivo": "data/etapas-cgd.json",
+  "sha256": "8c8ff6407677eeee65978c69f31cfa35a89aff3ef85f5d05b69320bae9c4360f",
+  "bytes": 27838,
+  "etapas": 12,
+  "sellado": "2026-10-07"
+}

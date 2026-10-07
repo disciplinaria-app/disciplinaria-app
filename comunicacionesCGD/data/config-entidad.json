@@ -1,0 +1,115 @@
+{
+  "_aviso": "Nombres de dependencias y carriles. Edita AQUÍ para corregirlos: no hay ningún nombre de dependencia escrito en el código.",
+  "entidad": {
+    "nombreGenerico": "Entidad del orden nacional",
+    "descargoOficial": "Simulación pedagógica del flujo procesal. No es un sitio oficial de la Unidad Administrativa Especial de Aeronáutica Civil.",
+    "notaUsoNombres": "Los personajes son genéricos. No se usan nombres reales de servidores, ni logo, escudo, colores institucionales o tipografía oficial de la Aerocivil."
+  },
+  "carriles": [
+    {
+      "n": 1,
+      "id": "quejoso",
+      "nombre": "Quejoso / informante",
+      "contenido": "Presenta queja; recibe comunicación de archivo y fallo absolutorio; puede recurrirlos",
+      "verificacion": "verificado",
+      "detalleVerificacion": "Verificado (arts. 86, 110 par. 1, 129, 134)",
+      "color": "#8FB8E8",
+      "nombreCorto": "Quejoso"
+    },
+    {
+      "n": 2,
+      "id": "ocdi",
+      "nombre": "OCDI — Instrucción",
+      "contenido": "Indagación, apertura, investigación, cierre, evaluación, pliego, notificación del pliego",
+      "verificacion": "verificado",
+      "detalleVerificacion": "Verificado (Aerocivil + arts. 12, 93)",
+      "color": "#F2C94C",
+      "nombreCorto": "OCDI — Instrucción"
+    },
+    {
+      "n": 3,
+      "id": "secretaria",
+      "nombre": "Secretaría / notificaciones",
+      "contenido": "Citaciones, edictos, estado electrónico, constancias",
+      "verificacion": "verificado",
+      "detalleVerificacion": "Verificado (arts. 121–129)",
+      "color": "#56CCF2",
+      "nombreCorto": "Secretaría"
+    },
+    {
+      "n": 4,
+      "id": "disciplinable",
+      "nombre": "Disciplinable y defensa",
+      "contenido": "Comparece, versión libre, descargos, alegatos, recursos",
+      "verificacion": "verificado",
+      "detalleVerificacion": "Verificado (arts. 111–113)",
+      "color": "#E58FA8",
+      "nombreCorto": "Disciplinable y defensa"
+    },
+    {
+      "n": 5,
+      "id": "juzgamiento",
+      "nombre": "Juzgamiento — Oficina Asesora Jurídica",
+      "contenido": "Fija vía, juicio ordinario o verbal, fallo de primera instancia",
+      "verificacion": "verificado-con-salvedad",
+      "detalleVerificacion": "Verificado con la salvedad de la Res. 00456/2024",
+      "color": "#A99BF5",
+      "nombreCorto": "Juzgamiento"
+    },
+    {
+      "n": 6,
+      "id": "segunda",
+      "nombre": "[Autoridad de segunda instancia según acto interno de la Aerocivil — por confirmar]",
+      "contenido": "Resuelve apelación",
+      "verificacion": "sin-verificar",
+      "detalleVerificacion": "PARÁMETRO SIN VERIFICAR",
+      "nota": "Si la entidad no puede garantizarla, corresponde a la PGN (art. 93).",
+      "color": "#6FE3C4",
+      "nombreCorto": "Segunda instancia"
+    },
+    {
+      "n": 7,
+      "id": "pgn",
+      "nombre": "Procuraduría General de la Nación",
+      "contenido": "Recibe aviso de apertura (art. 216); poder preferente (art. 3); registro de sanciones (art. 238)",
+      "verificacion": "verificado",
+      "detalleVerificacion": "Verificado",
+      "color": "#C9D4E3",
+      "nombreCorto": "Procuraduría"
+    }
+  ],
+  "personajes": {
+    "ocdi": "Instructor/a OCDI",
+    "secretaria": "Secretaría",
+    "disciplinable": "Disciplinable",
+    "defensa": "Defensa",
+    "defensorPublico": "Defensor/a público/a",
+    "quejoso": "Quejoso/a",
+    "juzgamiento": "Funcionario/a de juzgamiento",
+    "segunda": "Autoridad de segunda instancia",
+    "ministerioPublico": "Ministerio Público",
+    "nominador": "Jefe o director del organismo"
+  },
+  "fuentesInstitucionales": [
+    {
+      "cita": "Art. 12 Ley 1952/2019 (mod. art. 3 Ley 2094/2021)",
+      "texto": "quien instruye no puede ser quien juzga; derecho a que el fallo sancionatorio sea revisado por autoridad diferente.",
+      "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019.html"
+    },
+    {
+      "cita": "Art. 93 Ley 1952/2019 (mod. art. 14 Ley 2094/2021)",
+      "texto": "oficina de control disciplinario interno del más alto nivel; si la entidad no puede garantizar la segunda instancia por razones de estructura, esta corresponde a la Procuraduría General de la Nación; el jefe o director del organismo ejecuta la sanción.",
+      "url": "https://www.secretariasenado.gov.co/senado/basedoc/ley_1952_2019.html"
+    },
+    {
+      "cita": "Aerocivil — informes mensuales de gestión disciplinaria 2024",
+      "texto": "muestran la instrucción en la Oficina de Control Disciplinario Interno y el juzgamiento en la Oficina Asesora Jurídica (Resolución 0579 del 17-mar-2022).",
+      "url": null
+    },
+    {
+      "cita": "Resolución 00456 de 2024",
+      "texto": "consultada en reproducción de vLex, pendiente de cotejo con Diario Oficial: asignó el juzgamiento al Grupo de Gestión Jurídica Administrativa de la Oficina Asesora Jurídica, manteniendo la instrucción en la OCDI.",
+      "url": null
+    }
+  ]
+}
