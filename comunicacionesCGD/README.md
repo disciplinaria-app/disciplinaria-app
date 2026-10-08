@@ -8,7 +8,9 @@ ejecutoria.
 > **No es un sitio oficial** de la Unidad Administrativa Especial de Aeronáutica
 > Civil. La leyenda está impresa de forma permanente en la barra superior.
 
-Ruta: `/comunicacionesCGD` · sin framework, sin compilación, sin `node_modules`.
+**https://disciplinaria.vercel.app/comunicacionesCGD**
+
+Sin framework, sin compilación, sin `node_modules`.
 
 ---
 
