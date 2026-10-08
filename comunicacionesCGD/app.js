@@ -89,12 +89,19 @@ async function arrancar() {
   const pararTictac = tictacRadicado();
   avanzarCarga(8, 'Leyendo el contenido verificado…');
 
-  const [datos, grafo, config] = await Promise.all([
+  const [datos, extra, grafo, config] = await Promise.all([
     cargarJSON('data/etapas-cgd.json'),
+    cargarJSON('data/etapas-adicionales.json'),
     cargarJSON('data/grafo-flujo.json'),
     cargarJSON('data/config-entidad.json'),
   ]);
-  const etapas = datos.etapas;
+
+  // Las etapas añadidas se funden para navegar, pero conservan su marca de
+  // procedencia: el panel las distingue de las de la sección 5 verificada.
+  // Se funden en memoria, nunca en el archivo sellado.
+  const anadidas = extra.etapas.map((e) => ({ ...e, _procedencia: extra.procedencia }));
+  const etapas = [...datos.etapas, ...anadidas]
+    .sort((a, b) => grafo.recorridoGuiado.indexOf(a.id) - grafo.recorridoGuiado.indexOf(b.id));
   avanzarCarga(30, 'Levantando los carriles…');
 
   /* ── interfaz común ── */
@@ -176,7 +183,7 @@ async function montarVista3D({ etapas, grafo, config, panel }) {
   const { calcularDisposicion, construirCarriles, amoblarCarriles, construirEstaciones, vidaAmbiente } =
     await import('./scene/estaciones.js');
   const { construirRutas } = await import('./scene/rutas.js');
-  const { Elenco } = await import('./scene/personajes.js');
+  const { Elenco, Mensajeros } = await import('./scene/personajes.js');
   const { fijarOpacidad } = await import('./scene/materiales.js');
 
   const escena = new Escena(ELEMENTOS.capa3d, ELEMENTOS.capaRotulos);
@@ -194,7 +201,24 @@ async function montarVista3D({ etapas, grafo, config, panel }) {
   escena.escena.add(rutas.grupo);
 
   const ambiente = vidaAmbiente(estaciones.nodos);
-  if (MOV_REDUCIDO) elenco.congelar();
+
+  // personal en tránsito: cada ala ancha tiene a alguien yendo y viniendo
+  const mensajeros = new Mensajeros();
+  escena.escena.add(mensajeros.grupo);
+  grafo.ordenCarriles.forEach((id, i) => {
+    for (const isla of carriles.fichas[id].islas) {
+      if (isla.columnas.length < 3) continue;
+      mensajeros.agregar({
+        x0: isla.xIni + 20, x1: isla.xFin - 20,
+        z: disp.zCarril[id] + disp.fondos[id] / 2 - 11,
+        rol: i % 2 ? 'secretaria' : 'disciplinable',
+        velocidad: 9 + (i % 3) * 2.5,
+        fase: (i * 0.31) % 1,
+      });
+    }
+  });
+
+  if (MOV_REDUCIDO) { elenco.congelar(); mensajeros.congelar(); }
 
   /* ── rótulos ── */
   const porCarril = Object.fromEntries(config.carriles.map((c) => [c.id, c]));
@@ -230,6 +254,7 @@ async function montarVista3D({ etapas, grafo, config, panel }) {
       const alto = 29 + (n.t % 3) * 13;
       const titulo = escena.agregarRotulo(`${n.id} · ${n.rotulo}`,
         p.clone().add(new THREE.Vector3(0, alto, 0)));
+      if (n.anadida) titulo.el.setAttribute('data-anadida', '');
 
       const detalle = [];
       if (n.plazo) {
@@ -408,6 +433,7 @@ async function montarVista3D({ etapas, grafo, config, panel }) {
   /* ── bucle ── */
   escena.cadaCuadro((dt, t) => {
     elenco.actualizar(t);
+    mensajeros.actualizar(t);
     ambiente(dt, t);
     rutas.actualizar(dt);
   });

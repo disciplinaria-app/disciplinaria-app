@@ -63,6 +63,7 @@ export class Navegacion {
         stx.className = 'indice-item__tx';
         stx.textContent = e.titulo;
 
+        if (nodo?.anadida) b.setAttribute('data-anadida', '');
         if (nodo?.via) {
           const v = document.createElement('span');
           v.className = 'indice-item__via';

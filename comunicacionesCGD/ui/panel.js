@@ -163,10 +163,53 @@ export class Panel {
   _pintarNorma(e) {
     const s = this.refs.norma;
     s.textContent = '';
+    const proc = this._avisoProcedencia(e);
+    if (proc) s.appendChild(proc);
     if (this._avisoSinVerificar(e)) s.appendChild(this._avisoSinVerificar(e));
     s.appendChild(this._parrafoLey(e.norma));
     const n = this._nota(e);
     if (n) s.appendChild(n);
+  }
+
+  /** Las etapas añadidas después del encargo no salieron de la sección 5
+   *  verificada. Decirlo en el propio panel —y no sólo en un archivo
+   *  markdown que nadie abre en una ponencia— es la única forma de que el
+   *  lector sepa qué está leyendo. */
+  _avisoProcedencia(e) {
+    if (e.verificacion !== 'anadida-fuente-alterna' || !e._procedencia) return null;
+    const d = document.createElement('div');
+    d.className = 'aviso-procedencia';
+
+    const et = document.createElement('p');
+    et.className = 'aviso-procedencia__et';
+    et.innerHTML = ICONO_AVISO;
+    et.appendChild(document.createTextNode('Etapa añadida — otra fuente'));
+
+    const tx = document.createElement('p');
+    tx.className = 'aviso-procedencia__tx';
+    tx.textContent = 'No forma parte del contenido verificado del encargo original. '
+      + e._procedencia.notaFuente;
+
+    const ul = document.createElement('ul');
+    ul.className = 'aviso-procedencia__fuentes';
+    for (const id of e.fuentes ?? []) {
+      const f = e._procedencia.fuentes.find((x) => x.id === id);
+      if (!f) continue;
+      const li = document.createElement('li');
+      if (f.url) {
+        const a = document.createElement('a');
+        a.href = f.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = f.titulo;
+        li.appendChild(a);
+      } else {
+        li.textContent = f.titulo;
+      }
+      li.appendChild(document.createTextNode(' — ' + f.usadaPara));
+      ul.appendChild(li);
+    }
+
+    d.append(et, tx, ul);
+    return d;
   }
 
   _pintarConcepto(e) {

@@ -162,3 +162,74 @@ librerías; están en [`CREDITOS.md`](CREDITOS.md).
    redactarla (§2).
 3. Confirmar la autoridad de segunda instancia del carril 6 (§4).
 4. Si lo tienes, el reparto artículo → página del Senado (§5).
+
+---
+
+# Addendum — 7-oct-2026: dos etapas añadidas a petición del autor
+
+El autor pidió que **la decisión inhibitoria** y **el poder preferente de la
+Procuraduría** tuvieran etapa propia, con fundamento legal y términos. Eso
+supera la regla 2 del encargo original («no agregues artículos, plazos ni citas
+que no estén en la sección 5»), y es su decisión.
+
+Para que la excepción no contamine lo verificado, el material nuevo vive en
+**[`data/etapas-adicionales.json`](data/etapas-adicionales.json)**, archivo
+aparte. `etapas-cgd.json` **no se tocó** y su sello sigue siendo el mismo
+(`8c8ff640…`). La prueba automatizada comprueba además que ninguna etapa añadida
+se haya filtrado al archivo sellado.
+
+## La fuente no es la misma, y eso importa
+
+**La compilación de la Secretaría del Senado no respondía** al redactar estas
+etapas: conexión rechazada desde la terminal y desde el navegador. El texto se
+tomó de otras bases oficiales:
+
+| Artículo | De dónde salió | Cómo |
+|---|---|---|
+| 2 y 3 | [Gestor Normativo, Función Pública](https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=90324) | Transcripción verbatim |
+| 209 | Misma consulta + coincide con lo que ya decía la sección 5 (E00) | Verbatim |
+| 216 | Relatoría de la Procuraduría (ed. 2024) + sección 5 (E02) | Cotejo entre dos fuentes |
+
+**Pendiente:** cotejar las dos etapas contra la compilación del Senado cuando
+vuelva a estar en línea, y contra el Diario Oficial.
+
+La interfaz no esconde esto. Las dos etapas llevan en el panel un recuadro ámbar
+—distinto del gris de la nota interpretativa— que dice «Etapa añadida — otra
+fuente», explica que no viene del encargo verificado y enlaza las tres fuentes.
+En el índice y en la escena llevan un punto ámbar.
+
+## E00B — Decisión inhibitoria
+
+Antes existía sólo como un rótulo muerto al final de una rama. Ahora es etapa
+clicable con panel propio.
+
+- **Término:** el art. 209 **no fija uno**. Dice «de plano», que excluye trámite
+  previo pero no es un plazo. No lo completé con el término general del art.
+  117: esa derivación es interpretación y queda señalada como tal en la nota.
+- **Notificación:** el art. 209 **no establece forma especial**. Y hay un hueco
+  real: el art. 129 manda comunicar al quejoso *el archivo y el fallo
+  absolutorio*, y la inhibitoria no es ninguno de los dos. **Decisión tuya.**
+
+## P01 — Poder disciplinario preferente
+
+Está en el carril de la Procuraduría, con dos rutas de retorno a trazos hacia la
+instrucción y hacia la segunda instancia, porque el art. 3 permite «iniciar,
+proseguir o remitir» y asumir la segunda instancia.
+
+- **Término:** **ninguna de las tres normas fija uno** para que la Procuraduría
+  decida si ejerce el poder preferente. Lo único con exigencia temporal es el
+  aviso de la OCDI, que el art. 216 ordena «inmediato».
+- **Cuidado con esa afirmación:** que yo no haya encontrado término no equivale
+  a que la ley diga que no lo hay. Puede existir en una resolución interna de la
+  Procuraduría, que no consulté. Así está redactado en la nota interpretativa de
+  la etapa, y conviene que lo revises antes de afirmarlo en público.
+- Del art. 2 se transcribe **sólo el primer inciso**. El resto regula la revisión
+  contencioso-administrativa y la competencia privativa sobre servidores de
+  elección popular, fuera del alcance de esta presentación.
+
+## Qué necesito de ti sobre esto
+
+1. Cotejar E00B y P01 contra el Senado y el Diario Oficial cuando vuelva el sitio.
+2. Decidir si la inhibitoria se comunica al quejoso y con qué fundamento.
+3. Confirmar si existe término para decidir el poder preferente en algún acto
+   interno de la Procuraduría.

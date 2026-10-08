@@ -154,6 +154,54 @@ for (const [n, presente, desc] of correcciones) {
 }
 if (limpio) ok('ninguno de los 10 errores de redacción del manual aparece en datos ni en código');
 
+/* ── 4 bis. etapas añadidas: no deben colarse como verificadas ── */
+
+tema('4 bis. Etapas añadidas después del encargo');
+
+const RUTA_EXTRA = join(raiz, 'data', 'etapas-adicionales.json');
+if (!existsSync(RUTA_EXTRA)) {
+  ok('no hay etapas añadidas');
+} else {
+  const extra = JSON.parse(readFileSync(RUTA_EXTRA, 'utf8'));
+
+  // ninguna id añadida puede chocar con una de la sección 5
+  const choque = extra.etapas.filter((e) => ids.includes(e.id)).map((e) => e.id);
+  choque.length
+    ? mal('ids añadidos que pisan la sección 5: ' + choque.join(' '))
+    : ok(`${extra.etapas.length} añadidas sin pisar las verificadas: ` +
+         extra.etapas.map((e) => e.id).join(' '));
+
+  // cada una debe declarar procedencia, fuentes resolubles y nota
+  for (const e of extra.etapas) {
+    if (e.verificacion !== 'anadida-fuente-alterna') {
+      mal(`${e.id}: debe declarar verificacion "anadida-fuente-alterna", no "${e.verificacion}"`);
+    }
+    if (!e.fuentes?.length) mal(`${e.id}: sin fuentes declaradas`);
+    for (const f of e.fuentes ?? []) {
+      if (!extra.procedencia.fuentes.some((x) => x.id === f)) {
+        mal(`${e.id}: cita la fuente «${f}», que no está en procedencia.fuentes`);
+      }
+    }
+    if (!e.notaInterpretativa) mal(`${e.id}: una etapa añadida debe llevar nota interpretativa`);
+    for (const c of OBLIGATORIOS) {
+      if (c === 'animacion' || c === 'siguientes') continue;
+      const v = e[c];
+      if (v == null || (typeof v === 'string' && !v.trim()) || (Array.isArray(v) && !v.length)) {
+        mal(`${e.id}: campo «${c}» ausente o vacío`);
+      }
+    }
+  }
+  extra.procedencia?.notaFuente
+    ? ok('la procedencia advierte que el Senado no respondió y queda cotejo pendiente')
+    : mal('falta procedencia.notaFuente');
+
+  // y el archivo sellado no debe haber absorbido nada de esto
+  const idsExtra = extra.etapas.map((e) => e.id);
+  idsExtra.some((id) => textoDatos.includes(`"${id}"`))
+    ? mal('una etapa añadida se filtró al archivo sellado')
+    : ok('el archivo sellado sigue conteniendo sólo la sección 5');
+}
+
 /* ── 5. fuente y fecha ──────────────────────────────────────── */
 
 tema('5. Fuente citada');

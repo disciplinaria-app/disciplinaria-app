@@ -53,6 +53,20 @@
       "rotuloLargo": "NOTICIA DISCIPLINARIA"
     },
     {
+      "id": "E00B",
+      "tipo": "etapa",
+      "carril": "quejoso",
+      "t": 1,
+      "rotulo": "INHIBITORIA",
+      "modelo": "ventanilla-inhibitoria",
+      "personaje": {
+        "rol": "secretaria",
+        "animacion": "sellar"
+      },
+      "plazo": null,
+      "anadida": true
+    },
+    {
       "id": "E01",
       "tipo": "etapa",
       "carril": "ocdi",
@@ -119,6 +133,20 @@
         }
       ],
       "rotuloLargo": "APERTURA DE INVESTIGACIÓN"
+    },
+    {
+      "id": "P01",
+      "tipo": "etapa",
+      "carril": "pgn",
+      "t": 4,
+      "rotulo": "PODER PREFERENTE",
+      "modelo": "mesa-preferente",
+      "personaje": {
+        "rol": "segunda",
+        "animacion": "revisar"
+      },
+      "plazo": null,
+      "anadida": true
     },
     {
       "id": "E03",
@@ -392,7 +420,7 @@
       "ramas": [
         {
           "etiqueta": "No",
-          "destino": "T_INHIBITORIA"
+          "destino": "E00B"
         },
         {
           "etiqueta": "Sí",
@@ -492,14 +520,6 @@
       ]
     },
     {
-      "id": "T_INHIBITORIA",
-      "tipo": "terminal",
-      "carril": "quejoso",
-      "t": 1,
-      "rotulo": "INHIBITORIA",
-      "detalle": "sin recurso (art. 209)"
-    },
-    {
       "id": "T_ARCHIVO",
       "tipo": "terminal",
       "carril": "quejoso",
@@ -514,12 +534,6 @@
       "a": "G_PROC",
       "tipo": "principal",
       "objeto": "expediente"
-    },
-    {
-      "de": "G_PROC",
-      "a": "T_INHIBITORIA",
-      "tipo": "rama",
-      "objeto": null
     },
     {
       "de": "G_PROC",
@@ -742,12 +756,42 @@
       "tipo": "comunicacion",
       "objeto": "datos",
       "etiqueta": "registro — 5 días"
+    },
+    {
+      "de": "G_PROC",
+      "a": "E00B",
+      "tipo": "rama",
+      "objeto": null,
+      "etiqueta": "no procede actuación — sin recurso (art. 209)"
+    },
+    {
+      "de": "E02#pgn",
+      "a": "P01",
+      "tipo": "comunicacion",
+      "objeto": "correo",
+      "etiqueta": "aviso inmediato (art. 216)"
+    },
+    {
+      "de": "P01",
+      "a": "E03",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "iniciar, proseguir o remitir (art. 3)"
+    },
+    {
+      "de": "P01",
+      "a": "E09",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "puede asumir la segunda instancia (art. 3)"
     }
   ],
   "recorridoGuiado": [
     "E00",
+    "E00B",
     "E01",
     "E02",
+    "P01",
     "E03",
     "E04",
     "E05",
@@ -763,6 +807,7 @@
       "id": "Indagación",
       "etapas": [
         "E00",
+        "E00B",
         "E01"
       ]
     },
@@ -770,6 +815,7 @@
       "id": "Investigación",
       "etapas": [
         "E02",
+        "P01",
         "E03",
         "E04",
         "E05"
