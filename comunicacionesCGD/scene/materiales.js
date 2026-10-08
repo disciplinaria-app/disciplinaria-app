@@ -14,14 +14,14 @@
 import * as THREE from 'three';
 
 export const COLOR = {
-  plataforma:     0xDDE7F3,
-  plataformaCanto:0x9FB6D2,
-  plataformaBajo: 0x7C95B5,
+  plataforma:     0xEDF3FA,
+  plataformaCanto:0x8AA4C6,
+  plataformaBajo: 0x6B86A8,
 
-  mueble:         0xF4F7FB,
-  muebleSombra:   0xC6D3E4,
-  metal:          0x93A7C1,
-  metalOscuro:    0x6B7F99,
+  mueble:         0xFBFDFF,
+  muebleSombra:   0xB7C7DC,
+  metal:          0x8699B4,
+  metalOscuro:    0x5A6D87,
 
   acento:         0xF2C94C,
   acentoHondo:    0xD9A520,

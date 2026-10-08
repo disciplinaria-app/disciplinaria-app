@@ -295,21 +295,39 @@ export class Elenco {
       semilla: personaje.userData.semilla,
       labor: resolverAnimacion(animacion),
       idNodo,
-      trabajando: false,
+      intensidad: 1,
     };
     this.fichas.push(f);
     return f;
   }
 
-  /** Pone a trabajar al personaje de un nodo; los demás vuelven a idle. */
+  /**
+   * Todos trabajan siempre. Antes sólo se movía el personaje de la estación
+   * enfocada y el resto respiraba: la oficina parecía detenida salvo en un
+   * punto. Ahora cada quien hace su labor de continuo y el enfoque sólo sube
+   * la amplitud del que miras, que es como se ve una oficina de verdad.
+   */
   enfocar(idNodo) {
-    for (const f of this.fichas) f.trabajando = idNodo != null && f.idNodo === idNodo;
+    for (const f of this.fichas) {
+      f.intensidad = idNodo == null ? 0.82 : (f.idNodo === idNodo ? 1 : 0.6);
+    }
   }
 
   actualizar(t) {
     for (const f of this.fichas) {
       if (!f.personaje.visible) continue;
-      (f.trabajando ? f.labor : ANIMACIONES.idle)(f.partes, t, f.semilla);
+      const p = f.partes;
+      f.labor(p, t, f.semilla);
+      // la amplitud se aplica después, escalando lo que la receta escribió
+      const k = f.intensidad;
+      if (k !== 1) {
+        p.hombroIzq.rotation.x *= k; p.hombroIzq.rotation.z *= k;
+        p.hombroDer.rotation.x *= k; p.hombroDer.rotation.z *= k;
+        p.cuello.rotation.x *= k;    p.cuello.rotation.y *= k;
+        p.tronco.rotation.x *= k;
+      }
+      // respiración de fondo: nunca hay una figura completamente quieta
+      p.tronco.position.y += Math.sin((t * 0.55 + f.semilla) * Math.PI * 2) * 0.09;
     }
   }
 
@@ -317,8 +335,70 @@ export class Elenco {
   congelar() {
     for (const f of this.fichas) {
       ANIMACIONES.idle(f.partes, 0, 0);
-      f.trabajando = false;
+      f.intensidad = 0;
     }
     this.actualizar = () => {};
   }
+}
+
+/* ─────────────────── personal en tránsito ───────────────────
+   En una oficina la gente camina. Estos van y vienen por su carril
+   llevando carpetas, y son lo que convierte una maqueta con figuras
+   plantadas en un sitio donde se trabaja.
+   ─────────────────────────────────────────────────────────── */
+
+export class Mensajeros {
+  constructor() {
+    this.grupo = new THREE.Group();
+    this.grupo.name = 'mensajeros';
+    this.lista = [];
+  }
+
+  agregar({ x0, x1, z, rol = 'secretaria', velocidad = 11, fase = 0, conCarpeta = true }) {
+    const p = crearPersonaje(rol, 90 + this.lista.length);
+    p.position.set(x0, 0, z);
+    if (conCarpeta) {
+      const c = carpeta(this.lista.length % 3 === 0 ? COLOR.acento : COLOR.papel);
+      c.scale.setScalar(0.85);
+      ponerEnMano(p, 'der', c);
+    }
+    this.grupo.add(p);
+    this.lista.push({ p, x0, x1, z, velocidad, fase, partes: p.userData.partes });
+    return p;
+  }
+
+  actualizar(t) {
+    for (const m of this.lista) {
+      const largo = Math.abs(m.x1 - m.x0);
+      if (largo < 1) continue;
+      const periodo = (largo / m.velocidad) * 2;
+      const u = ((t / periodo) + m.fase) % 1;
+      // ida y vuelta, con una pausa corta en cada extremo
+      const v = u < 0.5 ? u * 2 : (1 - u) * 2;
+      const suave = v < 0.08 ? 0 : v > 0.92 ? 1 : (v - 0.08) / 0.84;
+      m.p.position.x = m.x0 + (m.x1 - m.x0) * suave;
+      const parado = v < 0.08 || v > 0.92;
+      m.p.rotation.y = (u < 0.5 ? 1 : -1) * Math.PI / 2 * Math.sign(m.x1 - m.x0 || 1);
+
+      const q = m.partes;
+      if (parado) {
+        // en el extremo entrega la carpeta: se inclina y estira el brazo
+        q.hombroDer.rotation.x = -1.4;
+        q.hombroIzq.rotation.x = -0.3;
+        q.tronco.rotation.x = 0.12;
+        q.piernas.rotation.x = 0;
+        q.tronco.position.y = 4.1;
+      } else {
+        const paso = Math.sin(t * 7.5 + m.fase * 9);
+        q.piernas.rotation.x = paso * 0.42;
+        q.hombroIzq.rotation.x = -paso * 0.55;
+        q.hombroDer.rotation.x = paso * 0.3 - 0.55;   // el brazo de la carpeta va recogido
+        q.tronco.rotation.x = 0.07;
+        q.tronco.position.y = 4.1 + Math.abs(paso) * 0.3;
+        q.cuello.rotation.y = Math.sin(t * 1.1 + m.fase * 5) * 0.2;
+      }
+    }
+  }
+
+  congelar() { this.actualizar = () => {}; }
 }

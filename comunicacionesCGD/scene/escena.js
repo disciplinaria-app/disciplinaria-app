@@ -36,6 +36,7 @@ export class Escena {
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.shadowMap.enabled = !this.movil;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.toneMapping = THREE.NoToneMapping;
     contenedor.appendChild(this.renderer.domElement);
 
     this.escena = new THREE.Scene();
@@ -48,26 +49,37 @@ export class Escena {
     this._colocarCamara();
 
     // ── luces ──────────────────────────────────────────────────
-    this.escena.add(new THREE.HemisphereLight(0xcfe2ff, 0x1d4a8f, 1.15));
+    // menos luz ambiental y más clave: el relleno alto aplanaba las formas
+    // y era la razón de que todo se viera lavado
+    this.escena.add(new THREE.HemisphereLight(0xcfe2ff, 0x1a4484, 0.72));
 
-    const clave = new THREE.DirectionalLight(0xffffff, 2.0);
-    clave.position.set(-320, 560, 300);
+    const clave = new THREE.DirectionalLight(0xfff6e8, 2.5);
+    clave.position.set(-300, 520, 280);
     if (!this.movil) {
       clave.castShadow = true;
       const s = clave.shadow;
-      s.mapSize.set(2048, 2048);
-      s.camera.near = 100; s.camera.far = 1600;
-      s.camera.left = -700; s.camera.right = 700;
-      s.camera.top = 420; s.camera.bottom = -420;
-      s.bias = -0.0012;
-      s.normalBias = 1.2;
+      // 4096 sobre un frustum ajustado al campo real (±420 × ±300) deja el
+      // texel en ~0,2 unidades: la sombra de una silla se ve como una silla.
+      // Con 2048 sobre ±700 el texel era 0,68 y todo salía empastado.
+      s.mapSize.set(4096, 4096);
+      s.camera.near = 150; s.camera.far = 1500;
+      s.camera.left = -430; s.camera.right = 430;
+      s.camera.top = 310; s.camera.bottom = -310;
+      s.bias = -0.0004;
+      s.normalBias = 0.5;
+      s.radius = 1.4;
     }
     this.escena.add(clave);
     this.luzClave = clave;
 
-    const relleno = new THREE.DirectionalLight(0xa8c8ff, 0.5);
+    const relleno = new THREE.DirectionalLight(0x9dc0ff, 0.42);
     relleno.position.set(420, 240, -360);
     this.escena.add(relleno);
+
+    // luz de contra, rasante: dibuja el canto de las losas contra el campo
+    const contra = new THREE.DirectionalLight(0xbcd8ff, 0.55);
+    contra.position.set(260, 90, 440);
+    this.escena.add(contra);
 
     // ── cuadrícula ─────────────────────────────────────────────
     this.escena.add(this._crearCuadricula());

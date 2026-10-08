@@ -719,6 +719,51 @@ export const MODELOS = {
     return g;
   },
 
+  /* ── etapas añadidas a petición del autor ── */
+
+  'ventanilla-inhibitoria'() {
+    const g = new THREE.Group();
+    g.add(caja(18, 7.0, 9, COLOR.mueble, 0, 3.5, 0));
+    g.add(caja(19.4, 0.9, 10.2, COLOR.plataforma, 0, 7.4, 0));
+    // la reja bajada: aquí la actuación no se abre
+    const reja = new THREE.Group();
+    for (let i = 0; i < 9; i++) {
+      reja.add(caja(0.7, 8.6, 0.7, COLOR.metalOscuro, -8 + i * 2, 12.2, 4.0));
+    }
+    reja.add(caja(19.4, 0.9, 1.4, COLOR.metalOscuro, 0, 16.6, 4.0));
+    g.add(reja);
+    // el sello rojo y la queja detenida
+    g.add(cilindro(2.0, 3.0, COLOR.alerta, 5.6, 9.4, -0.6));
+    g.add(cilindro(0.7, 2.6, COLOR.tinta, 5.6, 12.2, -0.6));
+    const detenida = caja(5.0, 0.5, 6.0, COLOR.papel, -4.5, 8.1, 0);
+    g.add(detenida);
+    g.add(pieza(geoCilindro(1.5, 0.3, 12), mat(COLOR.alerta), -4.5, 8.4, 0, { sombra: false }));
+    // bandeja de salida: sale por donde entró
+    g.add(caja(6.0, 0.8, 5.0, COLOR.metalOscuro, 0, 1.4, 7.5));
+    g.userData.puesto = { x: 0, z: -7.6, rotY: 0 };
+    return g;
+  },
+
+  'mesa-preferente'() {
+    const g = new THREE.Group();
+    g.add(caja(14, 2.0, 12, COLOR.plataformaCanto, 0, 1.0, 0));
+    g.add(escritorio(20, 11).translateY(2.0));
+    // dos expedientes: el que ya tiene y el que puede atraer
+    const propio = expedienteApilado(5);
+    propio.position.set(-5, ALTO_MESA + 2.8, 0);
+    g.add(propio);
+    const atraido = expedienteApilado(7);
+    atraido.position.set(5.5, ALTO_MESA + 2.8, 0);
+    g.add(atraido);
+    g.userData.atraido = atraido;
+    g.userData.yAtraido = ALTO_MESA + 2.8;
+    // el sello de la entidad que puede desplazar a la otra
+    g.add(cilindro(2.6, 0.6, COLOR.plataforma, 0, ALTO_MESA + 2.4, -4.5));
+    g.add(pieza(geoCilindro(2.0, 0.5, 14), mat(COLOR.pantalla), 0, ALTO_MESA + 2.8, -4.5, { sombra: false }));
+    g.userData.puesto = { x: 0, z: -9.0, rotY: 0 };
+    return g;
+  },
+
   /* ── carril de la PGN ── */
 
   'servidor-pgn'() {
@@ -850,6 +895,7 @@ export function vidaAmbiente(nodos) {
     if (u.testigo) piezas.push({ t: 'testigo', o: u.testigo });
     if (u.sello)   piezas.push({ t: 'sello', o: u.sello, y: u.sello.position.y });
     if (u.pantalla) piezas.push({ t: 'pantalla', o: u.pantalla.userData.vidrio });
+    if (u.atraido)  piezas.push({ t: 'atraido', o: u.atraido, y: u.yAtraido });
     for (const s of nodos[id].satelites) {
       if (s.modelo.userData.luces) piezas.push({ t: 'luces', o: s.modelo.userData.luces });
       if (s.modelo.userData.pantalla) piezas.push({ t: 'pantalla', o: s.modelo.userData.pantalla.userData.vidrio });
@@ -874,6 +920,14 @@ export function vidaAmbiente(nodos) {
         case 'pantalla':
           p.o.material.emissiveIntensity = 0.62 + Math.sin(t * 1.7) * 0.12;
           break;
+        case 'atraido': {
+          // «iniciar, proseguir o remitir»: el expediente se levanta y vuelve
+          const f = (t / 5.5) % 1;
+          const alza = f < 0.5 ? Math.sin(f * 2 * Math.PI) : 0;
+          p.o.position.y = p.y + Math.max(0, alza) * 5.5;
+          p.o.rotation.y = Math.max(0, alza) * 0.5;
+          break;
+        }
         case 'luces':
           p.o.children.forEach((l, i) => {
             l.material.emissiveIntensity = 0.35 + (Math.sin(t * 2.2 + i * 1.7) > 0.2 ? 0.8 : 0);
