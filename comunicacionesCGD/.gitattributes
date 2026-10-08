@@ -1,0 +1,6 @@
+# El contenido jurídico se sella con un SHA-256 (pruebas/verificar-contenido.mjs).
+# Si git cambiara los finales de línea al clonar, el sello no cuadraría en otra
+# máquina. Aquí se fuerza LF siempre.
+* text=auto eol=lf
+*.webp binary
+*.png  binary

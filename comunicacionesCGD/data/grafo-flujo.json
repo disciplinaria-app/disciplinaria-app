@@ -1,0 +1,846 @@
+{
+  "_aviso": "Geometría y topología del diagrama. No contiene texto legal: ese vive sólo en etapas-cgd.json.",
+  "escala": {
+    "pasoColumna": 58,
+    "columnas": 11,
+    "anchoPlataforma": 694,
+    "altoPlataforma": 9,
+    "separacionCarriles": 14,
+    "_nota": "Los carriles no tienen todos el mismo fondo: el de juzgamiento aloja las dos vías (ordinario y verbal) en paralelo, así que es más profundo. Los centros en z se calculan acumulando fondo + separación."
+  },
+  "ordenCarriles": [
+    "quejoso",
+    "ocdi",
+    "secretaria",
+    "disciplinable",
+    "juzgamiento",
+    "segunda",
+    "pgn"
+  ],
+  "fondoCarril": {
+    "quejoso": 50,
+    "ocdi": 64,
+    "secretaria": 54,
+    "disciplinable": 58,
+    "juzgamiento": 98,
+    "segunda": 50,
+    "pgn": 44
+  },
+  "nodos": [
+    {
+      "id": "E00",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 0,
+      "rotulo": "NOTICIA",
+      "modelo": "ventanilla",
+      "personaje": {
+        "rol": "secretaria",
+        "animacion": "radicar"
+      },
+      "plazo": null,
+      "satelites": [
+        {
+          "carril": "quejoso",
+          "t": 0,
+          "modelo": "mostrador-queja",
+          "personaje": {
+            "rol": "quejoso",
+            "animacion": "entregar"
+          }
+        }
+      ],
+      "rotuloLargo": "NOTICIA DISCIPLINARIA"
+    },
+    {
+      "id": "E00B",
+      "tipo": "etapa",
+      "carril": "quejoso",
+      "t": 1,
+      "rotulo": "INHIBITORIA",
+      "modelo": "ventanilla-inhibitoria",
+      "personaje": {
+        "rol": "secretaria",
+        "animacion": "sellar"
+      },
+      "plazo": null,
+      "anadida": true
+    },
+    {
+      "id": "E01",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 1,
+      "rotulo": "INDAGACIÓN",
+      "modelo": "tablero-indagacion",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "examinar"
+      },
+      "plazo": {
+        "texto": "6 meses",
+        "dias": null,
+        "meses": 6,
+        "nota": "+6 meses solo DDHH/DIH"
+      },
+      "rotuloLargo": "INDAGACIÓN PREVIA"
+    },
+    {
+      "id": "E02",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 2,
+      "rotulo": "APERTURA",
+      "modelo": "escritorio-firma",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "firmar"
+      },
+      "plazo": {
+        "texto": "5 días",
+        "dias": 5,
+        "meses": null,
+        "nota": "edicto 3 días si no comparece"
+      },
+      "satelites": [
+        {
+          "carril": "secretaria",
+          "t": 2,
+          "modelo": "cartelera-edictos",
+          "personaje": {
+            "rol": "secretaria",
+            "animacion": "fijar-edicto"
+          },
+          "plazo": {
+            "texto": "3 días",
+            "dias": 3
+          }
+        },
+        {
+          "carril": "disciplinable",
+          "t": 2,
+          "modelo": "puerta-domicilio",
+          "personaje": {
+            "rol": "disciplinable",
+            "animacion": "recibir"
+          }
+        },
+        {
+          "carril": "pgn",
+          "t": 2,
+          "modelo": "servidor-pgn",
+          "personaje": null
+        }
+      ],
+      "rotuloLargo": "APERTURA DE INVESTIGACIÓN"
+    },
+    {
+      "id": "P01",
+      "tipo": "etapa",
+      "carril": "pgn",
+      "t": 4,
+      "rotulo": "PODER PREFERENTE",
+      "modelo": "mesa-preferente",
+      "personaje": {
+        "rol": "segunda",
+        "animacion": "revisar"
+      },
+      "plazo": null,
+      "anadida": true
+    },
+    {
+      "id": "E03",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 3,
+      "rotulo": "INVESTIGACIÓN",
+      "modelo": "escritorio-version",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "tomar-version"
+      },
+      "plazo": {
+        "texto": "6 meses",
+        "dias": null,
+        "meses": 6,
+        "nota": "+6 · máx. 18 DDHH/DIH · +3"
+      },
+      "satelites": [
+        {
+          "carril": "secretaria",
+          "t": 3,
+          "modelo": "pantalla-estado",
+          "personaje": {
+            "rol": "secretaria",
+            "animacion": "publicar-estado"
+          }
+        },
+        {
+          "carril": "disciplinable",
+          "t": 3,
+          "modelo": "silla-declarante",
+          "personaje": {
+            "rol": "disciplinable",
+            "animacion": "declarar"
+          }
+        }
+      ],
+      "rotuloLargo": "INVESTIGACIÓN"
+    },
+    {
+      "id": "E04",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 4,
+      "rotulo": "CIERRE",
+      "modelo": "escritorio-cierre",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "cerrar-expediente"
+      },
+      "plazo": {
+        "texto": "10 días",
+        "dias": 10,
+        "meses": null,
+        "nota": "traslado para alegatos"
+      },
+      "satelites": [
+        {
+          "carril": "disciplinable",
+          "t": 4,
+          "modelo": "mesa-escrito",
+          "personaje": {
+            "rol": "defensa",
+            "animacion": "entregar"
+          }
+        }
+      ],
+      "rotuloLargo": "CIERRE Y ALEGATOS"
+    },
+    {
+      "id": "E05",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 5,
+      "rotulo": "EVALUACIÓN",
+      "modelo": "balanza",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "pesar"
+      },
+      "plazo": {
+        "texto": "10 días",
+        "dias": 10,
+        "meses": null,
+        "nota": "término general art. 117 — ver nota interpretativa",
+        "interpretativo": true
+      },
+      "rotuloLargo": "EVALUACIÓN"
+    },
+    {
+      "id": "E06",
+      "tipo": "etapa",
+      "carril": "ocdi",
+      "t": 6,
+      "rotulo": "PLIEGO",
+      "modelo": "escritorio-pliego",
+      "personaje": {
+        "rol": "ocdi",
+        "animacion": "firmar"
+      },
+      "plazo": {
+        "texto": "3 días",
+        "dias": 3,
+        "meses": null,
+        "nota": "improrrogable — remisión al juzgador"
+      },
+      "satelites": [
+        {
+          "carril": "secretaria",
+          "t": 6,
+          "modelo": "mostrador-notificacion",
+          "personaje": {
+            "rol": "secretaria",
+            "animacion": "despachar"
+          },
+          "plazo": {
+            "texto": "5 días",
+            "dias": 5
+          }
+        },
+        {
+          "carril": "disciplinable",
+          "t": 6,
+          "modelo": "banca-defensor",
+          "personaje": {
+            "rol": "defensorPublico",
+            "animacion": "comparecer"
+          }
+        }
+      ],
+      "rotuloLargo": "PLIEGO DE CARGOS"
+    },
+    {
+      "id": "E07",
+      "tipo": "etapa",
+      "carril": "juzgamiento",
+      "t": 7,
+      "rotulo": "FIJACIÓN DE VÍA",
+      "modelo": "escritorio-dos-carpetas",
+      "personaje": {
+        "rol": "juzgamiento",
+        "animacion": "elegir"
+      },
+      "plazo": null,
+      "rotuloLargo": "FIJACIÓN DE LA VÍA"
+    },
+    {
+      "id": "E08A",
+      "tipo": "etapa",
+      "carril": "juzgamiento",
+      "t": 8,
+      "zOffset": -26,
+      "rotulo": "ORDINARIO",
+      "modelo": "linea-montaje",
+      "personaje": {
+        "rol": "juzgamiento",
+        "animacion": "redactar"
+      },
+      "via": "ordinario",
+      "plazo": {
+        "texto": "30 días hábiles",
+        "dias": 30,
+        "meses": null,
+        "nota": "15 descargos · ≤90 pruebas · 10 alegatos"
+      },
+      "subEstaciones": [
+        {
+          "rotulo": "DESCARGOS",
+          "plazo": "15"
+        },
+        {
+          "rotulo": "PRUEBAS",
+          "plazo": "≤90"
+        },
+        {
+          "rotulo": "ALEGATOS",
+          "plazo": "10"
+        },
+        {
+          "rotulo": "FALLO",
+          "plazo": "30"
+        }
+      ],
+      "rotuloLargo": "JUICIO ORDINARIO"
+    },
+    {
+      "id": "E08B",
+      "tipo": "etapa",
+      "carril": "juzgamiento",
+      "t": 8,
+      "zOffset": 26,
+      "rotulo": "VERBAL",
+      "modelo": "sala-audiencias",
+      "personaje": {
+        "rol": "juzgamiento",
+        "animacion": "presidir"
+      },
+      "via": "verbal",
+      "plazo": {
+        "texto": "10–20 días",
+        "dias": 20,
+        "meses": null,
+        "nota": "audiencia · pruebas 20+20 · fallo ≤15"
+      },
+      "rotuloLargo": "JUICIO VERBAL"
+    },
+    {
+      "id": "E09",
+      "tipo": "etapa",
+      "carril": "segunda",
+      "t": 9,
+      "rotulo": "SEGUNDA INSTANCIA",
+      "modelo": "estrado",
+      "personaje": {
+        "rol": "segunda",
+        "animacion": "revisar"
+      },
+      "plazo": {
+        "texto": "45 días",
+        "dias": 45,
+        "meses": null,
+        "nota": "40 días si hay pruebas de oficio"
+      },
+      "sinVerificar": true,
+      "rotuloLargo": "SEGUNDA INSTANCIA"
+    },
+    {
+      "id": "E10",
+      "tipo": "etapa",
+      "carril": "juzgamiento",
+      "t": 10,
+      "rotulo": "EJECUTORIA",
+      "modelo": "sello-ejecutoria",
+      "personaje": {
+        "rol": "nominador",
+        "animacion": "sellar"
+      },
+      "plazo": {
+        "texto": "3 días",
+        "dias": 3,
+        "meses": null,
+        "nota": "ejecución · 5 días reporte PGN"
+      },
+      "satelites": [
+        {
+          "carril": "quejoso",
+          "t": 10,
+          "modelo": "buzon-quejoso",
+          "personaje": {
+            "rol": "quejoso",
+            "animacion": "recibir"
+          }
+        },
+        {
+          "carril": "pgn",
+          "t": 10,
+          "modelo": "servidor-pgn",
+          "personaje": null
+        }
+      ],
+      "rotuloLargo": "EJECUTORIA Y REGISTRO"
+    },
+    {
+      "id": "G_PROC",
+      "tipo": "compuerta",
+      "carril": "ocdi",
+      "t": 0,
+      "tOffset": 29,
+      "pregunta": "¿Procede actuación?",
+      "ramas": [
+        {
+          "etiqueta": "No",
+          "destino": "E00B"
+        },
+        {
+          "etiqueta": "Sí",
+          "destino": "G_AUTOR"
+        }
+      ]
+    },
+    {
+      "id": "G_AUTOR",
+      "tipo": "compuerta",
+      "carril": "ocdi",
+      "t": 1,
+      "tOffset": -29,
+      "pregunta": "¿Autor identificado?",
+      "ramas": [
+        {
+          "etiqueta": "No",
+          "destino": "E01"
+        },
+        {
+          "etiqueta": "Sí",
+          "destino": "E02"
+        }
+      ]
+    },
+    {
+      "id": "G_COMPARECE",
+      "tipo": "compuerta",
+      "carril": "disciplinable",
+      "t": 2,
+      "tOffset": 29,
+      "pregunta": "¿Comparece en 5 días?",
+      "ramas": [
+        {
+          "etiqueta": "Sí",
+          "destino": "E03"
+        },
+        {
+          "etiqueta": "No",
+          "destino": "E03",
+          "via": "edicto"
+        }
+      ]
+    },
+    {
+      "id": "G_MERITO",
+      "tipo": "compuerta",
+      "carril": "ocdi",
+      "t": 5,
+      "tOffset": 29,
+      "pregunta": "¿Mérito para acusar?",
+      "ramas": [
+        {
+          "etiqueta": "No",
+          "destino": "T_ARCHIVO"
+        },
+        {
+          "etiqueta": "Sí",
+          "destino": "E06"
+        }
+      ]
+    },
+    {
+      "id": "G_VIA",
+      "tipo": "compuerta",
+      "carril": "juzgamiento",
+      "t": 7,
+      "tOffset": 29,
+      "pregunta": "¿Ordinario o verbal?",
+      "ramas": [
+        {
+          "etiqueta": "Ordinario",
+          "destino": "E08A"
+        },
+        {
+          "etiqueta": "Verbal",
+          "destino": "E08B"
+        }
+      ]
+    },
+    {
+      "id": "G_APELA",
+      "tipo": "compuerta",
+      "carril": "juzgamiento",
+      "t": 8,
+      "tOffset": 29,
+      "pregunta": "¿Se apela?",
+      "ramas": [
+        {
+          "etiqueta": "Sí",
+          "destino": "E09"
+        },
+        {
+          "etiqueta": "No",
+          "destino": "E10"
+        }
+      ]
+    },
+    {
+      "id": "T_ARCHIVO",
+      "tipo": "terminal",
+      "carril": "quejoso",
+      "t": 5,
+      "rotulo": "ARCHIVO",
+      "detalle": "apelable (art. 134)"
+    }
+  ],
+  "rutas": [
+    {
+      "de": "E00",
+      "a": "G_PROC",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_PROC",
+      "a": "G_AUTOR",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_AUTOR",
+      "a": "E01",
+      "tipo": "rama",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_AUTOR",
+      "a": "E02",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E01",
+      "a": "E02",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E01",
+      "a": "T_ARCHIVO",
+      "tipo": "rama",
+      "objeto": "sobre",
+      "etiqueta": "comunicación al quejoso"
+    },
+    {
+      "de": "E02",
+      "a": "E02#secretaria",
+      "tipo": "comunicacion",
+      "objeto": "sobre",
+      "etiqueta": "citación"
+    },
+    {
+      "de": "E02#secretaria",
+      "a": "E02#disciplinable",
+      "tipo": "comunicacion",
+      "objeto": "edicto"
+    },
+    {
+      "de": "E02",
+      "a": "E02#pgn",
+      "tipo": "comunicacion",
+      "objeto": "correo",
+      "etiqueta": "aviso art. 216"
+    },
+    {
+      "de": "E02",
+      "a": "G_COMPARECE",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_COMPARECE",
+      "a": "E03",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E03",
+      "a": "E03#secretaria",
+      "tipo": "comunicacion",
+      "objeto": "correo",
+      "etiqueta": "estado electrónico"
+    },
+    {
+      "de": "E03#secretaria",
+      "a": "E03#disciplinable",
+      "tipo": "comunicacion",
+      "objeto": "correo"
+    },
+    {
+      "de": "E03",
+      "a": "E04",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E04",
+      "a": "E04#disciplinable",
+      "tipo": "comunicacion",
+      "objeto": "sobre",
+      "etiqueta": "traslado 10 días"
+    },
+    {
+      "de": "E04#disciplinable",
+      "a": "E05",
+      "tipo": "comunicacion",
+      "objeto": "sobre",
+      "etiqueta": "alegatos"
+    },
+    {
+      "de": "E04",
+      "a": "E05",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E05",
+      "a": "G_MERITO",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_MERITO",
+      "a": "T_ARCHIVO",
+      "tipo": "rama",
+      "objeto": "sobre",
+      "etiqueta": "comunicación al quejoso"
+    },
+    {
+      "de": "G_MERITO",
+      "a": "E06",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E06",
+      "a": "E06#secretaria",
+      "tipo": "comunicacion",
+      "objeto": "sobre",
+      "etiqueta": "5 días"
+    },
+    {
+      "de": "E06#secretaria",
+      "a": "E06#disciplinable",
+      "tipo": "comunicacion",
+      "objeto": "correo"
+    },
+    {
+      "de": "E06",
+      "a": "E07",
+      "tipo": "principal",
+      "objeto": "expediente",
+      "etiqueta": "3 días improrrogables",
+      "destacada": true
+    },
+    {
+      "de": "E07",
+      "a": "G_VIA",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_VIA",
+      "a": "E08A",
+      "tipo": "principal",
+      "objeto": "expediente",
+      "via": "ordinario"
+    },
+    {
+      "de": "G_VIA",
+      "a": "E08B",
+      "tipo": "principal",
+      "objeto": "expediente",
+      "via": "verbal"
+    },
+    {
+      "de": "E08A",
+      "a": "E07",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "variación de cargos (225D) — 15 días"
+    },
+    {
+      "de": "E08B",
+      "a": "E07",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "variación de cargos (229) — 15 días"
+    },
+    {
+      "de": "E08A",
+      "a": "G_APELA",
+      "tipo": "principal",
+      "objeto": "expediente",
+      "via": "ordinario"
+    },
+    {
+      "de": "E08B",
+      "a": "G_APELA",
+      "tipo": "principal",
+      "objeto": "expediente",
+      "via": "verbal"
+    },
+    {
+      "de": "G_APELA",
+      "a": "E09",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "G_APELA",
+      "a": "E10",
+      "tipo": "rama",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E09",
+      "a": "E10",
+      "tipo": "principal",
+      "objeto": "expediente"
+    },
+    {
+      "de": "E10",
+      "a": "E10#quejoso",
+      "tipo": "comunicacion",
+      "objeto": "sobre",
+      "etiqueta": "archivo y fallo absolutorio"
+    },
+    {
+      "de": "E10",
+      "a": "E10#pgn",
+      "tipo": "comunicacion",
+      "objeto": "datos",
+      "etiqueta": "registro — 5 días"
+    },
+    {
+      "de": "G_PROC",
+      "a": "E00B",
+      "tipo": "rama",
+      "objeto": null,
+      "etiqueta": "no procede actuación — sin recurso (art. 209)"
+    },
+    {
+      "de": "E02#pgn",
+      "a": "P01",
+      "tipo": "comunicacion",
+      "objeto": "correo",
+      "etiqueta": "aviso inmediato (art. 216)"
+    },
+    {
+      "de": "P01",
+      "a": "E03",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "iniciar, proseguir o remitir (art. 3)"
+    },
+    {
+      "de": "P01",
+      "a": "E09",
+      "tipo": "retorno",
+      "objeto": null,
+      "etiqueta": "puede asumir la segunda instancia (art. 3)"
+    }
+  ],
+  "recorridoGuiado": [
+    "E00",
+    "E00B",
+    "E01",
+    "E02",
+    "P01",
+    "E03",
+    "E04",
+    "E05",
+    "E06",
+    "E07",
+    "E08A",
+    "E08B",
+    "E09",
+    "E10"
+  ],
+  "fases": [
+    {
+      "id": "Indagación",
+      "etapas": [
+        "E00",
+        "E00B",
+        "E01"
+      ]
+    },
+    {
+      "id": "Investigación",
+      "etapas": [
+        "E02",
+        "P01",
+        "E03",
+        "E04",
+        "E05"
+      ]
+    },
+    {
+      "id": "Juzgamiento",
+      "etapas": [
+        "E06",
+        "E07",
+        "E08A",
+        "E08B"
+      ]
+    },
+    {
+      "id": "Segunda instancia",
+      "etapas": [
+        "E09"
+      ]
+    },
+    {
+      "id": "Ejecución",
+      "etapas": [
+        "E10"
+      ]
+    }
+  ]
+}

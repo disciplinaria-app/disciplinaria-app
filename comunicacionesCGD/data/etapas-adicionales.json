@@ -1,0 +1,67 @@
+{
+  "_aviso": "ETAPAS AÑADIDAS DESPUÉS DEL ENCARGO ORIGINAL, a petición del autor el 7-oct-2026. NO forman parte de la sección 5 verificada y por eso viven en archivo aparte: así `etapas-cgd.json` sigue sellado e intacto. Cada una declara su procedencia y su estado de verificación, y la interfaz las marca con un distintivo propio.",
+  "procedencia": {
+    "motivo": "El autor pidió que la decisión inhibitoria y el poder preferente de la Procuraduría tuvieran etapa propia, con fundamento legal y términos.",
+    "fecha": "2026-10-07",
+    "notaFuente": "La compilación de la Secretaría del Senado —la fuente de la sección 5— no respondía al momento de redactar estas etapas (conexión rechazada). El texto se tomó de otras bases oficiales, citadas en cada etapa. PENDIENTE: cotejar contra la compilación del Senado y contra el Diario Oficial.",
+    "fuentes": [
+      {
+        "id": "funcionpublica-90324",
+        "titulo": "Ley 1952 de 2019 — Gestor Normativo, Departamento Administrativo de la Función Pública",
+        "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=90324",
+        "consultada": "2026-10-07",
+        "usadaPara": "Artículos 2 y 3, transcritos verbatim."
+      },
+      {
+        "id": "pgn-relatoria-2024",
+        "titulo": "Código General Disciplinario con notas de vigencia y relatoría, edición 2024 — Procuraduría General de la Nación",
+        "url": "https://apps.procuraduria.gov.co/relatoria/media/file/Codigo%20General%20Disciplinario%202024.pdf",
+        "consultada": "2026-10-07",
+        "usadaPara": "Cotejo del artículo 216."
+      },
+      {
+        "id": "seccion-5",
+        "titulo": "Sección 5 del encargo (contenido ya verificado por el autor)",
+        "url": null,
+        "consultada": "2026-10-07",
+        "usadaPara": "Artículo 216 y la forma de notificación de la inhibitoria; coinciden con lo hallado en las bases oficiales."
+      }
+    ]
+  },
+  "etapas": [
+    {
+      "id": "E00B",
+      "fase": "Inicio",
+      "carril": "OCDI — Instrucción",
+      "titulo": "Decisión inhibitoria",
+      "articulos": ["209"],
+      "verificacion": "anadida-fuente-alterna",
+      "fuentes": ["funcionpublica-90324", "seccion-5"],
+      "norma": "Cuando la información o queja sea manifiestamente temeraria o se refiera a hechos disciplinariamente irrelevantes o de imposible ocurrencia o sean presentados de manera absolutamente inconcreta o difusa, o cuando la acción no puede iniciarse, el funcionario de plano se inhibirá de iniciar actuación alguna. Contra esta decisión no procede recurso (art. 209).",
+      "concepto": "Es la puerta que no se abre. La inhibitoria no absuelve ni archiva: declara que no hay materia sobre la cual actuar, y por eso se toma «de plano», sin abrir actuación. Cinco supuestos tasados, no una valoración libre: queja temeraria, hechos disciplinariamente irrelevantes, hechos de imposible ocurrencia, queja absolutamente inconcreta o difusa, e imposibilidad de iniciar la acción. Fuera de esos cinco, el funcionario no puede inhibirse.",
+      "plazos": "El artículo 209 no fija un término propio: la decisión se toma «de plano».",
+      "notificacion": "El artículo 209 no establece una forma especial de notificación para la decisión inhibitoria.",
+      "recursos": "Ninguno. El propio artículo 209 lo dice: «Contra esta decisión no procede recurso».",
+      "notaInterpretativa": "Dos puntos que el artículo no resuelve y que aquí no se completan. Primero, el término: al decir «de plano», el artículo 209 excluye un trámite previo pero no fija un plazo; si se quisiera uno, habría que derivarlo del término general del art. 117, y esa derivación es interpretación, no texto legal. Segundo, la comunicación al quejoso: el art. 129 ordena comunicarle el archivo y el fallo absolutorio, y la inhibitoria no es ninguno de los dos. Conviene que el autor decida ambos puntos antes de usar esta etapa en público.",
+      "animacion": "La recepcionista detiene el sobre en la ventanilla, estampa un sello rojo y lo deja en la bandeja de salida sin pasarlo al expediente.",
+      "siguientes": "Fin. No se abre actuación."
+    },
+    {
+      "id": "P01",
+      "fase": "Transversal",
+      "carril": "Procuraduría General de la Nación",
+      "titulo": "Poder disciplinario preferente",
+      "articulos": ["2", "3", "216"],
+      "verificacion": "anadida-fuente-alterna",
+      "fuentes": ["funcionpublica-90324", "pgn-relatoria-2024", "seccion-5"],
+      "norma": "La Procuraduría General de la Nación es titular del ejercicio preferente del poder disciplinario en cuyo desarrollo podrá iniciar, proseguir o remitir cualquier investigación o juzgamiento de competencia de los órganos de control disciplinario interno de las entidades públicas y personerías distritales y municipales. Igualmente, podrá asumir el proceso en segunda instancia. Las personerías municipales y distritales tendrán frente a la administración poder disciplinario preferente (art. 3). El Estado es el titular de la potestad disciplinaria; se le atribuyen a la Procuraduría General de la Nación funciones jurisdiccionales para la vigilancia superior de la conducta oficial de quienes desempeñan funciones públicas (art. 2, modificado por el art. 1 de la Ley 2094 de 2021). Si la OCDI inicia la investigación, da aviso inmediato a la Viceprocuraduría General de la Nación y al funcionario competente de esa entidad o de la personería, para que decida sobre el poder preferente (art. 216).",
+      "concepto": "No es una etapa del proceso: es una competencia que puede caer sobre él en cualquier momento. El poder preferente permite a la Procuraduría iniciar, proseguir o remitir un proceso que por regla llevaría la OCDI, y también asumir la segunda instancia. De ahí que el aviso del art. 216 sea inmediato y no un trámite de cortesía: es lo que pone a la Procuraduría en posición de decidir. El verbo «proseguir» es el que importa en la práctica, porque significa que el expediente puede cambiar de manos con la actuación ya empezada.",
+      "plazos": "Ninguna de las tres normas fija un término para que la Procuraduría decida si ejerce el poder preferente. Lo único con exigencia temporal es el aviso de la OCDI, que el art. 216 ordena dar de forma «inmediata».",
+      "notificacion": "Aviso inmediato a la Viceprocuraduría General de la Nación y al funcionario competente de esa entidad o de la personería, por los mecanismos electrónicos y en las condiciones que establezca la Procuraduría (art. 216).",
+      "recursos": "No se prevé recurso contra la decisión de ejercer el poder preferente.",
+      "notaInterpretativa": "Que las normas no fijen término para decidir sobre el poder preferente es un hallazgo de esta consulta, no una afirmación de la fuente: significa que no se encontró ninguno en los artículos 2, 3 y 216, no que alguna norma diga expresamente que no lo hay. Puede existir un plazo en el reglamento interno de la Procuraduría o en una resolución suya, que no se consultó. Además, el artículo 2 se transcribe aquí sólo en su primer inciso; el resto del artículo regula la revisión ante la jurisdicción contencioso-administrativa y la competencia privativa sobre servidores de elección popular, que quedan fuera del alcance de esta presentación.",
+      "animacion": "El sobre con «@» del aviso del art. 216 llega al servidor de la Procuraduría; las luces del rack responden y una señal regresa hacia el carril de la instrucción.",
+      "siguientes": "Puede desviar el proceso en cualquier punto: iniciar, proseguir o remitir, y asumir la segunda instancia."
+    }
+  ]
+}

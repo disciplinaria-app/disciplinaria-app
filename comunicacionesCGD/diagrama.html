@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagrama de flujo — Comunicaciones CGD</title>
+<meta name="description" content="Diagrama de flujo de las comunicaciones y notificaciones de las actuaciones del proceso disciplinario (Ley 1952 de 2019), con sus términos, formas de notificación, recursos y normas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Spectral:wght@300;400;600&display=swap">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   Cuatro láminas de 1920 × 1080, para proyectar e imprimir.
+
+   Por qué cuatro y no una: catorce actuaciones por cuatro datos en una
+   sola lámina obligan a bajar el cuerpo a 11 px sobre 1920, que es un
+   0,6 % del ancho. Eso se lee en un monitor a 50 cm y no se lee en una
+   sala. El flujo va en la lámina 1 con lo que de verdad hay que ver de
+   un vistazo —qué actuación y en cuánto tiempo— y el detalle va detrás,
+   en tablas con cuerpo de 17–19 px.
+
+   El lienzo es fijo y se escala con transform: lo que se ve en un
+   portátil es exactamente lo que se verá en la pared, sin reflujos.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --fondo:      #13315C;
+  --fondo-2:    #0A1E3C;
+  --tinta:      #FFFFFF;
+  --tinta-2:    rgba(255,255,255,.72);
+  --tinta-3:    rgba(255,255,255,.44);
+  --linea:      rgba(255,255,255,.20);
+  --tarjeta:    rgba(255,255,255,.06);
+  --tarjeta-bd: rgba(255,255,255,.17);
+  --acento:     #F2C94C;
+  --alerta:     #FF8787;
+  --ok:         #63D9A0;
+  --cian:       #5CCFF5;
+  --violeta:    #AEA0F7;
+  --rosa:       #E894AD;
+
+  --ui:   'Archivo', system-ui, sans-serif;
+  --ley:  'Spectral', Georgia, serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #07162c; font-family: var(--ui); -webkit-font-smoothing: antialiased; }
+
+#pila { position: absolute; top: 50%; left: 50%; width: 1920px; height: 1080px; transform-origin: center center; }
+
+.lamina {
+  position: absolute; inset: 0;
+  width: 1920px; height: 1080px;
+  padding: 52px 64px 0;
+  display: none; flex-direction: column;
+  background: radial-gradient(125% 95% at 50% -5%, var(--fondo) 0%, var(--fondo-2) 80%);
+  color: var(--tinta);
+  overflow: hidden;
+}
+.lamina[data-activa] { display: flex; }
+
+/* ── cabecera ── */
+.cab { display: flex; align-items: flex-start; gap: 40px; flex: none; margin-bottom: 22px; }
+.cab__t { flex: 1; }
+.cab__sobre {
+  font-family: var(--mono); font-size: 15px; font-weight: 500;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--acento); margin-bottom: 12px;
+}
+.cab h1 { font-size: 46px; font-weight: 800; line-height: 1.02; letter-spacing: -.026em; }
+.cab h1 em { font-style: normal; color: var(--tinta-2); font-weight: 600; }
+.cab__sub { margin-top: 10px; font-size: 17px; color: var(--tinta-2); max-width: 86ch; }
+
+.sello-aviso {
+  flex: none; width: 352px; display: flex; gap: 11px; align-items: flex-start;
+  padding: 14px 16px; border: 1px dashed var(--acento); border-radius: 9px;
+  font-size: 14px; line-height: 1.4; color: var(--tinta-2);
+}
+.sello-aviso b { color: var(--tinta); font-weight: 600; }
+.sello-aviso svg { flex: none; color: var(--acento); margin-top: 2px; }
+
+.folio {
+  position: absolute; right: 64px; bottom: 14px;
+  font-family: var(--mono); font-size: 14px; letter-spacing: .14em; color: var(--tinta-3);
+}
+
+/* ── lámina 1: el flujo ── */
+.flujo { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; padding-bottom: 8px; }
+.hilera { display: flex; align-items: stretch; flex: 1; min-height: 0; }
+
+.conector { flex: none; width: 26px; position: relative; }
+.conector::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--linea); }
+.conector::after {
+  content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 0; height: 0; border: 6px solid transparent; border-left-color: var(--tinta-3);
+}
+
+.compuerta { flex: none; width: 104px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; position: relative; }
+.compuerta::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 2px; background: var(--linea); }
+.compuerta__r { position: relative; width: 30px; height: 30px; transform: rotate(45deg); background: var(--fondo-2); border: 2px solid var(--acento); }
+.compuerta__q { position: relative; max-width: 104px; text-align: center; font-size: 13px; line-height: 1.22; font-weight: 500; color: var(--acento); background: var(--fondo-2); padding: 3px 4px; }
+
+.acto {
+  flex: 1; min-width: 0; display: flex; flex-direction: column;
+  padding: 13px 14px 12px;
+  background: var(--tarjeta); border: 1px solid var(--tarjeta-bd);
+  border-top: 4px solid var(--c, var(--acento)); border-radius: 11px;
+}
+.acto[data-anadida] { border-style: dashed; border-top-style: solid; }
+.acto__cab { display: flex; align-items: baseline; gap: 8px; margin-bottom: 7px; }
+.acto__id { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--c, var(--acento)); }
+.acto__marca { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--acento); border: 1px solid var(--acento); border-radius: 3px; padding: 1px 4px; }
+.acto__t { font-size: 18px; font-weight: 700; line-height: 1.14; letter-spacing: -.016em; margin-bottom: 9px; }
+.acto__arts { font-family: var(--mono); font-size: 12px; line-height: 1.4; color: var(--tinta-2); margin-top: auto; padding-top: 8px; border-top: 1px solid var(--linea); overflow-wrap: anywhere; }
+
+.plazo-g { display: block; margin-bottom: 8px; }
+.plazo { display: inline-block; padding: 4px 11px; border-radius: 99px; background: var(--acento); color: #0D2142; font-family: var(--mono); font-size: 17px; font-weight: 600; }
+.plazo[data-interp] { background: transparent; color: var(--acento); border: 2px dashed var(--acento); }
+.plazo--sin { background: transparent; color: var(--tinta-3); border: 2px solid var(--linea); font-size: 15px; font-weight: 500; }
+.plazo-nota { display: block; margin-top: 5px; font-size: 12.5px; line-height: 1.3; color: var(--tinta-2); }
+
+.formas-g { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 4px; }
+.forma { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 12px; font-weight: 500; border: 1.5px solid currentColor; }
+.f-personal { color: var(--ok); } .f-estado { color: var(--cian); }
+.f-estrados { color: var(--violeta); } .f-edicto { color: var(--rosa); }
+.f-electronica { color: var(--cian); } .f-comunicacion { color: var(--tinta-2); }
+.f-ninguna { color: var(--tinta-3); }
+
+.salida { flex: none; width: 176px; display: flex; flex-direction: column; justify-content: center; padding: 16px; border: 2px dashed var(--alerta); border-radius: 11px; background: rgba(255,135,135,.07); }
+.salida__t { font-family: var(--mono); font-size: 15px; font-weight: 600; letter-spacing: .12em; color: var(--alerta); margin-bottom: 8px; }
+.salida__d { font-size: 14px; line-height: 1.38; color: var(--tinta-2); }
+
+/* ── tablas (láminas 2 y 3) ── */
+.tabla { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 14px; }
+.tr { display: grid; align-items: start; gap: 24px; padding: 15px 16px; border-bottom: 1px solid var(--linea); }
+.tr--cab { border-bottom: 2px solid var(--tinta-3); padding-bottom: 9px; }
+.tr--cab > div { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--tinta-3); }
+.tr:nth-child(even):not(.tr--cab) { background: rgba(255,255,255,.028); }
+.tr--anadida { border-left: 3px solid var(--acento); }
+
+.celda-act { display: flex; gap: 11px; align-items: baseline; }
+.celda-act__id { flex: none; font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--c, var(--acento)); width: 52px; }
+.celda-act__t { font-size: 19px; font-weight: 600; line-height: 1.2; }
+.celda-tx { font-family: var(--ley); font-size: 17.5px; line-height: 1.45; color: var(--tinta-2); }
+.celda-tx b { color: var(--tinta); font-weight: 600; }
+.celda-arts { font-family: var(--mono); font-size: 14px; line-height: 1.4; color: var(--tinta-2); }
+
+.barra-plazo { display: flex; align-items: center; gap: 10px; }
+.barra-plazo__b { height: 11px; border-radius: 99px; background: var(--acento); min-width: 4px; }
+.barra-plazo__b[data-meses] { background: var(--cian); }
+.barra-plazo__n { font-family: var(--mono); font-size: 17px; font-weight: 600; white-space: nowrap; }
+
+/* ── lámina 4: reglas ── */
+.reglas { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-content: start; padding-bottom: 26px; }
+.regla { padding: 22px 24px 24px; background: var(--tarjeta); border: 1px solid var(--tarjeta-bd); border-left: 4px solid var(--acento); border-radius: 11px; }
+.regla__a { font-family: var(--mono); font-size: 14px; font-weight: 600; letter-spacing: .13em; color: var(--acento); margin-bottom: 9px; }
+.regla__t { font-size: 25px; font-weight: 700; letter-spacing: -.018em; margin-bottom: 11px; }
+.regla__x { font-family: var(--ley); font-size: 18px; line-height: 1.5; color: var(--tinta-2); }
+
+/* ── pie común ── */
+.pie { flex: none; display: flex; gap: 30px; align-items: flex-start; padding: 13px 0 12px; border-top: 1px solid var(--linea); }
+.pie__b { flex: 1; }
+.pie__e { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--tinta-3); margin-bottom: 8px; }
+.pie__x { font-size: 13px; line-height: 1.42; color: var(--tinta-2); }
+.pie__x b { color: var(--tinta); font-weight: 600; }
+.pie__leyenda { display: flex; flex-wrap: wrap; gap: 5px; }
+.nota-computo { padding-left: 12px; border-left: 3px solid var(--acento); font-family: var(--ley); font-size: 14px; line-height: 1.45; }
+.ojo-anadida { color: var(--acento); }
+
+/* ── utilidades (no se imprimen) ── */
+.utiles { position: fixed; right: 18px; bottom: 18px; z-index: 10; display: flex; gap: 7px; align-items: center; }
+.utiles button { font: 500 13px var(--ui); color: #fff; cursor: pointer; padding: 9px 15px; border-radius: 99px; background: rgba(10,26,52,.88); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(10px); transition: background .15s ease, transform .15s cubic-bezier(.23,1,.32,1); }
+.utiles button:active { transform: scale(.96); }
+.utiles button:disabled { opacity: .35; cursor: default; }
+@media (hover: hover) { .utiles button:hover:not(:disabled) { background: rgba(255,255,255,.2); } }
+.utiles__n { font-family: var(--mono); font-size: 13px; color: rgba(255,255,255,.72); padding: 0 6px; }
+
+/* ── impresión: una lámina por página, en papel blanco ── */
+@page { size: 1920px 1080px; margin: 0; }
+@media print {
+  :root {
+    --fondo: #fff; --fondo-2: #fff;
+    --tinta: #0F2240; --tinta-2: #44566F; --tinta-3: #7C8CA6;
+    --linea: #D2DBE7; --tarjeta: #F6F9FC; --tarjeta-bd: #DAE3EF;
+    --acento: #9A6E12; --alerta: #B5342A; --ok: #176B42;
+    --cian: #145F7D; --violeta: #4E3FA8; --rosa: #96395D;
+  }
+  html, body { background: #fff; }
+  #pila { position: static; transform: none !important; width: auto; height: auto; }
+  .lamina { position: static; display: flex !important; background: #fff; break-after: page; page-break-after: always; }
+  .lamina:last-child { break-after: auto; page-break-after: auto; }
+  .utiles { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div id="pila"></div>
+
+<div class="utiles">
+  <button id="ant" aria-label="Lámina anterior">←</button>
+  <span class="utiles__n" id="cuenta">1 / 4</span>
+  <button id="sig" aria-label="Lámina siguiente">→</button>
+  <button id="imprimir">Imprimir / PDF</button>
+  <button id="navegable">Versión navegable</button>
+</div>
+
+<script type="module">
+/* ═══════════════════════════════════════════════════════════════
+   Todo sale de los MISMOS archivos de datos que la presentación
+   navegable. No hay una segunda copia del contenido jurídico que
+   pueda quedar desincronizada: si se corrige el JSON, estas láminas
+   cambian solas.
+   ═══════════════════════════════════════════════════════════════ */
+
+const COLOR_FASE = {
+  'Inicio': '#8FB8E8', 'Indagación': '#8FB8E8', 'Investigación': '#F2C94C',
+  'Transición a juzgamiento': '#5CCFF5', 'Juzgamiento': '#AEA0F7',
+  'Transversal': '#C9D4E3', 'Segunda instancia': '#63D9A0', 'Ejecución': '#E894AD',
+};
+
+/* Las formas de notificación se marcan con el vocabulario tasado del
+   art. 120, buscado sobre el texto VERBATIM del campo `notificacion`.
+   Es un índice mecánico, no un resumen: no se reescribe nada, sólo se
+   señala qué formas nombra el propio texto legal. */
+const FORMAS = [
+  ['personal',     'Personal',           /personal(?:mente)?/i],
+  ['estrados',     'En estrados',        /estrados/i],
+  ['estado',       'Estado electrónico', /por estado|estado electrónico/i],
+  ['edicto',       'Edicto',             /edicto/i],
+  ['electronica',  'Electrónica',        /electrónic|mensaje de datos/i],
+  ['comunicacion', 'Comunicación',       /se comunica|comunicaci[óo]n/i],
+];
+
+const el = (t, c, x) => { const n = document.createElement(t); if (c) n.className = c; if (x != null) n.textContent = x; return n; };
+const frag = () => document.createDocumentFragment();
+
+const [base, extra, grafo] = await Promise.all([
+  fetch('data/etapas-cgd.json').then((r) => r.json()),
+  fetch('data/etapas-adicionales.json').then((r) => r.json()),
+  fetch('data/grafo-flujo.json').then((r) => r.json()),
+]);
+
+const orden = grafo.recorridoGuiado;
+const etapas = [...base.etapas, ...extra.etapas].sort((a, b) => orden.indexOf(a.id) - orden.indexOf(b.id));
+const nodoDe = (id) => grafo.nodos.find((n) => n.id === id);
+const formasDe = (txt) => FORMAS.filter(([, , re]) => re.test(txt));
+const pila = document.getElementById('pila');
+
+const AVISO = `<svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 1.6 15 13.8H1z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6.1v3.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.3" r=".95" fill="currentColor"/></svg>`;
+
+function lamina(n, sobre, titulo, subtitulo, sub2) {
+  const s = el('section', 'lamina');
+  s.dataset.n = n;
+  const cab = el('header', 'cab');
+  const t = el('div', 'cab__t');
+  t.appendChild(el('p', 'cab__sobre', sobre));
+  const h = el('h1');
+  h.appendChild(document.createTextNode(titulo));
+  if (sub2) { h.appendChild(document.createElement('br')); h.appendChild(Object.assign(document.createElement('em'), { textContent: sub2 })); }
+  t.appendChild(h);
+  if (subtitulo) t.appendChild(el('p', 'cab__sub', subtitulo));
+  const av = el('p', 'sello-aviso');
+  av.innerHTML = AVISO;
+  const sp = el('span');
+  sp.append(Object.assign(document.createElement('b'), { textContent: 'Simulación pedagógica del flujo procesal.' }),
+            document.createTextNode(' No es un sitio oficial de la Unidad Administrativa Especial de Aeronáutica Civil.'));
+  av.appendChild(sp);
+  cab.append(t, av);
+  s.appendChild(cab);
+  const f = el('p', 'folio', '');
+  s.appendChild(f);
+  pila.appendChild(s);
+  return s;
+}
+
+function pie(s, bloques) {
+  const p = el('footer', 'pie');
+  for (const [etq, cont, flex] of bloques) {
+    const b = el('div', 'pie__b');
+    if (flex) b.style.flex = flex;
+    b.appendChild(el('p', 'pie__e', etq));
+    b.appendChild(cont);
+    p.appendChild(b);
+  }
+  s.appendChild(p);
+}
+
+/* ═══════════ LÁMINA 1 — el flujo ═══════════ */
+{
+  const s = lamina(1, 'Ley 1952 de 2019 · Código General Disciplinario',
+    'Comunicaciones y notificaciones',
+    'De la noticia disciplinaria a la ejecutoria. Cada actuación con su término, la forma en que se notifica y las normas que la rigen.',
+    'de las actuaciones procesales');
+
+  const flujo = el('div', 'flujo');
+
+  const tarjeta = (e) => {
+    const n = nodoDe(e.id);
+    const d = el('div', 'acto');
+    d.style.setProperty('--c', COLOR_FASE[e.fase] ?? '#F2C94C');
+    if (n?.anadida) d.setAttribute('data-anadida', '');
+
+    const cab = el('div', 'acto__cab');
+    cab.appendChild(el('span', 'acto__id', e.id));
+    if (n?.anadida) cab.appendChild(el('span', 'acto__marca', 'AÑADIDA'));
+    d.appendChild(cab);
+    d.appendChild(el('p', 'acto__t', e.titulo));
+
+    const g = el('div', 'plazo-g');
+    if (n?.plazo) {
+      const ch = el('span', 'plazo', n.plazo.texto);
+      if (n.plazo.interpretativo) ch.setAttribute('data-interp', '');
+      g.appendChild(ch);
+      if (n.plazo.nota) g.appendChild(el('span', 'plazo-nota', n.plazo.nota));
+    } else {
+      g.appendChild(el('span', 'plazo plazo--sin', 'no fija término'));
+    }
+    d.appendChild(g);
+
+    const fg = el('div', 'formas-g');
+    const h = formasDe(e.notificacion);
+    if (h.length) for (const [id, et] of h) fg.appendChild(el('span', 'forma f-' + id, et));
+    else fg.appendChild(el('span', 'forma f-ninguna', 'sin forma especial'));
+    d.appendChild(fg);
+
+    d.appendChild(el('p', 'acto__arts', 'art. ' + e.articulos.join(' · ')));
+    return d;
+  };
+
+  const conector = () => el('div', 'conector');
+  const compuerta = (id) => {
+    const n = nodoDe(id);
+    if (!n) return conector();
+    const c = el('div', 'compuerta');
+    c.appendChild(el('div', 'compuerta__r'));
+    c.appendChild(el('p', 'compuerta__q', n.pregunta));
+    return c;
+  };
+  const salida = (t, d) => {
+    const x = el('div', 'salida');
+    x.appendChild(el('p', 'salida__t', t));
+    x.appendChild(el('p', 'salida__d', d));
+    return x;
+  };
+
+  const TRAS = { E00: 'G_PROC', E01: 'G_AUTOR', E05: 'G_MERITO', E07: 'G_VIA', E08B: 'G_APELA' };
+  const hilera = (ids, extras = []) => {
+    const h = el('div', 'hilera');
+    ids.forEach((id, i) => {
+      const e = etapas.find((x) => x.id === id);
+      if (!e) return;
+      if (i > 0) h.appendChild(TRAS[ids[i - 1]] ? compuerta(TRAS[ids[i - 1]]) : conector());
+      h.appendChild(tarjeta(e));
+    });
+    for (const x of extras) { h.appendChild(conector()); h.appendChild(x); }
+    return h;
+  };
+
+  flujo.appendChild(hilera(['E00', 'E00B', 'E01', 'E02', 'P01', 'E03', 'E04'],
+    [salida('INHIBITORIA', 'No se abre actuación. Sin recurso (art. 209).')]));
+  flujo.appendChild(hilera(['E05', 'E06', 'E07', 'E08A', 'E08B', 'E09', 'E10'],
+    [salida('ARCHIVO', 'Apelable en efecto suspensivo (art. 134). El quejoso puede recurrirlo (art. 110 par. 1).')]));
+  s.appendChild(flujo);
+
+  const ley = el('div', 'pie__leyenda');
+  for (const [id, et] of FORMAS) ley.appendChild(el('span', 'forma f-' + id, et));
+  ley.appendChild(el('span', 'forma f-ninguna', 'sin forma especial'));
+  const nota = el('p', 'pie__x');
+  nota.style.marginTop = '8px';
+  nota.textContent = 'Señaladas sobre el texto literal de cada actuación. El texto íntegro, en las láminas 2 y 3.';
+  const cont = frag(); cont.append(ley, nota);
+
+  const comp = el('p', 'pie__x nota-computo', base.meta.notaInterpretativaGlobal);
+  const fuente = el('p', 'pie__x');
+  fuente.append(Object.assign(document.createElement('b'), { textContent: 'Ley 1952 de 2019' }),
+    document.createTextNode(' (mod. Ley 2094 de 2021), compilación de la Secretaría del Senado, 7-oct-2026. '),
+    Object.assign(document.createElement('span'), { className: 'ojo-anadida', textContent: 'Las dos marcadas AÑADIDA provienen de otra base oficial: ver la última lámina.' }));
+
+  pie(s, [['Formas de notificación — art. 120', cont, '1.15'],
+          ['Cómputo de los términos', comp, '1.1'],
+          ['Fuente', fuente, '.95']]);
+}
+
+/* ═══════════ LÁMINAS DE DETALLE ═══════════
+   Siete filas por lámina. Catorce filas de texto literal suman 1543 px
+   en un lienzo de 1080: se cortaban por abajo sin avisar. Partirlas es
+   preferible a recortar la norma. */
+{
+  const POR_LAMINA = 7;
+  const grupos = [];
+  for (let k = 0; k < etapas.length; k += POR_LAMINA) grupos.push(etapas.slice(k, k + POR_LAMINA));
+
+  const filaAct = (e) => {
+    const a = el('div', 'celda-act');
+    a.style.setProperty('--c', COLOR_FASE[e.fase] ?? '#F2C94C');
+    a.append(el('span', 'celda-act__id', e.id), el('span', 'celda-act__t', e.titulo));
+    return a;
+  };
+
+  // ── cómo se notifica ──
+  grupos.forEach((g, gi) => {
+    const n = grupos.length > 1 ? ` (${gi + 1} de ${grupos.length})` : '';
+    const s = lamina(0, 'Formas de notificación' + n, 'Cómo se notifica',
+      'El texto es el de la norma, sin resumir. Las etiquetas señalan qué formas del art. 120 nombra cada actuación.',
+      'cada actuación');
+    const t = el('div', 'tabla');
+    const COLS = '280px 240px 1fr';
+    const cab = el('div', 'tr tr--cab');
+    cab.style.gridTemplateColumns = COLS;
+    cab.append(el('div', null, 'Actuación'), el('div', null, 'Formas'), el('div', null, 'Qué dice la norma'));
+    t.appendChild(cab);
+    for (const e of g) {
+      const nd = nodoDe(e.id);
+      const r = el('div', 'tr');
+      r.style.gridTemplateColumns = COLS;
+      if (nd?.anadida) r.classList.add('tr--anadida');
+      const f = el('div', 'formas-g');
+      const h = formasDe(e.notificacion);
+      if (h.length) for (const [id, et] of h) f.appendChild(el('span', 'forma f-' + id, et));
+      else f.appendChild(el('span', 'forma f-ninguna', 'sin forma especial'));
+      r.append(filaAct(e), f, el('div', 'celda-tx', e.notificacion));
+      t.appendChild(r);
+    }
+    s.appendChild(t);
+  });
+
+  // ── términos y recursos ──
+  const ancho = (p) => {
+    if (!p) return 0;
+    const v = p.meses ? (p.meses / 6) : (p.dias / 30);
+    return Math.max(4, Math.min(1, v) * 160);
+  };
+  grupos.forEach((g, gi) => {
+    const n = grupos.length > 1 ? ` (${gi + 1} de ${grupos.length})` : '';
+    const s = lamina(0, 'Términos y recursos' + n, 'Términos y recursos',
+      'La barra compara la duración de cada término: en ámbar los días hábiles, en azul los meses, que se cuentan por calendario.',
+      'de cada actuación');
+    const t = el('div', 'tabla');
+    const COLS = '280px 300px 1fr';
+    const cab = el('div', 'tr tr--cab');
+    cab.style.gridTemplateColumns = COLS;
+    cab.append(el('div', null, 'Actuación'), el('div', null, 'Término'), el('div', null, 'Recursos'));
+    t.appendChild(cab);
+    for (const e of g) {
+      const nd = nodoDe(e.id);
+      const r = el('div', 'tr');
+      r.style.gridTemplateColumns = COLS;
+      if (nd?.anadida) r.classList.add('tr--anadida');
+      const p = el('div');
+      if (nd?.plazo) {
+        const b = el('div', 'barra-plazo');
+        const barra = el('i', 'barra-plazo__b');
+        barra.style.width = ancho(nd.plazo) + 'px';
+        if (nd.plazo.meses) barra.setAttribute('data-meses', '');
+        b.append(barra, el('span', 'barra-plazo__n', nd.plazo.texto));
+        p.appendChild(b);
+        if (nd.plazo.nota) p.appendChild(el('p', 'plazo-nota', nd.plazo.nota));
+      } else {
+        p.appendChild(el('span', 'forma f-ninguna', 'no fija término'));
+      }
+      r.append(filaAct(e), p, el('div', 'celda-tx', e.recursos));
+      t.appendChild(r);
+    }
+    s.appendChild(t);
+  });
+}
+
+/* ═══════════ LÁMINA 4 — reglas generales y procedencia ═══════════ */
+{
+  const s = lamina(0, 'Reglas generales y procedencia', 'Reglas generales', 'Se aplican a todo el proceso, no a una actuación concreta.', 'de la actuación disciplinaria');
+  const g = el('div', 'reglas');
+  for (const r of base.reglasGenerales) {
+    const d = el('article', 'regla');
+    d.append(el('p', 'regla__a', 'Art. ' + r.articulos.join(', ')),
+             el('h2', 'regla__t', r.titulo),
+             el('p', 'regla__x', r.texto));
+    g.appendChild(d);
+  }
+  // la procedencia del material añadido, con el mismo peso que una regla
+  const d = el('article', 'regla');
+  d.style.borderLeftColor = 'var(--alerta)';
+  d.append(el('p', 'regla__a', 'Procedencia'), el('h2', 'regla__t', 'Las dos actuaciones añadidas'));
+  const x = el('p', 'regla__x');
+  x.append(document.createTextNode('E00B y P01 no provienen de la compilación de la Secretaría del Senado: '),
+    Object.assign(document.createElement('b'), { textContent: extra.procedencia.notaFuente }));
+  d.appendChild(x);
+  const ul = el('ul');
+  ul.style.cssText = 'margin:10px 0 0 18px;font-size:15px;line-height:1.45;color:var(--tinta-2)';
+  for (const f of extra.procedencia.fuentes) ul.appendChild(el('li', null, f.titulo + ' — ' + f.usadaPara));
+  d.appendChild(ul);
+  g.appendChild(d);
+  s.appendChild(g);
+
+  const comp = el('p', 'pie__x nota-computo', base.meta.notaInterpretativaGlobal);
+  const fu = el('p', 'pie__x');
+  fu.append(Object.assign(document.createElement('b'), { textContent: base.meta.fuenteGeneral.split(',')[0] }),
+    document.createTextNode('. ' + base.meta.fuenteGeneral.split('compilación')[1] ? 'Compilación' + base.meta.fuenteGeneral.split('compilación')[1] : ''));
+  pie(s, [['Cómputo de los términos', comp], ['Fuente general', fu]]);
+}
+
+/* ═══════════ navegación y escala ═══════════ */
+const laminas = [...document.querySelectorAll('.lamina')];
+laminas.forEach((l, k) => {
+  l.dataset.n = k + 1;
+  l.querySelector('.folio').textContent = `${k + 1} / ${laminas.length}  ·  Ley 1952 de 2019`;
+});
+let i = 0;
+const cuenta = document.getElementById('cuenta');
+const ant = document.getElementById('ant');
+const sig = document.getElementById('sig');
+
+function ver(n) {
+  i = Math.max(0, Math.min(laminas.length - 1, n));
+  laminas.forEach((l, k) => l.toggleAttribute('data-activa', k === i));
+  cuenta.textContent = `${i + 1} / ${laminas.length}`;
+  ant.disabled = i === 0;
+  sig.disabled = i === laminas.length - 1;
+  history.replaceState(null, '', '#' + (i + 1));
+}
+
+ant.addEventListener('click', () => ver(i - 1));
+sig.addEventListener('click', () => ver(i + 1));
+document.getElementById('imprimir').addEventListener('click', () => window.print());
+document.getElementById('navegable').addEventListener('click', () => { location.href = './'; });
+
+addEventListener('keydown', (ev) => {
+  if (ev.key === 'ArrowRight' || ev.key === 'PageDown' || ev.key === ' ') { ev.preventDefault(); ver(i + 1); }
+  else if (ev.key === 'ArrowLeft' || ev.key === 'PageUp') { ev.preventDefault(); ver(i - 1); }
+  else if (ev.key === 'Home') { ev.preventDefault(); ver(0); }
+  else if (ev.key === 'End') { ev.preventDefault(); ver(laminas.length - 1); }
+});
+
+function escalar() {
+  const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  document.getElementById('pila').style.transform = `translate(-50%, -50%) scale(${s})`;
+}
+escalar();
+addEventListener('resize', escalar);
+ver(Math.max(0, (parseInt(location.hash.slice(1), 10) || 1) - 1));
+</script>
+</body>
+</html>

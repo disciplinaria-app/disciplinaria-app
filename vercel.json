@@ -1,8 +1,12 @@
 {
+  "redirects": [
+    { "source": "/comunicacionesCGD", "destination": "/comunicacionesCGD/", "permanent": true },
+    { "source": "/comunicacionescgd", "destination": "/comunicacionesCGD/", "permanent": true },
+    { "source": "/comunicacionescgd/:path*", "destination": "/comunicacionesCGD/:path*", "permanent": true },
+    { "source": "/comunicaciones-cgd", "destination": "/comunicacionesCGD/", "permanent": true },
+    { "source": "/comunicaciones-cgd/:path*", "destination": "/comunicacionesCGD/:path*", "permanent": true }
+  ],
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "https://disciplinaria-app-production.up.railway.app/:path*"
-    }
+    { "source": "/api/:path*", "destination": "https://disciplinaria-app-production.up.railway.app/:path*" }
   ]
 }
